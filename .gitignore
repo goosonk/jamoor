@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.DS_Store
+flask.log
+templates/index.old.html
+templates/backup-old/
+.venv/
+venv/
+.env
