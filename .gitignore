@@ -7,3 +7,4 @@ templates/backup-old/
 .venv/
 venv/
 .env
+.vercel
