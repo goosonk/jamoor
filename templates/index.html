@@ -1,467 +1,1510 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jamur Aman — Panduan Lapangan</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500..700&family=Fraunces:opsz,wght@9..144,400..500&family=Gabarito:wght@400..600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shroomy — Platform Identifikasi Jamur Terpadu (SVM, Random Forest &amp; CNN MobileNetV2)</title>
+  <meta name="description" content="Platform edukasi dan identifikasi jamur berbasis Support Vector Machine (SVM), Random Forest, dan CNN MobileNetV2 dengan 3 metode input: Scan Kamera, Upload Gambar, dan Input Data Karakteristik.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/icon-192.png') }}">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
-<header>
-    <div class="wrap">
-        <div class="brand">
-            <svg viewBox="0 0 32 32" aria-hidden="true" fill="none">
-                <path d="M4 17c0-8 24-8 24 0 0 2-24 2-24 0z" fill="#eef5ef"/>
-                <path d="M12 18h8v6a4 4 0 0 1-8 0z" fill="#cfe0d4"/>
-            </svg>
-            <span>Jamur Aman</span>
+  <!-- ================= HEADER & NAVBAR ================= -->
+  <header class="site-header" id="site-header">
+    <div class="container nav-container">
+      <a href="#hero" class="brand-link" aria-label="Shroomy Beranda">
+        <img src="{{ url_for('static', filename='img/shroomy-logo-green.png') }}" alt="Shroomy Logo" class="brand-logo-img">
+        <div class="brand-text">
+          <span class="brand-name">Shroomy</span>
+          <span class="brand-tagline">Identifikasi Jamur Terpadu</span>
         </div>
+      </a>
+
+      <!-- Desktop & Mobile Nav -->
+      <nav class="site-nav" id="site-nav" aria-label="Navigasi Utama">
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="#about" class="nav-link">Tentang</a></li>
+          <li><a href="#how-it-works" class="nav-link">Cara Kerja</a></li>
+          <li><a href="#capabilities" class="nav-link">Kapabilitas</a></li>
+          <li><a href="#exploration" class="nav-link">Eksplorasi Jamur</a></li>
+          <li><a href="#security" class="nav-link">Keamanan & Etika</a></li>
+          <li><a href="#team" class="nav-link">Tim Pengembang</a></li>
+          <li class="nav-mobile-cta">
+            <a href="{{ url_for('workspace') }}" class="btn btn-primary btn-block">
+              <span>Mulai Eksplorasi</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="{{ url_for('workspace') }}" class="btn btn-primary" id="btn-open-stage2-header">
+          <span>Mulai Eksplorasi</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+        <button type="button" class="menu-toggle" id="menu-toggle" aria-label="Buka Menu" aria-expanded="false">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
     </div>
-    <div class="tabstrip">
-        <div class="wrap">
-        <div class="tabbar" role="tablist" aria-label="Bagian aplikasi">
-            <button class="tabbtn" role="tab" id="tab-btn-home" aria-controls="panel-home" aria-selected="true" type="button">
-                    <svg viewBox="0 0 48 46" class="shroom-art" aria-hidden="true">
-                        <path class="cap" d="M4 22 C4 8 44 8 44 22 C32 27 16 27 4 22 Z" fill="currentColor"/>
-                        <circle cx="20" cy="16" r="3.2" fill="#eef5ef" opacity="0.85"/><circle cx="30" cy="20" r="2.2" fill="#eef5ef" opacity="0.7"/>
-                        <path class="stalk" d="M18 23 h12 v11 q0 5 -6 5 q-6 0 -6 -5 z" fill="#f6efe0"/>
-                        <g class="face">
-                            <circle cx="20" cy="30" r="1.8" fill="#16231b"/>
-                            <circle cx="28" cy="30" r="1.8" fill="#16231b"/>
-                            <path d="M21.5 34 q2.5 2.4 5 0" stroke="#16231b" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                            <circle cx="16.5" cy="33" r="1.6" fill="#f0a8a0" opacity="0.85"/>
-                            <circle cx="31.5" cy="33" r="1.6" fill="#f0a8a0" opacity="0.85"/>
-                        </g>
-                    </svg>
-                    <span class="tab-label">Beranda</span>
-                </button>
-            <button class="tabbtn" role="tab" id="tab-btn-form" aria-controls="panel-form" aria-selected="false" type="button">
-                    <svg viewBox="0 0 48 46" class="shroom-art" aria-hidden="true">
-                        <path class="cap" d="M4 22 C4 8 44 8 44 22 C32 27 16 27 4 22 Z" fill="currentColor"/>
-                        <circle cx="24" cy="14" r="3" fill="#eef5ef" opacity="0.85"/><circle cx="15" cy="21" r="2.2" fill="#eef5ef" opacity="0.7"/>
-                        <path class="stalk" d="M18 23 h12 v11 q0 5 -6 5 q-6 0 -6 -5 z" fill="#f6efe0"/>
-                        <g class="face">
-                            <circle cx="20" cy="30" r="1.8" fill="#16231b"/>
-                            <circle cx="28" cy="30" r="1.8" fill="#16231b"/>
-                            <path d="M21.5 34 q2.5 2.4 5 0" stroke="#16231b" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                            <circle cx="16.5" cy="33" r="1.6" fill="#f0a8a0" opacity="0.85"/>
-                            <circle cx="31.5" cy="33" r="1.6" fill="#f0a8a0" opacity="0.85"/>
-                        </g>
-                    </svg>
-                    <span class="tab-label">Klasifikasi</span>
-                </button>
-            <button class="tabbtn" role="tab" id="tab-btn-team" aria-controls="panel-team" aria-selected="false" type="button">
-                    <svg viewBox="0 0 48 46" class="shroom-art" aria-hidden="true">
-                        <path class="cap" d="M4 22 C4 8 44 8 44 22 C32 27 16 27 4 22 Z" fill="currentColor"/>
-                        <circle cx="19" cy="19" r="2.6" fill="#eef5ef" opacity="0.85"/><circle cx="29" cy="15" r="3" fill="#eef5ef" opacity="0.7"/>
-                        <path class="stalk" d="M18 23 h12 v11 q0 5 -6 5 q-6 0 -6 -5 z" fill="#f6efe0"/>
-                        <g class="face">
-                            <circle cx="20" cy="30" r="1.8" fill="#16231b"/>
-                            <circle cx="28" cy="30" r="1.8" fill="#16231b"/>
-                            <path d="M21.5 34 q2.5 2.4 5 0" stroke="#16231b" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                            <circle cx="16.5" cy="33" r="1.6" fill="#f0a8a0" opacity="0.85"/>
-                            <circle cx="31.5" cy="33" r="1.6" fill="#f0a8a0" opacity="0.85"/>
-                        </g>
-                    </svg>
-                    <span class="tab-label">Tim</span>
-                </button>
+  </header>
+
+  <main>
+    <!-- ================= HERO SECTION ================= -->
+    <section class="hero-section" id="hero">
+      <div class="hero-bg-slideshow" aria-hidden="true">
+        <div
+          class="hero-bg-slide slide-1"
+          style="background-image: url('{{ url_for('static', filename='img/hero-mushroom-bg.jpg') }}');"
+        ></div>
+        <div
+          class="hero-bg-slide slide-2"
+          style="background-image: url('{{ url_for('static', filename='img/hero-bg-2.jpg') }}');"
+        ></div>
+        <div
+          class="hero-bg-slide slide-3"
+          style="background-image: url('{{ url_for('static', filename='img/hero-bg-3.jpg') }}');"
+        ></div>
+        <div
+          class="hero-bg-slide slide-4"
+          style="background-image: url('{{ url_for('static', filename='img/hero-bg-4.jpg') }}');"
+        ></div>
+        <div
+          class="hero-bg-slide slide-5"
+          style="background-image: url('{{ url_for('static', filename='img/hero-bg-5.jpg') }}');"
+        ></div>
+        <div class="hero-bg-overlay"></div>
+      </div>
+      <div class="container hero-grid">
+
+        <!-- Hero Copy -->
+        <div class="hero-copy">
+          <div class="badge badge-forest hero-badge">
+            <span class="badge-pulse-dot" aria-hidden="true"></span>
+            <span>Multi-Model AI · SVM, Random Forest &amp; CNN MobileNetV2</span>
+          </div>
+
+          <h1 class="hero-title">
+            Inteligensi Mikologi Presisi untuk <span class="highlight">Identifikasi Jamur Liar</span>
+          </h1>
+
+          <p class="hero-lede">
+            Shroomy memadukan algoritma <strong>Support Vector Machine (SVM)</strong>, <strong>Random Forest</strong>, dan <strong>CNN Arsitektur MobileNetV2</strong>. Identifikasi jamur secara fleksibel melalui <strong>Scan Kamera</strong>, <strong>Input Gambar</strong>, maupun <strong>Pilih Data Morfologi</strong> dengan akurasi dan presisi tinggi.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="{{ url_for('workspace') }}" class="btn btn-lime" id="btn-open-stage2-hero">
+              <span>Buka Workspace Identifikasi</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+            <a href="#how-it-works" class="btn btn-secondary">
+              <span>Pelajari Metodologi</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </a>
+          </div>
+
+          <!-- Hero Stats Strip -->
+          <div class="hero-stats-strip">
+            <div class="hero-stat-item">
+              <span class="hero-stat-value">100%</span>
+              <span class="hero-stat-label">Akurasi &amp; Presisi SVM / RF</span>
+            </div>
+            <div class="hero-stat-item">
+              <span class="hero-stat-value">96.5%</span>
+              <span class="hero-stat-label">Presisi CNN MobileNetV2</span>
+            </div>
+            <div class="hero-stat-item">
+              <span class="hero-stat-value">3 Mode</span>
+              <span class="hero-stat-label">Kamera · Gambar · Data Teks</span>
+            </div>
+            <div class="hero-stat-item">
+              <span class="hero-stat-value">0</span>
+              <span class="hero-stat-label">False Negatives (Aman)</span>
+            </div>
+          </div>
         </div>
-        <div class="ground" aria-hidden="true"></div>
-    </div>
-</header>
 
-<main>
-    <div class="wrap">
+      </div>
+    </section>
 
-        <!-- ================= BERANDA ================= -->
-        <section class="panel" id="panel-home" role="tabpanel" aria-labelledby="tab-btn-home">
+    <!-- ================= ABOUT SHROOMY ================= -->
+    <section class="about-section has-botanical-bg" id="about">
+      <div class="bg-botanical-layer" aria-hidden="true">
+        <!-- Flowing Green Botanical Lines (Sweep across header flanks) -->
+        <svg class="bg-botanical-curve bg-curve-about-top" viewBox="0 0 1440 280" fill="none" preserveAspectRatio="none">
+          <path class="bg-line-draw" pathLength="1" d="M-20 210 C 180 70, 320 40, 490 120 C 660 200, 810 190, 970 100 C 1140 12, 1290 48, 1460 155" stroke="#16A34A" stroke-width="2" stroke-opacity="0.22" stroke-linecap="round"/>
+          <path class="bg-line-draw bg-line-delay-1" pathLength="1" d="M-20 240 C 210 110, 350 75, 520 150 C 695 225, 845 215, 1005 130 C 1165 45, 1310 78, 1460 185" stroke="#087F5B" stroke-width="1.4" stroke-opacity="0.16" stroke-linecap="round"/>
+        </svg>
 
-            <div class="hero">
-                <div class="hero-copy">
-                    <p class="kicker">Panduan lapangan</p>
-                    <h1>Kenali jamurnya dulu, baru dipetik</h1>
-                    <p class="lede">
-                        Jamur liar sering mirip satu sama lain, dan yang beracun tidak selalu
-                        kelihatan menakutkan. Isi ciri fisik yang bisa dilihat mata, model akan
-                        menebak apakah jamur itu masuk kelompok layak makan atau beracun.
-                    </p>
-                </div>
+        <!-- Upper-Left Botanical Leaf Branch -->
+        <div class="bg-decor-item bg-decor-about-leaf-tl">
+          <svg viewBox="0 0 180 180" fill="none">
+            <path d="M22 152 C 56 126, 98 86, 138 30" stroke="#087F5B" stroke-width="2" stroke-opacity="0.3" stroke-linecap="round"/>
+            <path d="M58 118 C 30 98, 22 64, 52 44 C 78 64, 78 96, 58 118 Z" fill="rgba(22, 163, 74, 0.09)" stroke="#16A34A" stroke-width="1.6" stroke-opacity="0.28"/>
+            <path d="M56 112 C 48 88, 49 68, 52 50" stroke="#087F5B" stroke-width="1.2" stroke-opacity="0.24" stroke-linecap="round"/>
+            <path d="M98 76 C 118 54, 152 48, 162 74 C 142 96, 114 96, 98 76 Z" fill="rgba(16, 185, 129, 0.08)" stroke="#087F5B" stroke-width="1.6" stroke-opacity="0.26"/>
+            <path d="M104 75 C 122 72, 138 71, 156 74" stroke="#087F5B" stroke-width="1.2" stroke-opacity="0.22" stroke-linecap="round"/>
+            <path d="M126 42 C 112 20, 122 6, 146 10 C 154 28, 144 42, 126 42 Z" fill="rgba(163, 230, 53, 0.14)" stroke="#16A34A" stroke-width="1.4" stroke-opacity="0.26"/>
+          </svg>
+        </div>
 
-                <figure class="hero-card" id="hero-mascot" role="button" tabindex="0" aria-label="Buka tab klasifikasi">
-                    <p class="mascot-say">Jangan asal petik ya</p>
-                    <svg viewBox="0 0 200 210" class="hero-art" aria-hidden="true">
-                        <path d="M22 104 C22 40 178 40 178 104 C128 122 72 122 22 104 Z" fill="#2f6b4d"/>
-                        <circle cx="70" cy="74" r="10" fill="#eef5ef" opacity="0.9"/>
-                        <circle cx="114" cy="58" r="7" fill="#eef5ef" opacity="0.9"/>
-                        <circle cx="142" cy="82" r="6" fill="#eef5ef" opacity="0.9"/>
-                        <path d="M78 112 h44 v52 q0 16 -22 16 q-22 0 -22 -16 z" fill="#f6efe0"/>
-                        <circle cx="88" cy="144" r="4.5" fill="#16231b" class="eye"/>
-                        <circle cx="112" cy="144" r="4.5" fill="#16231b" class="eye"/>
-                        <circle cx="72" cy="156" r="5.5" fill="#f2c2bb" opacity="0.8"/>
-                        <circle cx="128" cy="156" r="5.5" fill="#f2c2bb" opacity="0.8"/>
-                        <path d="M91 158 q9 9 18 0" stroke="#16231b" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-                        <path d="M100 38 q10 -16 24 -19" stroke="#2f6b4d" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-                    </svg>
-                    <figcaption>Jamur berinsang. Panduan bagian tubuhnya ada di tab Klasifikasi.</figcaption>
-                </figure>
+        <!-- Upper-Right Botanical Twin Mushroom Cluster -->
+        <div class="bg-decor-item bg-decor-delay-1 bg-decor-about-mush-tr">
+          <svg viewBox="0 0 210 210" fill="none">
+            <path d="M16 178 C 56 168, 142 168, 192 178" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.22" stroke-linecap="round"/>
+            <!-- Tall mushroom -->
+            <path d="M96 92 C 94 128, 92 152, 90 172 L 106 172 C 104 152, 102 128, 101 92 Z" fill="rgba(255, 255, 255, 0.7)" stroke="#064E3B" stroke-width="1.8" stroke-opacity="0.28"/>
+            <path d="M52 94 C 50 42, 148 42, 146 94 C 128 100, 70 100, 52 94 Z" fill="rgba(22, 163, 74, 0.10)" stroke="#087F5B" stroke-width="2" stroke-opacity="0.32"/>
+            <circle cx="80" cy="68" r="5" fill="rgba(163, 230, 53, 0.25)"/>
+            <circle cx="114" cy="62" r="7" fill="rgba(163, 230, 53, 0.22)"/>
+            <circle cx="126" cy="80" r="4" fill="rgba(163, 230, 53, 0.22)"/>
+            <path d="M64 95 L 68 84 M82 97 L 84 85 M114 97 L 112 85 M132 95 L 128 84" stroke="#064E3B" stroke-width="1.1" stroke-opacity="0.2" stroke-linecap="round"/>
+            <!-- Small mushroom beside -->
+            <path d="M144 128 C 143 146, 142 158, 140 172 L 151 172 C 150 158, 149 146, 148 128 Z" fill="rgba(255, 255, 255, 0.7)" stroke="#064E3B" stroke-width="1.6" stroke-opacity="0.25"/>
+            <path d="M119 130 C 120 102, 174 102, 175 130 C 160 134, 134 134, 119 130 Z" fill="rgba(16, 185, 129, 0.11)" stroke="#16A34A" stroke-width="1.7" stroke-opacity="0.3"/>
+          </svg>
+        </div>
+
+        <!-- Bottom-Left & Bottom-Right Subtle Accents -->
+        <div class="bg-decor-item bg-decor-delay-2 bg-decor-about-leaf-bl">
+          <svg viewBox="0 0 150 150" fill="none">
+            <path d="M24 128 C 46 84, 78 50, 124 26 C 118 76, 84 114, 24 128 Z" fill="rgba(22, 163, 74, 0.08)" stroke="#087F5B" stroke-width="1.6" stroke-opacity="0.24"/>
+            <path d="M26 126 C 62 88, 92 58, 120 30" stroke="#087F5B" stroke-width="1.3" stroke-opacity="0.22" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Tentang Shroomy</span>
+          <h2 class="section-title">Harmonisasi Sains Fungi & Machine Learning Transparan</h2>
+          <p class="section-desc">
+            Dunia fungi menyimpan keanekaragaman hayati luar biasa, namun jamur beracun mematikan kerap kali memiliki ciri visual yang identik dengan jamur pangan. Shroomy hadir bukan sebagai alat tebak acak, melainkan instrumen analisis botani terstruktur.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <!-- Card 1 -->
+          <article class="about-card">
+            <div class="about-card-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
             </div>
-
-            <section class="hp" aria-labelledby="hp-title">
-                <div class="hp-top">
-                    <div>
-                        <p class="hp-kicker">Hasil uji tiga algoritma</p>
-                        <h2 id="hp-title" class="hp-title">Decision Tree menang tipis, tapi menang di angka yang penting</h2>
-                    </div>
-                    <p class="hp-sub">data uji 20%</p>
-                </div>
-
-                <div class="hp-grid">
-                    <table class="hp-table">
-                        <thead>
-                            <tr><th>Model</th><th>Akurasi</th><th>Recall racun</th><th>FN</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr class="is-best">
-                                <td>Decision Tree<span class="hp-tag">dipakai</span></td>
-                                <td>1,0000</td><td>1,0000</td><td>0</td>
-                            </tr>
-                            <tr>
-                                <td>Logistic Regression</td>
-                                <td>1,0000</td><td>1,0000</td><td>0</td>
-                            </tr>
-                            <tr>
-                                <td>KNN</td>
-                                <td>0,9988</td><td>0,9974</td><td>2</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <div class="hp-side">
-                        <p class="hp-note">
-                            FN = jamur beracun yang diprediksi aman. KNN meloloskan 2, jadi gugur
-                            meski akurasinya cuma beda 0,0012. Decision Tree dipilih karena aturannya
-                            bisa dibaca manusia: bau dan memar jadi pemisah utama.
-                        </p>
-                        <div class="hp-actions">
-                            <button type="button" class="btn btn-ghost" data-preset="p">Isi contoh beracun</button>
-                            <button type="button" class="btn btn-ghost" data-preset="e">Isi contoh aman</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="fi" aria-labelledby="fi-title">
-                <h2 id="fi-title" class="fi-title">Ciri yang paling menentukan</h2>
-                <p class="fi-sub">Bobot fitur dari model Decision Tree. Empat ciri ini menentukan hampir semua keputusan.</p>
-
-                <ul class="fi-list">
-                    <li><span class="fi-name">Aroma (odor)</span><span class="fi-bar"><b data-w="62"></b></span><span class="fi-val">0,62</span></li>
-                    <li><span class="fi-name">Memar (bruises)</span><span class="fi-bar"><b data-w="17"></b></span><span class="fi-val">0,17</span></li>
-                    <li><span class="fi-name">Cetakan spora</span><span class="fi-bar"><b data-w="10"></b></span><span class="fi-val">0,10</span></li>
-                    <li><span class="fi-name">Sisanya (17 ciri)</span><span class="fi-bar"><b data-w="11"></b></span><span class="fi-val">0,11</span></li>
-                </ul>
-
-                <p class="fi-note">
-                    Artinya: kalau mau cepat, cium dulu dan cek memarnya. Kalau dua ciri itu tidak
-                    bisa dipastikan, jangan menebak.
-                </p>
-            </section>
-
-            <blockquote class="pullquote">
-                Jamur beracun tidak selalu kelihatan menakutkan. Bedanya sering cuma warna insang,
-                ada tidaknya cincin di batang, atau bau yang muncul saat dipotong.
-            </blockquote>
-
-            <div class="note">
-                <strong>Catatan.</strong> Aplikasi ini demo akademik untuk tugas machine learning.
-                Hasil prediksi tidak boleh jadi satu-satunya dasar memutuskan jamur aman dimakan.
-                Kalau ragu, jangan dimakan.
-            </div>
-        </section>
-
-        <!-- ================= FORM ================= -->
-        <section class="panel" id="panel-form" role="tabpanel" aria-labelledby="tab-btn-form" hidden>
-
-
-            <div class="ws">
-                <div class="ws-main">
-                    <p class="ws-step">Lembar isian</p>
-                    <h2 style="font-size: 33px; margin: 0 0 10px;">Isi ciri yang kelihatan</h2>
-                    <p class="lede">
-                        Semua kolom sudah ada pilihan awalnya. Ubah yang sesuai jamur di tanganmu,
-                        hasilnya ikut menyesuaikan sendiri.
-                    </p>
-
-                    <form id="mushroom-form" novalidate>
-
-                        <div class="assist">
-                            <div class="assist-head">
-                                <p class="assist-title">Bantu isi warna tudung dari foto</p>
-                                <span class="assist-note">Opsional</span>
-                            </div>
-                            <p>
-                                Unggah foto jamur, warna dominan di tengah gambar dipetakan ke kategori
-                                warna tudung pada dataset.
-                            </p>
-                            <div class="assist-row">
-                                <div class="file-field">
-                                    <input type="file" id="mushroom-image-input" accept="image/*">
-                                    <label class="file-label" for="mushroom-image-input">Pilih foto</label>
-                                </div>
-                                <span class="file-name" id="file-name"></span>
-                                <span class="assist-status" id="assist-status">Membaca warna...</span>
-                                <span class="detected" id="image-processing-result">
-                                    <img id="img-preview" src="" alt="Pratinjau foto">
-                                    <span class="swatch" id="color-swatch"></span>
-                                    <span>Terdeteksi <strong id="color-name">—</strong></span>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="group">
-                            <div class="group-head">
-                                <h3>Tudung</h3>
-                                <span>bagian atas jamur</span>
-                            </div>
-                            <div class="grid">
-                                {% for feature in features %}
-                                    {% if 'cap' in feature or feature in ['bruises'] %}
-                                    <div class="field{% if feature == 'cap-color' %} key{% endif %}">
-                                        <label for="{{ feature }}">{{ feature.replace('-', ' ') }}</label>
-                                        <select id="{{ feature }}" name="{{ feature }}" required>
-                                            {% for opt in categories[feature] %}
-                                            <option value="{{ opt }}">{{ opt }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-
-                        <div class="group">
-                            <div class="group-head">
-                                <h3>Insang dan batang</h3>
-                                <span>bagian bawah tudung</span>
-                            </div>
-                            <div class="grid">
-                                {% for feature in features %}
-                                    {% if 'gill' in feature or 'stalk' in feature or 'veil' in feature or 'ring' in feature %}
-                                    <div class="field">
-                                        <label for="{{ feature }}">{{ feature.replace('-', ' ') }}</label>
-                                        <select id="{{ feature }}" name="{{ feature }}" required>
-                                            {% for opt in categories[feature] %}
-                                            <option value="{{ opt }}">{{ opt }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-
-                        <div class="group">
-                            <div class="group-head">
-                                <h3>Aroma dan sekitar</h3>
-                                <span>bau, spora, tempat tumbuh</span>
-                            </div>
-                            <div class="grid">
-                                {% for feature in features %}
-                                    {% if not ('cap' in feature or feature in ['bruises'] or 'gill' in feature or 'stalk' in feature or 'veil' in feature or 'ring' in feature) %}
-                                    <div class="field{% if feature == 'odor' %} key{% endif %}">
-                                        <label for="{{ feature }}">{{ feature.replace('-', ' ') }}</label>
-                                        <select id="{{ feature }}" name="{{ feature }}" required>
-                                            {% for opt in categories[feature] %}
-                                            <option value="{{ opt }}">{{ opt }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-
-                        <div class="actions">
-                            <button type="submit" class="btn btn-primary" id="btn-submit">Analisis kelayakan</button>
-                            <button type="button" class="btn btn-ghost" id="btn-reset">Atur ulang</button>
-                        </div>
-                    </form>
-
-                    <div class="loading" id="loading-state">
-                        <span class="bar"></span>
-                        <span>Menjalankan inferensi model</span>
-                    </div>
-
-                    <div class="error" id="error-box"></div>
-                </div>
-
-                <aside class="ws-side">
-                    <div class="guide-card">
-                        <p class="side-label">Panduan bagian</p>
-
-                        <div class="gc-figure">
-                            <svg id="anatomy" viewBox="0 0 360 280" role="img" aria-label="Diagram anatomi jamur">
-                            <g fill="none" stroke="#16231b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <g data-part="cap">
-                                    <path d="M44 96 C58 38 302 38 316 96 Z"/>
-                                </g>
-                                <g data-part="bruises">
-                                    <ellipse cx="260" cy="80" rx="14" ry="7" stroke-dasharray="3 3"/>
-                                </g>
-                                <g data-part="gills">
-                                    <path d="M72 100 L72 112"/>
-                                    <path d="M98 100 L98 112"/>
-                                    <path d="M124 100 L124 112"/>
-                                    <path d="M150 100 L150 112"/>
-                                    <path d="M210 100 L210 112"/>
-                                    <path d="M236 100 L236 112"/>
-                                    <path d="M262 100 L262 112"/>
-                                    <path d="M288 100 L288 112"/>
-                                </g>
-                                <g data-part="ring">
-                                    <ellipse cx="180" cy="150" rx="34" ry="10"/>
-                                </g>
-                                <g data-part="stalk">
-                                    <path d="M164 96 L156 226"/>
-                                    <path d="M196 96 L204 226"/>
-                                    <path d="M156 226 Q180 240 204 226"/>
-                                </g>
-                                <g data-part="volva">
-                                    <path d="M136 226 Q180 250 224 226 Q180 238 136 226"/>
-                                </g>
-                            </g>
-                        
-                            <g class="marker" data-part="cap"><circle cx="180" cy="64" r="9"/></g>
-                            <g class="marker" data-part="bruises"><circle cx="260" cy="80" r="9"/></g>
-                            <g class="marker" data-part="gills"><circle cx="112" cy="118" r="9"/></g>
-                            <g class="marker" data-part="ring"><circle cx="216" cy="150" r="9"/></g>
-                            <g class="marker" data-part="stalk"><circle cx="160" cy="190" r="9"/></g>
-                            <g class="marker" data-part="volva"><circle cx="180" cy="238" r="9"/></g>
-</svg>
-                            <p class="gc-active" id="guide-active">Belum ada bagian dipilih</p>
-                        </div>
-
-                        <ul class="part-list" id="part-list">
-                            <li><button type="button" class="part-row" data-part="cap">
-                                <span class="pr-name">Tudung</span>
-                                <span class="pr-hint">bentuk, permukaan, warna</span>
-                            </button></li>
-                            <li><button type="button" class="part-row" data-part="gills">
-                                <span class="pr-name">Insang</span>
-                                <span class="pr-hint">kerapatan, lebar, warna</span>
-                            </button></li>
-                            <li><button type="button" class="part-row" data-part="ring">
-                                <span class="pr-name">Cincin</span>
-                                <span class="pr-hint">sisa selubung di batang</span>
-                            </button></li>
-                            <li><button type="button" class="part-row" data-part="stalk">
-                                <span class="pr-name">Batang</span>
-                                <span class="pr-hint">bentuk, permukaan, warna</span>
-                            </button></li>
-                            <li><button type="button" class="part-row" data-part="volva">
-                                <span class="pr-name">Volva</span>
-                                <span class="pr-hint">selubung di pangkal</span>
-                            </button></li>
-                            <li><button type="button" class="part-row" data-part="bruises">
-                                <span class="pr-name">Memar</span>
-                                <span class="pr-hint">noda saat ditekan</span>
-                            </button></li>
-                        </ul>
-
-                        <div class="part-tip" id="part-tip" aria-live="polite">
-                            <p class="tip-kicker">Cara mengecek</p>
-                            <h4>Pilih satu bagian</h4>
-                            <p>Mulai dari tudung, karena itu paling kelihatan dari atas.</p>
-                        </div>
-                    </div>
-
-                    <div class="side-card">
-                        <div class="side-head">
-                            <span class="side-label">Hasil model</span>
-                            <span class="side-dot" id="side-status">menunggu</span>
-                        </div>
-                        <div class="result" id="result-wrapper"></div>
-                        <p class="side-empty" id="result-empty">
-                            Tekan tombol analisis sekali, setelah itu hasil ikut berubah sendiri tiap pilihan diubah.
-                        </p>
-                        <p class="side-note">Decision Tree, 20 ciri masukan, akurasi data uji 1,0000.</p>
-                    </div>
-
-                </aside>
-            </div>
-        </section>
-
-        <!-- ================= TIM ================= -->
-        <section class="panel" id="panel-team" role="tabpanel" aria-labelledby="tab-btn-team" hidden>
-            <p class="ws-step">Kelompok 4 · PJBL Machine Learning 2026</p>
-            <h2 style="font-size: 33px; margin: 0 0 6px;">Yang mengerjakan</h2>
-            <p class="lede">
-                Tiga orang, tiga bagian. Semua ikut paham alurnya dari data sampai aplikasi.
+            <h3 class="about-card-title">Urgensi & Bahaya Toksisitas</h3>
+            <p class="about-card-text">
+              Toksin jamur seperti amatoxin dan muskarinik tidak rusak oleh panas perebusan. Mitos tradisional seperti "jamur tidak beracun jika tidak menghitamkan perak" terbukti fatal. Identifikasi mutlak memerlukan taksonomi ilmiah.
             </p>
+            <ul class="about-card-feature-list">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Bahaya fatal salah konsumsi jamur liar
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Membantah mitos tradisional yang keliru
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Standarisasi kriteria observasi lapangan
+              </li>
+            </ul>
+          </article>
 
-            <div class="people">
-                <article class="person">
-                    <div class="portrait">
-                        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M4 17c0-8 24-8 24 0 0 2-24 2-24 0z" fill="#2f6b4d"/><path d="M12 18h8v6a4 4 0 0 1-8 0z" fill="#cfe0d4"/></svg>
-                        <img src="/static/img/anggota-1.jpg" alt="" onerror="this.remove()">
-                        <span class="ph-note">Foto menyusul</span>
-                    </div>
-                    <h3>Nama Anggota 1</h3>
-                    <p class="nim">NIM 0000000000</p>
-                    <p class="role">Dataset, eksplorasi data, preprocessing, studi literatur.</p>
-                </article>
-                <article class="person">
-                    <div class="portrait">
-                        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M4 17c0-8 24-8 24 0 0 2-24 2-24 0z" fill="#2f6b4d"/><path d="M12 18h8v6a4 4 0 0 1-8 0z" fill="#cfe0d4"/></svg>
-                        <img src="/static/img/anggota-2.jpg" alt="" onerror="this.remove()">
-                        <span class="ph-note">Foto menyusul</span>
-                    </div>
-                    <h3>Nama Anggota 2</h3>
-                    <p class="nim">NIM 0000000000</p>
-                    <p class="role">Pemodelan KNN, Decision Tree, Logistic Regression, evaluasi.</p>
-                </article>
-                <article class="person">
-                    <div class="portrait">
-                        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M4 17c0-8 24-8 24 0 0 2-24 2-24 0z" fill="#2f6b4d"/><path d="M12 18h8v6a4 4 0 0 1-8 0z" fill="#cfe0d4"/></svg>
-                        <img src="/static/img/anggota-3.jpg" alt="" onerror="this.remove()">
-                        <span class="ph-note">Foto menyusul</span>
-                    </div>
-                    <h3>Nama Anggota 3</h3>
-                    <p class="nim">NIM 0000000000</p>
-                    <p class="role">Aplikasi web, deploy, dokumentasi, video demo.</p>
-                </article>
+          <!-- Card 2 -->
+          <article class="about-card">
+            <div class="about-card-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+            </div>
+            <h3 class="about-card-title">Sinergi 3 Model AI Teruji</h3>
+            <p class="about-card-text">
+              Shroomy mengintegrasikan kekuatan <strong>Support Vector Machine (SVM)</strong> dan <strong>Random Forest</strong> untuk klasifikasi data karakteristik morfologi, serta <strong>Convolutional Neural Network (CNN) MobileNetV2</strong> untuk pemindaian visual jamur melalui kamera maupun foto.
+            </p>
+            <ul class="about-card-feature-list">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                CNN MobileNetV2 untuk deteksi citra &amp; kamera
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Random Forest &amp; SVM akurasi 100% (Zero FN)
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                3 mode workspace: Kamera, Gambar, &amp; Input Teks
+              </li>
+            </ul>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="about-card">
+            <div class="about-card-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            </div>
+            <h3 class="about-card-title">Edukasi & Konservasi Botani</h3>
+            <p class="about-card-text">
+              Shroomy dirancang sebagai instrumen pendidikan tinggi dan penggiat alam bebas. Memberikan pemahaman komprehensif mengenai peranan penting fungi dalam siklus nutrisi hutan dan konservasi keanekaragaman flora.
+            </p>
+            <ul class="about-card-feature-list">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Panduan anatomi organ jamur terpadu
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Media riset terstruktur bagi mahasiswa
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Mendorong etika observasi tanpa merusak
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= HOW IT WORKS ================= -->
+    <section class="how-section has-botanical-bg" id="how-it-works">
+      <div class="bg-botanical-layer" aria-hidden="true">
+        <!-- Mycelial Connecting Green Wave Across Steps -->
+        <svg class="bg-botanical-curve bg-curve-how-flow" viewBox="0 0 1440 360" fill="none" preserveAspectRatio="none">
+          <path class="bg-line-draw" pathLength="1" d="M-30 250 C 200 135, 360 285, 560 190 C 760 95, 920 255, 1130 165 C 1270 105, 1365 130, 1470 195" stroke="#087F5B" stroke-width="2.2" stroke-opacity="0.2" stroke-linecap="round"/>
+          <path class="bg-line-dashed" d="M-30 278 C 225 162, 380 306, 585 215 C 790 120, 945 278, 1150 190 C 1285 132, 1375 156, 1470 220" stroke="#16A34A" stroke-width="1.4" stroke-dasharray="6 8" stroke-opacity="0.18" stroke-linecap="round"/>
+        </svg>
+
+        <!-- Left Botanical Mushroom Outline -->
+        <div class="bg-decor-item bg-decor-how-mush-l">
+          <svg viewBox="0 0 180 200" fill="none">
+            <path d="M84 96 C 82 132, 80 156, 77 180 L 96 180 C 93 156, 91 132, 89 96 Z" fill="rgba(255, 255, 255, 0.75)" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.28"/>
+            <path d="M36 98 C 36 46, 140 46, 140 98 C 118 106, 58 106, 36 98 Z" fill="rgba(16, 185, 129, 0.1)" stroke="#064E3B" stroke-width="2" stroke-opacity="0.28"/>
+            <ellipse cx="88" cy="126" rx="14" ry="4" fill="rgba(22, 163, 74, 0.12)" stroke="#087F5B" stroke-width="1.3" stroke-opacity="0.24"/>
+            <path d="M52 100 L 58 88 M72 103 L 75 89 M104 103 L 101 89 M124 100 L 118 88" stroke="#064E3B" stroke-width="1.2" stroke-opacity="0.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <!-- Right Leaf Sprig -->
+        <div class="bg-decor-item bg-decor-delay-1 bg-decor-how-leaf-r">
+          <svg viewBox="0 0 190 190" fill="none">
+            <path d="M162 158 C 122 126, 86 84, 54 30" stroke="#087F5B" stroke-width="2" stroke-opacity="0.28" stroke-linecap="round"/>
+            <path d="M120 120 C 154 114, 174 84, 152 56 C 124 68, 114 96, 120 120 Z" fill="rgba(22, 163, 74, 0.09)" stroke="#16A34A" stroke-width="1.6" stroke-opacity="0.26"/>
+            <path d="M84 78 C 52 84, 24 60, 40 32 C 68 38, 82 60, 84 78 Z" fill="rgba(163, 230, 53, 0.14)" stroke="#087F5B" stroke-width="1.6" stroke-opacity="0.25"/>
+            <path d="M100 98 C 70 112, 54 142, 80 156 C 102 142, 108 118, 100 98 Z" fill="rgba(16, 185, 129, 0.08)" stroke="#087F5B" stroke-width="1.4" stroke-opacity="0.22"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Bagaimana Shroomy Bekerja</span>
+          <h2 class="section-title">4 Langkah Identifikasi Jamur Multi-Model</h2>
+          <p class="section-desc">
+            Mulai dari memindai jamur lewat kamera, mengunggah gambar, atau memilih ciri fisik—hingga analisis presisi oleh model <strong>CNN MobileNetV2</strong>, <strong>Support Vector Machine (SVM)</strong>, dan <strong>Random Forest</strong>. Arahkan kursor atau klik kartu untuk menyorot setiap tahapan.
+          </p>
+        </div>
+
+        <div class="steps-timeline">
+          <!-- Step 1 -->
+          <div class="step-card" tabindex="0">
+            <span class="step-number">01</span>
+            <div class="step-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            </div>
+            <h3 class="step-title">Scan Kamera &amp; Input Gambar</h3>
+            <p class="step-desc">
+              Arahkan kamera langsung ke jamur atau unggah foto dari perangkat Anda. Jaringan saraf <strong>CNN berarsitektur MobileNetV2</strong> yang telah ditraining dan dievaluasi pada dataset citra jamur akan menganalisis pola visual serta mengekstraksi warna tudung secara otomatis.
+            </p>
+            <span class="step-badge">CNN MobileNetV2 Vision</span>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-card" tabindex="0">
+            <span class="step-number">02</span>
+            <div class="step-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+            </div>
+            <h3 class="step-title">Pilih atau Masukkan Data Ciri Fisik</h3>
+            <p class="step-desc">
+              Selain lewat gambar, Anda dapat memasukkan atau memilih data teks berupa 20 karakteristik fisik jamur (bentuk tudung, insang, batang, cincin, hingga aroma). Panduan visual kami memudahkan orang awam memilih ciri dengan cepat dan tepat.
+            </p>
+            <span class="step-badge">Input Teks &amp; Pilihan Mudah</span>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-card" tabindex="0">
+            <span class="step-number">03</span>
+            <div class="step-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            </div>
+            <h3 class="step-title">Preprocessing &amp; Standarisasi</h3>
+            <p class="step-desc">
+              Di balik layar, citra kamera disesuaikan ukurannya dan dinormalisasi tensornya, sementara data teks dikonversi menggunakan metode <em>One-Hot Encoding</em> &amp; <em>StandardScaler</em>. Tahap ini memastikan seluruh input memiliki skala standar yang bersih dan bebas bias.
+            </p>
+            <span class="step-badge">Preprocessing Terstandar</span>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="step-card" tabindex="0">
+            <span class="step-number">04</span>
+            <div class="step-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </div>
+            <h3 class="step-title">Evaluasi Presisi SVM, RF &amp; CNN</h3>
+            <p class="step-desc">
+              Model <strong>Support Vector Machine (SVM)</strong> dan <strong>Random Forest</strong> mengevaluasi karakteristik jamur berdampingan dengan skor probabilitas <strong>CNN MobileNetV2</strong>. Menghasilkan keputusan kelayakan (Aman / Beracun) dengan tingkat akurasi dan presisi uji mencapai 100%.
+            </p>
+            <span class="step-badge">Presisi &amp; Akurasi Tinggi</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PLATFORM CAPABILITIES ================= -->
+    <section class="capabilities-section has-botanical-bg" id="capabilities">
+      <div class="bg-botanical-layer" aria-hidden="true">
+        <!-- Upper & Lower Green Botanical Curves -->
+        <svg class="bg-botanical-curve bg-curve-cap-top" viewBox="0 0 1440 300" fill="none" preserveAspectRatio="none">
+          <path class="bg-line-draw" pathLength="1" d="M-20 80 C 180 210, 390 190, 560 110 C 750 22, 920 165, 1120 130 C 1270 105, 1375 45, 1460 65" stroke="#16A34A" stroke-width="1.8" stroke-opacity="0.18" stroke-linecap="round"/>
+        </svg>
+
+        <!-- Upper-Left Botanical Leaf Cluster -->
+        <div class="bg-decor-item bg-decor-cap-leaf-tl">
+          <svg viewBox="0 0 170 170" fill="none">
+            <path d="M22 142 C 58 106, 98 62, 146 28" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.26" stroke-linecap="round"/>
+            <path d="M62 102 C 30 88, 22 52, 54 38 C 76 58, 76 84, 62 102 Z" fill="rgba(16, 185, 129, 0.09)" stroke="#087F5B" stroke-width="1.6" stroke-opacity="0.26"/>
+            <path d="M104 62 C 118 32, 148 24, 160 52 C 138 74, 116 74, 104 62 Z" fill="rgba(22, 163, 74, 0.09)" stroke="#16A34A" stroke-width="1.6" stroke-opacity="0.24"/>
+          </svg>
+        </div>
+
+        <!-- Upper-Right Dotted Cap Mushroom + Spore Rings -->
+        <div class="bg-decor-item bg-decor-delay-1 bg-decor-cap-mush-tr">
+          <svg viewBox="0 0 190 190" fill="none">
+            <circle cx="102" cy="94" r="68" stroke="#16A34A" stroke-width="1.2" stroke-dasharray="5 7" stroke-opacity="0.2"/>
+            <path d="M95 96 C 94 128, 92 148, 90 164 L 106 164 C 104 148, 102 128, 101 96 Z" fill="rgba(255,255,255,0.7)" stroke="#064E3B" stroke-width="1.7" stroke-opacity="0.26"/>
+            <path d="M58 98 C 60 52, 140 52, 142 98 C 122 104, 78 104, 58 98 Z" fill="rgba(163, 230, 53, 0.14)" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.3"/>
+            <circle cx="84" cy="74" r="5" fill="rgba(8, 127, 91, 0.16)"/>
+            <circle cx="114" cy="70" r="6" fill="rgba(8, 127, 91, 0.14)"/>
+          </svg>
+        </div>
+
+        <!-- Bottom-Left & Bottom-Right Botanical Accents -->
+        <div class="bg-decor-item bg-decor-delay-1 bg-decor-cap-mush-bl">
+          <svg viewBox="0 0 180 180" fill="none">
+            <path d="M22 152 C 62 144, 118 144, 158 152" stroke="#087F5B" stroke-width="1.5" stroke-opacity="0.2" stroke-linecap="round"/>
+            <path d="M74 88 C 72 118, 70 134, 68 148 L 82 148 C 80 134, 79 118, 78 88 Z" fill="rgba(255,255,255,0.75)" stroke="#064E3B" stroke-width="1.6" stroke-opacity="0.25"/>
+            <path d="M40 90 C 42 50, 112 50, 114 90 C 98 95, 56 95, 40 90 Z" fill="rgba(16, 185, 129, 0.1)" stroke="#087F5B" stroke-width="1.7" stroke-opacity="0.28"/>
+            <path d="M114 114 C 113 130, 112 140, 110 148 L 119 148 C 118 140, 117 130, 116 114 Z" fill="rgba(255,255,255,0.75)" stroke="#087F5B" stroke-width="1.3" stroke-opacity="0.24"/>
+            <path d="M94 116 C 95 94, 136 94, 137 116 C 126 120, 105 120, 94 116 Z" fill="rgba(163, 230, 53, 0.14)" stroke="#16A34A" stroke-width="1.4" stroke-opacity="0.25"/>
+          </svg>
+        </div>
+
+        <div class="bg-decor-item bg-decor-delay-2 bg-decor-cap-leaf-br">
+          <svg viewBox="0 0 160 160" fill="none">
+            <path d="M136 136 C 104 98, 72 62, 26 28 C 32 76, 68 118, 136 136 Z" fill="rgba(22, 163, 74, 0.08)" stroke="#087F5B" stroke-width="1.6" stroke-opacity="0.22"/>
+            <path d="M132 132 C 98 96, 66 64, 30 32" stroke="#087F5B" stroke-width="1.3" stroke-opacity="0.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Kapabilitas &amp; Workspace AI</span>
+          <h2 class="section-title">3 Mode Workspace &amp; Evaluasi Presisi Model</h2>
+          <p class="section-desc">
+            Shroomy dilengkapi dengan 3 metode identifikasi terpadu serta dukungan model <strong>Support Vector Machine (SVM)</strong>, <strong>Random Forest</strong>, dan <strong>CNN MobileNetV2</strong> yang telah ditraining dan dievaluasi secara presisi.
+          </p>
+        </div>
+
+        <!-- Unified Capability Studio -->
+        <div class="cap-studio-wrapper">
+
+          <!-- 3 Modes of Workspace & Model Precision Overview -->
+          <div class="workspace-models-grid">
+            <!-- Mode 1: Camera Scan + CNN MobileNetV2 -->
+            <a href="{{ url_for('workspace') }}?mode=camera" class="ws-model-card">
+              <div class="ws-model-top">
+                <div class="ws-model-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                </div>
+                <span class="ws-mode-tag">Workspace Mode 01 ↗</span>
+              </div>
+              <h3 class="ws-model-title">Scan Jamur via Kamera</h3>
+              <p class="ws-model-desc">
+                Memindai jamur secara langsung menggunakan kamera sesuai dataset citra yang telah melalui tahap training, preprocessing, dan evaluasi pada arsitektur <strong>CNN MobileNetV2</strong>.
+              </p>
+              <div class="ws-metrics-strip">
+                <div class="ws-metric-item">
+                  <span>Model AI</span>
+                  <strong>CNN MobileNetV2</strong>
+                </div>
+                <div class="ws-metric-item">
+                  <span>Akurasi / Presisi</span>
+                  <strong>96.4% / 96.5%</strong>
+                </div>
+              </div>
+            </a>
+
+            <!-- Mode 2: Image Upload + CNN & RGB Extraction -->
+            <a href="{{ url_for('workspace') }}?mode=upload" class="ws-model-card">
+              <div class="ws-model-top">
+                <div class="ws-model-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                </div>
+                <span class="ws-mode-tag">Workspace Mode 02 ↗</span>
+              </div>
+              <h3 class="ws-model-title">Input &amp; Analisis Gambar</h3>
+              <p class="ws-model-desc">
+                Mengunggah file foto jamur untuk dianalisis menggunakan jaringan saraf konvolusional (<strong>CNN MobileNetV2</strong>) sekaligus ekstraksi otomatis warna tudung berbasis jarak RGB.
+              </p>
+              <div class="ws-metrics-strip">
+                <div class="ws-metric-item">
+                  <span>Arsitektur</span>
+                  <strong>MobileNetV2 + ROI RGB</strong>
+                </div>
+                <div class="ws-metric-item">
+                  <span>ROC-AUC</span>
+                  <strong>99.1% Teruji</strong>
+                </div>
+              </div>
+            </a>
+
+            <!-- Mode 3: Text / Selection Input + SVM & Random Forest -->
+            <a href="{{ url_for('workspace') }}?mode=form" class="ws-model-card">
+              <div class="ws-model-top">
+                <div class="ws-model-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                </div>
+                <span class="ws-mode-tag">Workspace Mode 03 ↗</span>
+              </div>
+              <h3 class="ws-model-title">Input Data Teks / Pilihan Ciri</h3>
+              <p class="ws-model-desc">
+                Memasukkan atau memilih karakteristik morfologi jamur untuk diklasifikasikan secara presisi oleh algoritma <strong>Support Vector Machine (SVM)</strong> dan <strong>Random Forest</strong>.
+              </p>
+              <div class="ws-metrics-strip">
+                <div class="ws-metric-item">
+                  <span>Model AI</span>
+                  <strong>SVM &amp; Random Forest</strong>
+                </div>
+                <div class="ws-metric-item">
+                  <span>Akurasi / Presisi</span>
+                  <strong>100% / 100%</strong>
+                </div>
+              </div>
+            </a>
+          </div>
+
+      </div>
+    </section>
+
+    <!-- ================= EKSPLORASI JAMUR (SPLIT REFERENCE LAYOUT) ================= -->
+    <section class="exploration-section has-botanical-bg" id="exploration">
+      <div class="bg-botanical-layer" aria-hidden="true">
+        <svg class="bg-botanical-curve bg-curve-cap-top" viewBox="0 0 1440 300" fill="none" preserveAspectRatio="none">
+          <path class="bg-line-draw" pathLength="1" d="M-20 110 C 200 220, 410 70, 650 155 C 880 235, 1110 85, 1460 140" stroke="#16A34A" stroke-width="1.8" stroke-opacity="0.18" stroke-linecap="round"/>
+        </svg>
+        <div class="bg-decor-item bg-decor-cap-leaf-tl">
+          <svg viewBox="0 0 170 170" fill="none">
+            <path d="M22 142 C 58 106, 98 62, 146 28" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.24" stroke-linecap="round"/>
+            <path d="M62 102 C 30 88, 22 52, 54 38 C 76 58, 76 84, 62 102 Z" fill="rgba(16, 185, 129, 0.08)" stroke="#087F5B" stroke-width="1.5" stroke-opacity="0.24"/>
+            <path d="M104 62 C 118 32, 148 24, 160 52 C 138 74, 116 74, 104 62 Z" fill="rgba(22, 163, 74, 0.08)" stroke="#16A34A" stroke-width="1.5" stroke-opacity="0.22"/>
+          </svg>
+        </div>
+        <div class="bg-decor-item bg-decor-delay-1 bg-decor-cap-mush-tr">
+          <svg viewBox="0 0 190 190" fill="none">
+            <path d="M95 96 C 94 128, 92 148, 90 164 L 106 164 C 104 148, 102 128, 101 96 Z" fill="rgba(255,255,255,0.75)" stroke="#064E3B" stroke-width="1.6" stroke-opacity="0.24"/>
+            <path d="M58 98 C 60 52, 140 52, 142 98 C 122 104, 78 104, 58 98 Z" fill="rgba(163, 230, 53, 0.12)" stroke="#087F5B" stroke-width="1.7" stroke-opacity="0.26"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Eksplorasi Jamur</span>
+          <h2 class="section-title">Eksplorasi Morfologi, Warna &amp; 5 Zona Anatomi</h2>
+          <p class="section-desc">
+            Simulasikan variasi bentuk tudung, deteksi spektrum warna RGB, serta pelajari 20 parameter morfologi jamur secara interaktif sebelum mencoba workspace.
+          </p>
+        </div>
+
+        <div class="exploration-split">
+        <!-- Left Sidebar: Deep Botanical Anchor + Interactive Mushroom -->
+        <aside class="exploration-sidebar">
+          <div class="exp-sidebar-header">
+            <span class="exp-sidebar-kicker">Simulasi Visual Langsung</span>
+            <h3 class="exp-sidebar-title">Pratinjau Spesimen Jamur</h3>
+          </div>
+
+          <!-- Clean Interactive 3D Mushroom Stage -->
+          <div class="shroom-visualizer-stage exp-stage-card" id="shroom-stage" data-active-zone="cap">
+            <div class="shroom-stage-top-bar">
+              <span class="stage-zone-badge" id="stage-zone-badge">
+                <span class="stage-pulse"></span>
+                Zona Aktif: Tudung (Cap &amp; Bruises)
+              </span>
+              <div class="stage-mood-switch" role="group" aria-label="Karakter Visual Jamur">
+                <button type="button" class="mood-btn is-active" data-mood="friendly" title="Karakter Aman / Ramah">Ramah</button>
+                <button type="button" class="mood-btn" data-mood="fierce" title="Karakter Waspada / Toksik">Waspada</button>
+              </div>
             </div>
 
-            <p class="people-hint">Geser ke samping untuk lihat anggota lain</p>
+            <div class="shroom-canvas-wrap">
+              <!-- Ambient Floating Spores -->
+              <div class="ambient-spores" aria-hidden="true">
+                <span class="spore s1"></span>
+                <span class="spore s2"></span>
+                <span class="spore s3"></span>
+                <span class="spore s4"></span>
+                <span class="spore s5"></span>
+              </div>
 
-            <div class="note">
-                <strong>Model.</strong> Decision Tree, one-hot encoding, standard scaling.
-                Akurasi data uji 1,0000, recall kelas beracun 1,0000, tanpa false negative.
-                Pembanding: KNN 0,9988 dan Logistic Regression 1,0000.
+              <!-- ROI Scanner Frame Overlay -->
+              <div class="roi-scanner-overlay" title="Simulasi ROI Center-Crop 25%">
+                <span class="roi-label">Area Pindai Warna 25%</span>
+              </div>
+
+              <!-- Dynamic 3D-Styled SVG Mushroom Character -->
+              <svg class="shroom-3d-svg" id="shroom-3d-svg" viewBox="0 0 320 290" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustrasi Interaktif Morfologi dan Warna Jamur">
+                <defs>
+                  <radialGradient id="capGrad3D" cx="38%" cy="28%" r="70%">
+                    <stop offset="0%" id="cap-stop-light" stop-color="#ff6b6b" />
+                    <stop offset="55%" id="cap-stop-main" stop-color="#c32828" />
+                    <stop offset="100%" id="cap-stop-dark" stop-color="#7a1212" />
+                  </radialGradient>
+
+                  <linearGradient id="stalkGrad3D" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#e9d5b5" />
+                    <stop offset="35%" stop-color="#fff7e8" />
+                    <stop offset="75%" stop-color="#f3dfc1" />
+                    <stop offset="100%" stop-color="#cbb089" />
+                  </linearGradient>
+
+                  <linearGradient id="gillGrad3D" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#8c6d46" />
+                    <stop offset="100%" stop-color="#d8bfa0" />
+                  </linearGradient>
+
+                  <radialGradient id="spotGrad3D" cx="35%" cy="30%" r="70%">
+                    <stop offset="0%" stop-color="#ffffff" />
+                    <stop offset="80%" stop-color="#f8fafc" />
+                    <stop offset="100%" stop-color="#cbd5e1" />
+                  </radialGradient>
+
+                  <filter id="shroomShadow" x="-15%" y="-15%" width="130%" height="135%">
+                    <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#042f24" flood-opacity="0.22" />
+                  </filter>
+
+                  <clipPath id="capClipPath">
+                    <path id="shroom-cap-clip-path" d="M 42 152 C 40 50, 280 50, 278 152 C 278 174, 230 180, 160 180 C 90 180, 42 174, 42 152 Z" />
+                  </clipPath>
+                </defs>
+
+                <!-- Ground Shadow & Ecology Base -->
+                <g id="viz-zone-ecology" class="viz-part">
+                  <ellipse cx="160" cy="264" rx="82" ry="15" fill="rgba(6, 78, 59, 0.16)" />
+                  <path d="M 86 262 Q 92 246 98 262 Q 104 250 110 263" stroke="#16A34A" stroke-width="3.5" stroke-linecap="round" fill="none" />
+                  <path d="M 212 263 Q 218 248 224 262 Q 230 246 236 262" stroke="#087F5B" stroke-width="3.5" stroke-linecap="round" fill="none" />
+                </g>
+
+                <!-- Main Floating Mushroom Group -->
+                <g class="shroom-float-group" filter="url(#shroomShadow)">
+                  <!-- Gills Layer (Under Cap) -->
+                  <g id="viz-zone-gills" class="viz-part">
+                    <ellipse cx="160" cy="172" rx="92" ry="20" fill="url(#gillGrad3D)" stroke="#6b5030" stroke-width="2" />
+                    <path d="M 82 172 L 120 178 M 98 166 L 128 175 M 115 162 L 136 173 M 238 172 L 200 178 M 222 166 L 192 175 M 205 162 L 184 173" stroke="#7c5e3c" stroke-width="2" stroke-linecap="round" opacity="0.65" />
+                  </g>
+
+                  <!-- Stalk / Stem Body -->
+                  <g id="viz-zone-stalk" class="viz-part">
+                    <path d="M 112 168 C 102 204, 98 242, 118 256 C 134 266, 186 266, 202 256 C 222 242, 218 204, 208 168 Z" fill="url(#stalkGrad3D)" stroke="#856849" stroke-width="2.5" />
+
+                    <g class="shroom-feet">
+                      <ellipse cx="122" cy="258" rx="22" ry="11" transform="rotate(-8 122 258)" fill="#6d4323" stroke="#472a14" stroke-width="2" />
+                      <ellipse cx="198" cy="258" rx="22" ry="11" transform="rotate(8 198 258)" fill="#59351a" stroke="#472a14" stroke-width="2" />
+                    </g>
+
+                    <!-- Friendly Face -->
+                    <g id="face-friendly" class="shroom-face">
+                      <rect x="137" y="196" width="11" height="28" rx="5.5" fill="#1e1b18" />
+                      <ellipse cx="141" cy="203" rx="2.8" ry="5" fill="#ffffff" />
+                      <rect x="172" y="196" width="11" height="28" rx="5.5" fill="#1e1b18" />
+                      <ellipse cx="176" cy="203" rx="2.8" ry="5" fill="#ffffff" />
+                      <ellipse cx="124" cy="222" rx="7" ry="4" fill="#f43f5e" opacity="0.28" />
+                      <ellipse cx="196" cy="222" rx="7" ry="4" fill="#f43f5e" opacity="0.28" />
+                    </g>
+
+                    <!-- Fierce / Toxic Warning Face -->
+                    <g id="face-fierce" class="shroom-face" style="display: none;">
+                      <ellipse cx="138" cy="210" rx="11" ry="15" fill="#ffffff" stroke="#1e1b18" stroke-width="2" />
+                      <circle cx="141" cy="212" r="5" fill="#1e1b18" />
+                      <circle cx="142.5" cy="209.5" r="1.8" fill="#ffffff" />
+                      <ellipse cx="182" cy="210" rx="11" ry="15" fill="#ffffff" stroke="#1e1b18" stroke-width="2" />
+                      <circle cx="179" cy="212" r="5" fill="#1e1b18" />
+                      <circle cx="180.5" cy="209.5" r="1.8" fill="#ffffff" />
+                      <path d="M 116 192 Q 134 198 154 205" stroke="#1e1b18" stroke-width="6" stroke-linecap="round" fill="none" />
+                      <path d="M 204 192 Q 186 198 166 205" stroke="#1e1b18" stroke-width="6" stroke-linecap="round" fill="none" />
+                      <path d="M 134 236 Q 160 226 186 236" stroke="#1e1b18" stroke-width="3.5" stroke-linecap="round" fill="none" />
+                      <polygon points="136,235 142,223 147,233" fill="#ffffff" stroke="#1e1b18" stroke-width="1.5" />
+                      <polygon points="184,235 178,223 173,233" fill="#ffffff" stroke="#1e1b18" stroke-width="1.5" />
+                    </g>
+                  </g>
+
+                  <!-- Ring / Veil Collar around Stalk -->
+                  <g id="viz-zone-ring" class="viz-part">
+                    <path d="M 106 182 Q 160 194 214 182 Q 218 192 206 196 Q 160 206 114 196 Q 102 192 106 182 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" />
+                  </g>
+
+                  <!-- Cap / Tudung (Dynamic Shape & Color) -->
+                  <g id="viz-zone-cap" class="viz-part">
+                    <path id="shroom-cap-path" d="M 42 152 C 40 50, 280 50, 278 152 C 278 174, 230 180, 160 180 C 90 180, 42 174, 42 152 Z" fill="url(#capGrad3D)" stroke="#4a1515" stroke-width="3" />
+
+                    <g id="shroom-cap-spots" clip-path="url(#capClipPath)">
+                      <circle cx="160" cy="108" r="34" fill="url(#spotGrad3D)" opacity="0.95" />
+                      <ellipse cx="72" cy="126" rx="26" ry="30" transform="rotate(-18 72 126)" fill="url(#spotGrad3D)" opacity="0.95" />
+                      <ellipse cx="248" cy="126" rx="26" ry="30" transform="rotate(18 248 126)" fill="url(#spotGrad3D)" opacity="0.95" />
+                      <circle cx="115" cy="68" r="14" fill="url(#spotGrad3D)" opacity="0.9" />
+                      <circle cx="206" cy="70" r="13" fill="url(#spotGrad3D)" opacity="0.9" />
+                    </g>
+
+                    <path d="M 90 82 Q 140 56 200 72" stroke="rgba(255, 255, 255, 0.45)" stroke-width="8" stroke-linecap="round" fill="none" />
+                  </g>
+                </g>
+              </svg>
             </div>
-        </section>
 
-    </div>
-</main>
+            <!-- Summary Status Strip -->
+            <div class="shroom-stage-footer">
+              <div class="stage-meta-chip">
+                <span class="meta-label">Warna</span>
+                <strong class="meta-val" id="stage-color-label">Red (Merah)</strong>
+              </div>
+              <div class="stage-meta-chip">
+                <span class="meta-label">Bentuk</span>
+                <strong class="meta-val" id="stage-shape-short">Cembung</strong>
+              </div>
+              <div class="stage-meta-chip">
+                <span class="meta-label">RGB</span>
+                <strong class="meta-val" id="rgb-live-readout">195, 40, 40</strong>
+              </div>
+            </div>
+          </div>
 
-<footer>
-    <div class="wrap">
-        <div class="row">
-            <span>PJBL Machine Learning 2026 — Kelompok 4</span>
-            <span>Dataset UCI Mushroom Classification</span>
+          <a href="{{ url_for('workspace') }}" class="btn btn-lime exp-sidebar-cta">
+            <span>Buka Workspace Identifikasi</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </aside>
+
+        <!-- Right Editorial White Canvas: 3 Clean Columns Side by Side -->
+        <div class="exploration-canvas">
+          <div class="exploration-columns">
+
+            <!-- Feature Column 1: Cap Shapes -->
+            <div class="exp-col">
+              <div class="exp-col-header">
+                <div class="exp-col-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 14c0-5 4-9 9-9s9 4 9 9H3z"></path><path d="M9 14v5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-5"></path></svg>
+                </div>
+                <h3 class="exp-col-title">1. Variasi Bentuk Tudung Jamur</h3>
+              </div>
+
+              <p class="exp-col-subtitle" id="shape-active-name">Convex (Cembung) — Bentuk bulat memayung klasik</p>
+
+              <div class="shape-selector-grid exp-shape-grid" role="group" aria-label="Pilih Bentuk Tudung Jamur">
+                <button type="button" class="shape-btn is-active" data-shape="convex" data-shape-label="Convex (Cembung) — Bentuk bulat memayung klasik">
+                  <svg class="shape-mini-svg" viewBox="0 0 64 52" fill="none">
+                    <path d="M24 32 C24 44, 40 44, 40 32 Z" fill="#F3E5AB" stroke="#064E3B" stroke-width="2"/>
+                    <path d="M8 32 C8 10, 56 10, 56 32 Z" fill="currentColor" stroke="#064E3B" stroke-width="2"/>
+                    <circle cx="22" cy="21" r="4" fill="#FFFFFF" opacity="0.85"/>
+                    <circle cx="40" cy="18" r="5" fill="#FFFFFF" opacity="0.85"/>
+                  </svg>
+                  <span>Cembung</span>
+                </button>
+                <button type="button" class="shape-btn" data-shape="bell" data-shape-label="Bell (Lonceng) — Menjulang tinggi menyerupai lonceng">
+                  <svg class="shape-mini-svg" viewBox="0 0 64 52" fill="none">
+                    <path d="M25 33 C25 45, 39 45, 39 33 Z" fill="#F3E5AB" stroke="#064E3B" stroke-width="2"/>
+                    <path d="M10 34 C14 30, 18 8, 32 8 C46 8, 50 30, 54 34 Z" fill="currentColor" stroke="#064E3B" stroke-width="2"/>
+                    <circle cx="32" cy="16" r="4.5" fill="#FFFFFF" opacity="0.85"/>
+                    <circle cx="22" cy="26" r="3.5" fill="#FFFFFF" opacity="0.85"/>
+                  </svg>
+                  <span>Lonceng</span>
+                </button>
+                <button type="button" class="shape-btn" data-shape="conical" data-shape-label="Conical (Kerucut) — Puncak tudung mengerucut lancip">
+                  <svg class="shape-mini-svg" viewBox="0 0 64 52" fill="none">
+                    <path d="M25 33 C25 45, 39 45, 39 33 Z" fill="#F3E5AB" stroke="#064E3B" stroke-width="2"/>
+                    <path d="M8 34 L32 7 L56 34 Z" stroke-linejoin="round" fill="currentColor" stroke="#064E3B" stroke-width="2"/>
+                    <circle cx="32" cy="19" r="4" fill="#FFFFFF" opacity="0.85"/>
+                    <circle cx="22" cy="28" r="3" fill="#FFFFFF" opacity="0.85"/>
+                  </svg>
+                  <span>Kerucut</span>
+                </button>
+                <button type="button" class="shape-btn" data-shape="flat" data-shape-label="Flat (Datar) — Permukaan tudung melebar rata">
+                  <svg class="shape-mini-svg" viewBox="0 0 64 52" fill="none">
+                    <path d="M24 28 C24 44, 40 44, 40 28 Z" fill="#F3E5AB" stroke="#064E3B" stroke-width="2"/>
+                    <rect x="6" y="18" width="52" height="12" rx="6" fill="currentColor" stroke="#064E3B" stroke-width="2"/>
+                    <circle cx="20" cy="24" r="3.5" fill="#FFFFFF" opacity="0.85"/>
+                    <circle cx="42" cy="24" r="4" fill="#FFFFFF" opacity="0.85"/>
+                  </svg>
+                  <span>Datar</span>
+                </button>
+                <button type="button" class="shape-btn" data-shape="knobbed" data-shape-label="Knobbed (Bertombol) — Memiliki tonjolan di bagian tengah atas">
+                  <svg class="shape-mini-svg" viewBox="0 0 64 52" fill="none">
+                    <path d="M24 33 C24 45, 40 45, 40 33 Z" fill="#F3E5AB" stroke="#064E3B" stroke-width="2"/>
+                    <path d="M8 33 C8 22, 20 22, 23 14 C25 8, 39 8, 41 14 C44 22, 56 22, 56 33 Z" fill="currentColor" stroke="#064E3B" stroke-width="2"/>
+                    <circle cx="32" cy="15" r="4" fill="#FFFFFF" opacity="0.85"/>
+                    <circle cx="19" cy="27" r="3.5" fill="#FFFFFF" opacity="0.85"/>
+                  </svg>
+                  <span>Bertombol</span>
+                </button>
+                <button type="button" class="shape-btn" data-shape="sunken" data-shape-label="Sunken (Cekung) — Bagian tengah tudung melengkung ke dalam">
+                  <svg class="shape-mini-svg" viewBox="0 0 64 52" fill="none">
+                    <path d="M24 31 C24 44, 40 44, 40 31 Z" fill="#F3E5AB" stroke="#064E3B" stroke-width="2"/>
+                    <path d="M8 22 C8 14, 22 26, 32 26 C42 26, 56 14, 56 22 C56 32, 46 34, 32 34 C18 34, 8 32, 8 22 Z" fill="currentColor" stroke="#064E3B" stroke-width="2"/>
+                    <circle cx="18" cy="24" r="3" fill="#FFFFFF" opacity="0.85"/>
+                    <circle cx="46" cy="24" r="3" fill="#FFFFFF" opacity="0.85"/>
+                  </svg>
+                  <span>Cekung</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Feature Column 2: 10 Botanical Colors -->
+            <div class="exp-col">
+              <div class="exp-col-header">
+                <div class="exp-col-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5"></circle><circle cx="17.5" cy="10.5" r=".5"></circle><circle cx="8.5" cy="7.5" r=".5"></circle><circle cx="6.5" cy="12.5" r=".5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg>
+                </div>
+                <h3 class="exp-col-title">2. Deteksi 10 Palet Warna Tudung</h3>
+              </div>
+
+              <p class="exp-col-subtitle">Ekstraksi otomatis area tengah foto menggunakan perhitungan jarak warna RGB:</p>
+
+              <div class="color-palette-showcase exp-color-grid" role="radiogroup" aria-label="Palet Warna Tudung Jamur">
+                <button type="button" class="color-swatch-item is-active" data-color-code="e" data-color-name="Red (Merah)" data-hex="#c32828" data-light="#ff6b6b" data-dark="#7a1212" data-rgb="195, 40, 40" data-mood="friendly">
+                  <span class="color-swatch-circle" style="background: #c32828;"></span>
+                  <span class="color-swatch-name">Merah</span>
+                </button>
+                <button type="button" class="color-swatch-item" data-color-code="n" data-color-name="Brown (Cokelat)" data-hex="#784b26" data-light="#a87042" data-dark="#4a2c14" data-rgb="120, 75, 38" data-mood="fierce">
+                  <span class="color-swatch-circle" style="background: #784b26;"></span>
+                  <span class="color-swatch-name">Cokelat</span>
+                </button>
+                <button type="button" class="color-swatch-item" data-color-code="y" data-color-name="Yellow (Kuning)" data-hex="#ebcd32" data-light="#fff078" data-dark="#a88e0d" data-rgb="235, 205, 50" data-mood="friendly">
+                  <span class="color-swatch-circle" style="background: #ebcd32;"></span>
+                  <span class="color-swatch-name">Kuning</span>
+                </button>
+                <button type="button" class="color-swatch-item" data-color-code="w" data-color-name="White (Putih)" data-hex="#f2f2f2" data-light="#ffffff" data-dark="#b8c2cc" data-rgb="242, 242, 242" data-mood="friendly">
+                  <span class="color-swatch-circle" style="background: #f2f2f2; border-color: #cbd5e1;"></span>
+                  <span class="color-swatch-name">Putih</span>
+                </button>
+                <button type="button" class="color-swatch-item" data-color-code="c" data-color-name="Cinnamon (Kayu Manis)" data-hex="#a5582a" data-light="#d4814e" data-dark="#693414" data-rgb="165, 88, 42" data-mood="fierce">
+                  <span class="color-swatch-circle" style="background: #a5582a;"></span>
+                  <span class="color-swatch-name">Kayu Manis</span>
+                </button>
+                <button type="button" class="color-swatch-item" data-color-code="b" data-color-name="Buff (Krem Muda)" data-hex="#e1cd91" data-light="#f7ebc4" data-dark="#a69054" data-rgb="225, 205, 145" data-mood="friendly">
+                  <span class="color-swatch-circle" style="background: #e1cd91;"></span>
+                  <span class="color-swatch-name">Krem Muda</span>
+                </button>
+                <button type="button" class="color-swatch-item" data-color-code="r" data-color-name="Green (Hijau)" data-hex="#3c8246" data-light="#68b873" data-dark="#1f4f27" data-rgb="60, 130, 70" data-mood="friendly">
+                  <span class="color-swatch-circle" style="background: #3c8246;"></span>
+                  <span class="color-swatch-name">Hijau</span>
+                </button>
+                <button type="button" class="color-swatch-item" data-color-code="p" data-color-name="Pink (Merah Muda)" data-hex="#eb8ca0" data-light="#ffc2cf" data-dark="#a84c60" data-rgb="235, 140, 160" data-mood="friendly">
+                  <span class="color-swatch-circle" style="background: #eb8ca0;"></span>
+                  <span class="color-swatch-name">Merah Muda</span>
+                </button>
+                <button type="button" class="color-swatch-item" data-color-code="u" data-color-name="Purple (Ungu)" data-hex="#78328c" data-light="#a95cc0" data-dark="#461854" data-rgb="120, 50, 140" data-mood="fierce">
+                  <span class="color-swatch-circle" style="background: #78328c;"></span>
+                  <span class="color-swatch-name">Ungu</span>
+                </button>
+                <button type="button" class="color-swatch-item" data-color-code="g" data-color-name="Gray (Abu-abu)" data-hex="#828282" data-light="#b0b0b0" data-dark="#4f4f4f" data-rgb="130, 130, 130" data-mood="friendly">
+                  <span class="color-swatch-circle" style="background: #828282;"></span>
+                  <span class="color-swatch-name">Abu-abu</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Feature Column 3: 5 Anatomical Zones & 20 Parameters -->
+            <div class="exp-col">
+              <div class="exp-col-header">
+                <div class="exp-col-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                </div>
+                <h3 class="exp-col-title">3. Eksplorasi 20 Parameter (5 Zona Anatomi)</h3>
+              </div>
+
+              <p class="exp-col-subtitle">Pilih zona untuk melihat parameter &amp; menyorot anatominya pada jamur:</p>
+
+              <!-- 5 Compact Zone Selector Pills -->
+              <div class="exp-zone-pills" role="tablist" aria-label="Lima Zona Anatomi Jamur">
+                <button type="button" class="morphology-group is-selected" data-zone="cap" role="tab" aria-selected="true">
+                  <span class="zone-index">01</span>
+                  <span class="morphology-group-name">Tudung</span>
+                </button>
+                <button type="button" class="morphology-group" data-zone="gills" role="tab" aria-selected="false">
+                  <span class="zone-index">02</span>
+                  <span class="morphology-group-name">Insang</span>
+                </button>
+                <button type="button" class="morphology-group" data-zone="stalk" role="tab" aria-selected="false">
+                  <span class="zone-index">03</span>
+                  <span class="morphology-group-name">Batang</span>
+                </button>
+                <button type="button" class="morphology-group" data-zone="ring" role="tab" aria-selected="false">
+                  <span class="zone-index">04</span>
+                  <span class="morphology-group-name">Cincin</span>
+                </button>
+                <button type="button" class="morphology-group" data-zone="ecology" role="tab" aria-selected="false">
+                  <span class="zone-index">05</span>
+                  <span class="morphology-group-name">Ekologi</span>
+                </button>
+              </div>
+
+              <!-- Active Zone Parameters List -->
+              <div class="exp-zone-detail">
+                <!-- Panel 1: Cap -->
+                <div class="zone-panel-content is-visible" data-zone-panel="cap">
+                  <div class="exp-zone-summary">
+                    <h4>Zona Tudung &amp; Memar (4 Fitur)</h4>
+                    <p>Bentuk payung atas jamur serta reaksi perubahan warna saat ditekan.</p>
+                  </div>
+                  <div class="exp-param-list">
+                    <div class="morphology-pill">
+                      <span class="pill-name">Bentuk Tudung</span>
+                      <span class="pill-code">cap-shape</span>
+                    </div>
+                    <div class="morphology-pill">
+                      <span class="pill-name">Permukaan Tudung</span>
+                      <span class="pill-code">cap-surface</span>
+                    </div>
+                    <div class="morphology-pill">
+                      <span class="pill-name">Warna Tudung</span>
+                      <span class="pill-code">cap-color</span>
+                    </div>
+                    <div class="morphology-pill highlighted">
+                      <span class="pill-name">Memar (bruises)</span>
+                      <span class="pill-weight">17%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Panel 2: Gills -->
+                <div class="zone-panel-content" data-zone-panel="gills">
+                  <div class="exp-zone-summary">
+                    <h4>Zona Bilah Insang (4 Fitur)</h4>
+                    <p>Lembaran di bawah tudung tempat produksi spora dan perlekatannya.</p>
+                  </div>
+                  <div class="exp-param-list">
+                    <div class="morphology-pill">
+                      <span class="pill-name">Perlekatan Insang</span>
+                      <span class="pill-code">gill-attachment</span>
+                    </div>
+                    <div class="morphology-pill">
+                      <span class="pill-name">Kerapatan Insang</span>
+                      <span class="pill-code">gill-spacing</span>
+                    </div>
+                    <div class="morphology-pill">
+                      <span class="pill-name">Ukuran Lebar Insang</span>
+                      <span class="pill-code">gill-size</span>
+                    </div>
+                    <div class="morphology-pill">
+                      <span class="pill-name">Warna Insang</span>
+                      <span class="pill-code">gill-color</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Panel 3: Stalk -->
+                <div class="zone-panel-content" data-zone-panel="stalk">
+                  <div class="exp-zone-summary">
+                    <h4>Zona Batang Penopang (5 Fitur)</h4>
+                    <p>Struktur tangkai penopang serta tekstur dan warna di sekitar cincin.</p>
+                  </div>
+                  <div class="exp-param-list">
+                    <div class="morphology-pill">
+                      <span class="pill-name">Bentuk Batang</span>
+                      <span class="pill-code">stalk-shape</span>
+                    </div>
+                    <div class="morphology-pill">
+                      <span class="pill-name">Tekstur Atas Cincin</span>
+                      <span class="pill-code">stalk-surface-above</span>
+                    </div>
+                    <div class="morphology-pill">
+                      <span class="pill-name">Tekstur Bawah Cincin</span>
+                      <span class="pill-code">stalk-surface-below</span>
+                    </div>
+                    <div class="morphology-pill">
+                      <span class="pill-name">Warna Atas Cincin</span>
+                      <span class="pill-code">stalk-color-above</span>
+                    </div>
+                    <div class="morphology-pill">
+                      <span class="pill-name">Warna Bawah Cincin</span>
+                      <span class="pill-code">stalk-color-below</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Panel 4: Ring & Veil -->
+                <div class="zone-panel-content" data-zone-panel="ring">
+                  <div class="exp-zone-summary">
+                    <h4>Zona Selubung &amp; Cincin (3 Fitur)</h4>
+                    <p>Jaringan pelindung insang muda dan bekas cincin pada batang.</p>
+                  </div>
+                  <div class="exp-param-list">
+                    <div class="morphology-pill">
+                      <span class="pill-name">Warna Selubung</span>
+                      <span class="pill-code">veil-color</span>
+                    </div>
+                    <div class="morphology-pill">
+                      <span class="pill-name">Jumlah Cincin</span>
+                      <span class="pill-code">ring-number</span>
+                    </div>
+                    <div class="morphology-pill">
+                      <span class="pill-name">Tipe Cincin</span>
+                      <span class="pill-code">ring-type</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Panel 5: Ecology & Odor -->
+                <div class="zone-panel-content" data-zone-panel="ecology">
+                  <div class="exp-zone-summary">
+                    <h4>Ekologi, Spora &amp; Aroma (4 Fitur)</h4>
+                    <p>Indikator utama pembobotan Random Forest &amp; SVM.</p>
+                  </div>
+                  <div class="exp-param-list">
+                    <div class="morphology-pill highlighted">
+                      <span class="pill-name">Aroma (odor)</span>
+                      <span class="pill-weight">62%</span>
+                    </div>
+                    <div class="morphology-pill highlighted">
+                      <span class="pill-name">Cetakan Spora</span>
+                      <span class="pill-weight">10%</span>
+                    </div>
+                    <div class="morphology-pill">
+                      <span class="pill-name">Sebaran Populasi</span>
+                      <span class="pill-code">population</span>
+                    </div>
+                    <div class="morphology-pill">
+                      <span class="pill-name">Habitat Tumbuh</span>
+                      <span class="pill-code">habitat</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
-        <div class="row">
-            <span>One-Hot Encoding, Standard Scaling, Decision Tree</span>
-            <span>Demo akademik, bukan alat identifikasi lapangan</span>
         </div>
+      </div>
+    </section>
+
+    <!-- ================= SECURITY & TRANSPARENCY ================= -->
+    <section class="security-section has-botanical-bg" id="security">
+      <div class="bg-botanical-layer" aria-hidden="true">
+        <!-- Flanking Green Curves -->
+        <svg class="bg-botanical-curve bg-curve-sec-flow" viewBox="0 0 1440 360" fill="none" preserveAspectRatio="none">
+          <path class="bg-line-draw" pathLength="1" d="M-20 120 C 190 220, 320 60, 520 145 C 710 225, 860 95, 1080 175 C 1250 235, 1360 155, 1460 110" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.18" stroke-linecap="round"/>
+        </svg>
+
+        <!-- Upper-Left Laurel Leaf Cluster -->
+        <div class="bg-decor-item bg-decor-sec-leaf-tl">
+          <svg viewBox="0 0 170 180" fill="none">
+            <path d="M36 154 C 42 104, 68 60, 120 26" stroke="#087F5B" stroke-width="1.9" stroke-opacity="0.26" stroke-linecap="round"/>
+            <path d="M46 112 C 20 100, 14 70, 42 54 C 60 74, 58 96, 46 112 Z" fill="rgba(22, 163, 74, 0.09)" stroke="#16A34A" stroke-width="1.5" stroke-opacity="0.26"/>
+            <path d="M74 72 C 48 58, 46 28, 76 18 C 92 38, 88 58, 74 72 Z" fill="rgba(16, 185, 129, 0.09)" stroke="#087F5B" stroke-width="1.5" stroke-opacity="0.25"/>
+            <path d="M96 48 C 122 44, 142 64, 126 88 C 102 82, 92 64, 96 48 Z" fill="rgba(163, 230, 53, 0.13)" stroke="#16A34A" stroke-width="1.4" stroke-opacity="0.24"/>
+          </svg>
+        </div>
+
+        <!-- Bottom-Right Botanical Mushroom Trio -->
+        <div class="bg-decor-item bg-decor-delay-1 bg-decor-sec-mush-br">
+          <svg viewBox="0 0 210 190" fill="none">
+            <path d="M26 164 C 76 156, 140 156, 186 164" stroke="#087F5B" stroke-width="1.6" stroke-opacity="0.2" stroke-linecap="round"/>
+            <path d="M104 86 C 102 120, 101 142, 99 160 L 113 160 C 111 142, 110 120, 108 86 Z" fill="rgba(255,255,255,0.75)" stroke="#064E3B" stroke-width="1.7" stroke-opacity="0.25"/>
+            <path d="M68 88 C 70 40, 142 40, 144 88 C 126 94, 86 94, 68 88 Z" fill="rgba(16, 185, 129, 0.1)" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.28"/>
+            <path d="M58 118 C 57 136, 56 148, 54 160 L 64 160 C 62 148, 61 136, 60 118 Z" fill="rgba(255,255,255,0.75)" stroke="#087F5B" stroke-width="1.4" stroke-opacity="0.24"/>
+            <path d="M36 120 C 37 94, 82 94, 83 120 C 70 124, 49 124, 36 120 Z" fill="rgba(163, 230, 53, 0.13)" stroke="#16A34A" stroke-width="1.5" stroke-opacity="0.25"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Keamanan & Etika Sains</span>
+          <h2 class="section-title">Prinsip Kehati-hatian Tertinggi dalam Mikologi</h2>
+          <p class="section-desc">
+            Dalam dunia jamur liar, tidak ada toleransi bagi kesalahan false negative. Pelajari evaluasi keamanan model dan etika eksplorasi lapangan.
+          </p>
+        </div>
+
+        <div class="security-box">
+          <div class="security-top-alert">
+            <div class="alert-badge-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </div>
+            <div>
+              <h3 class="alert-heading">Aturan Emas Mikologi: "When in Doubt, Never Ingest"</h3>
+              <p class="alert-subtext">
+                Prediksi Shroomy adalah instrumen riset dan studi edukasi, bukan jaminan mutlak untuk konsumsi bebas di alam liar.
+              </p>
+            </div>
+          </div>
+
+          <div class="security-content-grid">
+            <div class="security-point">
+              <div class="security-point-header">
+                <div class="security-point-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                </div>
+                <h4 class="security-point-title">Evaluasi Presisi &amp; Zero False Negative</h4>
+              </div>
+              <p class="security-point-desc">
+                False Negative (jamur beracun yang keliru diprediksi aman) adalah kesalahan yang berakibat fatal. Kombinasi model <strong>Support Vector Machine (SVM)</strong> dan <strong>Random Forest</strong> kami mencapai akurasi serta presisi <strong>100% (0 False Negative)</strong> pada data uji, didukung <strong>CNN MobileNetV2</strong> dengan presisi <strong>96.5%</strong> pada pemindaian visual.
+              </p>
+
+              <div class="zero-fn-highlight-card">
+                <span class="zero-fn-val">0</span>
+                <div class="zero-fn-copy">
+                  <h4>False Negatives Terdata</h4>
+                  <p>Model menolak meloloskan sampel beracun pada dataset uji validasi.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="security-point">
+              <div class="security-point-header">
+                <div class="security-point-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+                </div>
+                <h4 class="security-point-title">Batasan Lingkungan di Alam Nyata</h4>
+              </div>
+              <p class="security-point-desc">
+                Karakteristik fisik jamur liar dapat berubah akibat cuaca ekstrim, pembusukan alami, curah hujan tinggi yang mencuci spora atau memudarkan warna cincin. Oleh karena itu, verifikasi langsung oleh ahli mikologi bersertifikat tetap menjadi standar mutlak sebelum spesimen disentuh atau dikonsumsi.
+              </p>
+
+              <div class="zero-fn-highlight-card is-amber">
+                <span class="zero-fn-val">20</span>
+                <div class="zero-fn-copy">
+                  <h4>Ciri Wajib Lengkap</h4>
+                  <p>Tidak diperkenankan menyimpulkan kelayakan dari hanya 1 atau 2 ciri sepintas.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= DEVELOPER PROFILES (FLIP CARDS) ================= -->
+    <section class="team-section has-botanical-bg" id="team">
+      <div class="bg-botanical-layer" aria-hidden="true">
+        <!-- Symmetrical Botanical Green Arcs -->
+        <svg class="bg-botanical-curve bg-curve-team-top" viewBox="0 0 1440 320" fill="none" preserveAspectRatio="none">
+          <path class="bg-line-draw" pathLength="1" d="M-20 200 C 165 65, 340 45, 510 130 C 680 215, 760 215, 930 130 C 1100 45, 1275 65, 1460 200" stroke="#16A34A" stroke-width="2" stroke-opacity="0.2" stroke-linecap="round"/>
+          <path class="bg-line-draw bg-line-delay-1" pathLength="1" d="M-20 232 C 190 98, 355 78, 525 162 C 690 244, 750 244, 915 162 C 1085 78, 1250 98, 1460 232" stroke="#087F5B" stroke-width="1.3" stroke-opacity="0.15" stroke-linecap="round"/>
+        </svg>
+
+        <!-- Bottom-Left Wild Mushroom Cluster -->
+        <div class="bg-decor-item bg-decor-team-mush-bl">
+          <svg viewBox="0 0 190 190" fill="none">
+            <path d="M18 164 C 60 156, 130 156, 174 164" stroke="#087F5B" stroke-width="1.6" stroke-opacity="0.2" stroke-linecap="round"/>
+            <path d="M84 86 C 82 122, 80 142, 78 160 L 94 160 C 92 142, 90 122, 89 86 Z" fill="rgba(255,255,255,0.75)" stroke="#064E3B" stroke-width="1.7" stroke-opacity="0.26"/>
+            <path d="M44 88 C 46 40, 128 40, 130 88 C 112 94, 62 94, 44 88 Z" fill="rgba(22, 163, 74, 0.1)" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.28"/>
+            <path d="M126 118 C 125 138, 124 148, 122 160 L 132 160 C 130 148, 129 138, 128 118 Z" fill="rgba(255,255,255,0.75)" stroke="#087F5B" stroke-width="1.4" stroke-opacity="0.24"/>
+            <path d="M104 120 C 105 94, 150 94, 151 120 C 138 124, 117 124, 104 120 Z" fill="rgba(163, 230, 53, 0.14)" stroke="#16A34A" stroke-width="1.5" stroke-opacity="0.26"/>
+          </svg>
+        </div>
+
+        <!-- Upper-Right Fern Leaf Branch -->
+        <div class="bg-decor-item bg-decor-delay-1 bg-decor-team-leaf-tr">
+          <svg viewBox="0 0 180 180" fill="none">
+            <path d="M154 26 C 122 68, 84 106, 32 148" stroke="#087F5B" stroke-width="1.9" stroke-opacity="0.26" stroke-linecap="round"/>
+            <path d="M126 62 C 154 74, 158 106, 126 118 C 106 98, 108 78, 126 62 Z" fill="rgba(22, 163, 74, 0.09)" stroke="#16A34A" stroke-width="1.5" stroke-opacity="0.25"/>
+            <path d="M88 96 C 60 88, 52 58, 82 44 C 100 62, 98 82, 88 96 Z" fill="rgba(16, 185, 129, 0.09)" stroke="#087F5B" stroke-width="1.5" stroke-opacity="0.25"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Profil Tim Pengembang</span>
+          <h2 class="section-title">Get to Know Us!</h2>
+          <p class="section-desc">
+            Dikembangkan oleh Mahasiswa Teknologi Rekayasa Komputer Institut Pertanian Bogor<br>
+            Arahkan kursor atau ketuk kartu untuk melihat fokus kontribusi teknis masing-masing pengembang.
+          </p>
+        </div>
+
+        <div class="team-grid">
+          <!-- Flip Card 1 -->
+          <div class="dev-card-wrapper">
+            <div class="dev-flip-card" tabindex="0" role="region" aria-label="Profil Developer 1">
+              <!-- Front Face -->
+              <div class="dev-card-face dev-card-front">
+                <div class="dev-avatar-box">
+                  <img src="{{ url_for('static', filename='img/dev-faza.jpg') }}" alt="Foto Mohammad Faza Munsya'ari" class="dev-avatar-img">
+                </div>
+                <div class="dev-info-primary">
+                  <h3 class="dev-name">Mohammad Faza Munsya'ari</h3>
+                  <span class="dev-nim-tag">NIM J0404241169</span>
+                  <span class="dev-role-badge">Machine Learning Engineer</span>
+                  <div class="dev-specialty-tags">
+                    <span class="dev-specialty-pill">SVM &amp; Random Forest</span>
+                    <span class="dev-specialty-pill">CNN MobileNetV2</span>
+                    <span class="dev-specialty-pill">Model Evaluation</span>
+                  </div>
+                </div>
+                <span class="dev-flip-hint">
+                  <span>Putar untuk detail</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </span>
+              </div>
+              <!-- Back Face -->
+              <div class="dev-card-face dev-card-back">
+                <div class="dev-back-header">
+                  <span class="dev-back-title">Fokus & Tanggung Jawab</span>
+                  <span class="dev-back-tag">ML-01</span>
+                </div>
+                <div class="dev-back-body">
+                  <p class="dev-back-bio">
+                    Memimpin riset pemodelan algoritma Support Vector Machine (SVM), Random Forest, serta pelatihan model computer vision CNN arsitektur MobileNetV2.
+                  </p>
+                  <ul class="dev-back-responsibilities">
+                    <li>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      Training CNN MobileNetV2 (.pt) &amp; SVM/RF
+                    </li>
+                    <li>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      Serialisasi artefak model pipeline (.joblib &amp; .pt)
+                    </li>
+                    <li>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      Evaluasi akurasi, presisi, recall &amp; F1-Score
+                    </li>
+                  </ul>
+                </div>
+                <div class="dev-back-footer">
+                  <div class="dev-social-links">
+                    <a href="https://github.com/goosonk" target="_blank" rel="noopener" class="dev-social-btn" title="GitHub Mohammad Faza Munsya'ari">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/mohammad-faza-938107324/" target="_blank" rel="noopener" class="dev-social-btn" title="LinkedIn Mohammad Faza Munsya'ari">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                  </div>
+                  <span class="dev-flip-hint" style="color: var(--lime);">Kembali</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flip Card 2 -->
+          <div class="dev-card-wrapper">
+            <div class="dev-flip-card" tabindex="0" role="region" aria-label="Profil Developer 2">
+              <!-- Front Face -->
+              <div class="dev-card-face dev-card-front">
+                <div class="dev-avatar-box">
+                  <img src="{{ url_for('static', filename='img/dev-nailah.jpg') }}" alt="Foto Nailah Syarifah Sagala" class="dev-avatar-img">
+                </div>
+                <div class="dev-info-primary">
+                  <h3 class="dev-name">Nailah Syarifah Sagala</h3>
+                  <span class="dev-nim-tag">NIM J0404241082</span>
+                  <span class="dev-role-badge">Data Engineer & Preprocessing</span>
+                  <div class="dev-specialty-tags">
+                    <span class="dev-specialty-pill">One-Hot Encoding</span>
+                    <span class="dev-specialty-pill">UCI Dataset</span>
+                    <span class="dev-specialty-pill">Pandas Pipeline</span>
+                  </div>
+                </div>
+                <span class="dev-flip-hint">
+                  <span>Putar untuk detail</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </span>
+              </div>
+              <!-- Back Face -->
+              <div class="dev-card-face dev-card-back">
+                <div class="dev-back-header">
+                  <span class="dev-back-title">Fokus & Tanggung Jawab</span>
+                  <span class="dev-back-tag">DE-02</span>
+                </div>
+                <div class="dev-back-body">
+                  <p class="dev-back-bio">
+                    Bertanggung jawab atas pembersihan data, eliminasi outlier, rekayasa fitur One-Hot Encoding, dan penyusunan kamus kode botani 20 atribut morfologi jamur.
+                  </p>
+                  <ul class="dev-back-responsibilities">
+                    <li>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      Pembersihan 8.124 baris data UCI
+                    </li>
+                    <li>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      Penyusunan kamus feature_categories.joblib
+                    </li>
+                    <li>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      Validasi distribusi kelas (edible vs poisonous)
+                    </li>
+                  </ul>
+                </div>
+                <div class="dev-back-footer">
+                  <div class="dev-social-links">
+                    <a href="https://github.com/nailahss06" target="_blank" rel="noopener" class="dev-social-btn" title="GitHub Nailah Syarifah Sagala">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/nailahsagala?utm_source=share_via&amp;utm_content=profile&amp;utm_medium=member_ios" target="_blank" rel="noopener" class="dev-social-btn" title="LinkedIn Nailah Syarifah Sagala">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                  </div>
+                  <span class="dev-flip-hint" style="color: var(--lime);">Kembali</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flip Card 3 -->
+          <div class="dev-card-wrapper">
+            <div class="dev-flip-card" tabindex="0" role="region" aria-label="Profil Developer 3">
+              <!-- Front Face -->
+              <div class="dev-card-face dev-card-front">
+                <div class="dev-avatar-box">
+                  <img src="{{ url_for('static', filename='img/dev-fachry.jpg') }}" alt="Foto Fachryreza Andaris Albar" class="dev-avatar-img">
+                </div>
+                <div class="dev-info-primary">
+                  <h3 class="dev-name">Fachryreza Andaris Albar</h3>
+                  <span class="dev-nim-tag">NIM J0404241004</span>
+                  <span class="dev-role-badge">Full-Stack Web Architect</span>
+                  <div class="dev-specialty-tags">
+                    <span class="dev-specialty-pill">Flask REST API</span>
+                    <span class="dev-specialty-pill">Design System</span>
+                    <span class="dev-specialty-pill">Image Processing</span>
+                  </div>
+                </div>
+                <span class="dev-flip-hint">
+                  <span>Putar untuk detail</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </span>
+              </div>
+              <!-- Back Face -->
+              <div class="dev-card-face dev-card-back">
+                <div class="dev-back-header">
+                  <span class="dev-back-title">Fokus & Tanggung Jawab</span>
+                  <span class="dev-back-tag">FS-03</span>
+                </div>
+                <div class="dev-back-body">
+                  <p class="dev-back-bio">
+                    Merancang arsitektur antarmuka web modern Shroomy, REST API endpoint Flask (/api/info, /predict, /api/extract-color), dan optimasi performa serverless.
+                  </p>
+                  <ul class="dev-back-responsibilities">
+                    <li>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      Desain sistem visual & arsitektur CSS/JS
+                    </li>
+                    <li>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      Integrasi endpoint ekstraksi warna Pillow
+                    </li>
+                    <li>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      Konfigurasi deployment Vercel & testing
+                    </li>
+                  </ul>
+                </div>
+                <div class="dev-back-footer">
+                  <div class="dev-social-links">
+                    <a href="https://github.com/ryzarisbar" target="_blank" rel="noopener" class="dev-social-btn" title="GitHub Fachryreza Andaris Albar">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/fachryreza" target="_blank" rel="noopener" class="dev-social-btn" title="LinkedIn Fachryreza Andaris Albar">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                  </div>
+                  <span class="dev-flip-hint" style="color: var(--lime);">Kembali</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= SITE FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <!-- Col 1 -->
+        <div class="footer-brand">
+          <div class="footer-brand-header">
+            <img src="{{ url_for('static', filename='img/shroomy-logo-white.png') }}" alt="Shroomy Logo White" class="footer-brand-logo">
+            <span class="footer-brand-name">Shroomy</span>
+          </div>
+          <p class="footer-brand-desc">
+            Platform edukasi dan kecerdasan mikologi modern. Menggabungkan komputasi deterministik dengan rigoritas botani untuk pemahaman fungi yang lebih aman.
+          </p>
+          <div class="footer-academic-badge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A3E635" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span>PJBL Machine Learning 2026</span>
+          </div>
+        </div>
+
+        <!-- Col 2 -->
+        <div>
+          <h4 class="footer-col-title">Navigasi Halaman</h4>
+          <ul class="footer-links">
+            <li><a href="#hero">Beranda Utama</a></li>
+            <li><a href="#about">Tentang Shroomy</a></li>
+            <li><a href="#how-it-works">Metodologi Sains</a></li>
+            <li><a href="#capabilities">Kapabilitas Workspace</a></li>
+            <li><a href="#exploration">Eksplorasi Jamur</a></li>
+            <li><a href="#security">Protokol Keamanan</a></li>
+            <li><a href="#team">Profil Pengembang</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3 -->
+        <div>
+          <h4 class="footer-col-title">Zona Taksonomi</h4>
+          <ul class="footer-links">
+            <li><a href="#exploration">Morfologi Tudung & Memar</a></li>
+            <li><a href="#exploration">Struktur Insang & Batang</a></li>
+            <li><a href="#exploration">Cincin, Selubung & Spora</a></li>
+            <li><a href="#exploration">Spektroskopi Warna RGB</a></li>
+            <li><a href="#exploration">Analisis Aroma Alami</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4 -->
+        <div>
+          <h4 class="footer-col-title">Rigoritas Akademik</h4>
+          <ul class="footer-links">
+            <li><a href="https://archive.ics.uci.edu/dataset/73/mushroom" target="_blank" rel="noopener">UCI Mushroom Dataset ↗</a></li>
+            <li><a href="https://scikit-learn.org" target="_blank" rel="noopener">Scikit-Learn Machine Learning ↗</a></li>
+            <li><a href="https://github.com/goosonk/jamoor" target="_blank" rel="noopener">GitHub Repository ↗</a></li>
+            <li><a href="#security">Etika Observasi Lapangan</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 Shroomy · Kelompok 4 PJBL Machine Learning. Seluruh Hak Cipta Dilindungi.</span>
+        <span>Demo akademik berbasis riset sains. Bukan lisensi konsumsi jamur liar.</span>
+      </div>
     </div>
-</footer>
+  </footer>
 
-<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <!-- ================= ROOMIE WELCOME POPUP (CENTER) ================= -->
+  <div class="roomie-landing-welcome-backdrop" id="roomie-landing-welcome-backdrop" role="dialog" aria-modal="false" aria-label="Sambutan Roomie" aria-hidden="true">
+    <div class="roomie-landing-welcome-card" id="roomie-landing-welcome-card">
+      <button type="button" class="roomie-welcome-dismiss" id="roomie-welcome-dismiss" aria-label="Tutup sambutan Roomie">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
 
+      <div class="roomie-welcome-inner">
+        <div class="roomie-welcome-photo-stage">
+          <img src="{{ url_for('static', filename='img/roomie-mascot.png') }}" alt="Roomie Shroomy" class="roomie-welcome-photo">
+        </div>
+
+        <div class="roomie-welcome-copy">
+          <span class="roomie-welcome-label">Asisten Shroomy</span>
+          <h4 class="roomie-welcome-title">Halo! Selamat datang di Shroomy</h4>
+          <p class="roomie-welcome-desc">
+            Kenalkan, aku <strong>Roomie</strong>. Setelah ini aku akan berada di pojok kanan bawah untuk membantumu kapan saja seputar jamur, model Machine Learning, dan panduan website ini.
+          </p>
+          <div class="roomie-welcome-actions">
+            <button type="button" class="btn btn-primary roomie-welcome-cta" id="roomie-welcome-open-chat">
+              <span>Tanya Roomie</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+            <button type="button" class="roomie-welcome-btn-ghost" id="roomie-welcome-minimize">
+              Simpan di Pojok
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ROOMIE FAQ ASSISTANT (DOCKED BOTTOM-RIGHT) ================= -->
+  <div class="roomie-faq-agent" id="roomie-faq-agent" aria-live="polite">
+    <!-- Chat Window -->
+    <div class="roomie-faq-panel" id="roomie-faq-panel" role="dialog" aria-label="Tanya Roomie" aria-hidden="true">
+      <div class="roomie-faq-header">
+        <div class="roomie-faq-header-left">
+          <div class="roomie-faq-avatar-sm">
+            <img src="{{ url_for('static', filename='img/roomie-mascot.png') }}" alt="Roomie" class="roomie-avatar-img">
+            <span class="roomie-status-dot" aria-hidden="true"></span>
+          </div>
+          <div>
+            <h3 class="roomie-faq-name">Tanya Roomie</h3>
+            <span class="roomie-faq-status">Informasi Jamur, Model ML &amp; Website</span>
+          </div>
+        </div>
+        <div class="roomie-faq-header-actions">
+          <button type="button" class="roomie-faq-reset-btn" id="roomie-faq-reset" title="Mulai Ulang Percakapan" aria-label="Mulai Ulang Percakapan">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+          </button>
+          <button type="button" class="roomie-faq-close-btn" id="roomie-faq-close" aria-label="Tutup Panel Tanya Roomie">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="roomie-chat-messages" id="roomie-chat-messages">
+        <!-- Populated dynamically by main.js -->
+      </div>
+
+      <div class="roomie-quick-topics">
+        <span class="roomie-quick-label">Topik pertanyaan:</span>
+        <div class="roomie-quick-chips" id="roomie-quick-chips">
+          <button type="button" class="roomie-chip" data-question="Apa itu website Shroomy dan bagaimana cara kerjanya?">Tentang Shroomy</button>
+          <button type="button" class="roomie-chip" data-question="Apa saja model Machine Learning dan berapa akurasinya?">Model ML &amp; Akurasi</button>
+          <button type="button" class="roomie-chip" data-question="Bagaimana cara menggunakan 3 mode di halaman Workspace?">3 Mode Workspace</button>
+          <button type="button" class="roomie-chip" data-question="Apa ciri utama membedakan jamur aman vs jamur beracun?">Jamur Aman vs Beracun</button>
+          <button type="button" class="roomie-chip" data-question="Apa arti 0 False Negative pada keamanan Shroomy?">0 False Negative</button>
+          <button type="button" class="roomie-chip" data-question="Siapa saja anggota tim pengembang Shroomy?">Tim Pengembang</button>
+        </div>
+      </div>
+
+      <form class="roomie-chat-form" id="roomie-chat-form" autocomplete="off">
+        <input
+          type="text"
+          class="roomie-chat-input"
+          id="roomie-chat-input"
+          placeholder="Tulis pertanyaan seputar ML, jamur, atau Shroomy..."
+          aria-label="Ketik pertanyaan untuk Roomie"
+          maxlength="240"
+        >
+        <button type="submit" class="roomie-chat-send-btn" id="roomie-chat-send" aria-label="Kirim Pertanyaan">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        </button>
+      </form>
+    </div>
+
+    <!-- Bottom-Right Floating Launcher -->
+    <button type="button" class="roomie-faq-launcher" id="roomie-faq-launcher" aria-label="Buka Tanya Roomie" aria-expanded="false">
+      <div class="roomie-launcher-avatar">
+        <img src="{{ url_for('static', filename='img/roomie-mascot.png') }}" alt="Roomie" class="roomie-avatar-img">
+        <span class="roomie-status-dot" aria-hidden="true"></span>
+      </div>
+      <div class="roomie-launcher-text">
+        <span class="roomie-launcher-title">Tanya Roomie</span>
+        <span class="roomie-launcher-sub">Asisten FAQ 24/7</span>
+      </div>
+    </button>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

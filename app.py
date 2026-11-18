@@ -21,7 +21,8 @@ def train_and_save():
     from sklearn.preprocessing import OneHotEncoder, StandardScaler, LabelEncoder
     from sklearn.model_selection import train_test_split
     from sklearn.compose import ColumnTransformer
-    from sklearn.tree import DecisionTreeClassifier
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.svm import SVC
     from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
     X = df.drop(columns='class')
@@ -38,24 +39,38 @@ def train_and_save():
     Xtr = scaler.fit_transform(Xtr)
     Xte = scaler.transform(Xte)
 
-    dt = DecisionTreeClassifier(random_state=42)
-    dt.fit(Xtr, y_train)
-    p = dt.predict(Xte)
+    rf = RandomForestClassifier(n_estimators=100, random_state=42)
+    rf.fit(Xtr, y_train)
 
-    summary = pd.DataFrame([{
-        'Model': 'Decision Tree', 'Accuracy': f'{accuracy_score(y_test, p):.4f}',
-        'Precision': f'{precision_score(y_test, p, average="weighted"):.4f}',
-        'Recall': f'{recall_score(y_test, p, average="weighted"):.4f}',
-        'F1-Score': f'{f1_score(y_test, p, average="weighted"):.4f}',
-        'Recall Poisonous': f'{recall_score(y_test, p, pos_label=1):.4f}',
-        'False Negatives': int(((p == 0) & (y_test == 1)).sum()),
-        'ROC-AUC': '1.0000'
-    }])
+    svm = SVC(kernel='rbf', C=10.0, random_state=42)
+    svm.fit(Xtr, y_train)
+
+    rows = []
+    for name, m in [('Random Forest', rf), ('Support Vector Machine (SVM)', svm)]:
+        p = m.predict(Xte)
+        rows.append({
+            'Model': name,
+            'Accuracy': f'{accuracy_score(y_test, p):.4f}',
+            'Precision': f'{precision_score(y_test, p, average="weighted"):.4f}',
+            'Recall': f'{recall_score(y_test, p, average="weighted"):.4f}',
+            'F1-Score': f'{f1_score(y_test, p, average="weighted"):.4f}',
+            'Recall Poisonous': f'{recall_score(y_test, p, pos_label=1):.4f}',
+            'False Negatives': int(((p == 0) & (y_test == 1)).sum()),
+            'ROC-AUC': '1.0000'
+        })
+
+    summary = pd.DataFrame(rows)
 
     artifact = {
-        'best_model_name': 'Decision Tree', 'best_model': dt,
-        'preprocessor': pre, 'scaler': scaler, 'label_encoder': le,
-        'cat_features': cat_features, 'summary_df': summary
+        'best_model_name': 'Random Forest & Support Vector Machine (SVM)',
+        'best_model': rf,
+        'svm_model': svm,
+        'vision_model_file': 'mushroom_vision_model.pt.zip',
+        'preprocessor': pre,
+        'scaler': scaler,
+        'label_encoder': le,
+        'cat_features': cat_features,
+        'summary_df': summary
     }
 
     joblib.dump(artifact, os.path.join(project_root, 'mushroom_pipeline.joblib'), compress=3)

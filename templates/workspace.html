@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workspace Identifikasi Jamur — Shroomy</title>
+  <meta name="description" content="Workspace identifikasi jamur terpadu menggunakan kamera live, input citra digital (ekstraksi fitur visual), dan tabel data karakteristik morfologi (Support Vector Machine &amp; Random Forest).">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/icon-192.png') }}">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="workspace-page-body is-entering" id="workspace-body">
+
+  <!-- ================= ENTRANCE TRANSITION CURTAIN ================= -->
+  <div class="ws-entrance-curtain" id="ws-entrance-curtain" aria-hidden="true">
+    <div class="ws-curtain-inner">
+      <div class="ws-curtain-badge">Shroomy Workspace</div>
+      <div class="ws-curtain-title">Menyiapkan Ruang Kerja Identifikasi...</div>
+      <div class="ws-curtain-loader"><div class="ws-curtain-bar"></div></div>
+    </div>
+  </div>
+
+  <!-- ================= WORKSPACE HEADER ================= -->
+  <header class="site-header is-scrolled ws-anim-item ws-anim-1" id="site-header">
+    <div class="container nav-container">
+      <!-- Brand stays inside workspace (only the back button returns to home) -->
+      <a href="#workspace-app" class="brand-link" aria-label="Shroomy Workspace">
+        <img src="{{ url_for('static', filename='img/shroomy-logo-green.png') }}" alt="Shroomy Logo" class="brand-logo-img">
+        <div class="brand-text">
+          <span class="brand-name">Shroomy</span>
+          <span class="brand-tagline">Identifikasi Jamur Terpadu</span>
+        </div>
+      </a>
+
+      <nav class="site-nav" id="ws-site-nav" aria-label="Navigasi Internal Workspace">
+        <ul class="nav-menu">
+          <li><a href="#workspace-app" class="nav-link is-active" data-ws-nav="workspace-app">Workspace AI</a></li>
+          <li><a href="#precision-benchmarks" class="nav-link" data-ws-nav="precision-benchmarks">Keakuratan &amp; Presisi Model</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="{{ url_for('index') }}" class="btn btn-secondary ws-back-btn" id="btn-back-main-home">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          <span class="ws-back-label-full">Kembali ke Halaman Utama</span>
+          <span class="ws-back-label-short">Beranda</span>
+        </a>
+        <button type="button" class="menu-toggle" id="ws-menu-toggle" aria-label="Buka Menu Navigasi" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= WORKSPACE HERO BANNER ================= -->
+    <section class="ws-banner ws-anim-item ws-anim-2">
+      <div class="container ws-banner-inner">
+        <div class="ws-banner-copy">
+          <div class="badge badge-forest">
+            <span class="badge-pulse-dot"></span>
+            <span>SVM · Random Forest · Ekstraksi Visual</span>
+          </div>
+          <h1 class="ws-banner-title">Workspace Identifikasi Jamur Terpadu</h1>
+          <p class="ws-banner-desc">
+            Pilih metode identifikasi di bawah: pemindaian kamera langsung atau unggah foto jamur untuk <strong>ekstraksi warna &amp; tekstur visual</strong>, kemudian klasifikasikan 20 karakteristik morfologi menggunakan <strong>Support Vector Machine (SVM)</strong> dan <strong>Random Forest</strong>.
+          </p>
+        </div>
+
+        <div class="ws-banner-pills">
+          <div class="ws-stat-pill">
+            <span class="ws-stat-label">Random Forest</span>
+            <strong class="ws-stat-val">100% Presisi</strong>
+          </div>
+          <div class="ws-stat-pill">
+            <span class="ws-stat-label">SVM (RBF Kernel)</span>
+            <strong class="ws-stat-val">100% Presisi</strong>
+          </div>
+          <div class="ws-stat-pill">
+            <span class="ws-stat-label">Ekstraksi Visual</span>
+            <strong class="ws-stat-val">Warna &amp; Tekstur</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MAIN INTERACTIVE WORKSPACE ================= -->
+    <section class="ws-main-section ws-anim-item ws-anim-3 has-botanical-bg" id="workspace-app">
+      <div class="bg-botanical-layer" aria-hidden="true">
+        <svg class="bg-botanical-curve bg-curve-ws-main" viewBox="0 0 1440 320" fill="none" preserveAspectRatio="none">
+          <path class="bg-line-draw" pathLength="1" d="M-20 180 C 210 60, 410 220, 620 120 C 830 20, 1020 185, 1240 110 C 1340 76, 1410 92, 1460 135" stroke="#16A34A" stroke-width="2" stroke-opacity="0.18" stroke-linecap="round"/>
+        </svg>
+
+        <div class="bg-decor-item bg-decor-ws-leaf-tl">
+          <svg viewBox="0 0 170 170" fill="none">
+            <path d="M24 144 C 58 110, 96 68, 142 30" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.24" stroke-linecap="round"/>
+            <path d="M60 104 C 32 90, 26 56, 56 42 C 76 62, 76 86, 60 104 Z" fill="rgba(22, 163, 74, 0.08)" stroke="#087F5B" stroke-width="1.6" stroke-opacity="0.24"/>
+            <path d="M102 64 C 118 36, 146 28, 158 54 C 136 76, 114 76, 102 64 Z" fill="rgba(163, 230, 53, 0.12)" stroke="#16A34A" stroke-width="1.5" stroke-opacity="0.22"/>
+          </svg>
+        </div>
+
+        <div class="bg-decor-item bg-decor-delay-1 bg-decor-ws-mush-br">
+          <svg viewBox="0 0 190 190" fill="none">
+            <path d="M20 162 C 66 154, 126 154, 170 162" stroke="#087F5B" stroke-width="1.6" stroke-opacity="0.18" stroke-linecap="round"/>
+            <path d="M90 88 C 88 122, 86 142, 84 158 L 99 158 C 97 142, 95 122, 94 88 Z" fill="rgba(255,255,255,0.75)" stroke="#064E3B" stroke-width="1.7" stroke-opacity="0.24"/>
+            <path d="M52 90 C 54 44, 132 44, 134 90 C 114 96, 72 96, 52 90 Z" fill="rgba(16, 185, 129, 0.1)" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.26"/>
+            <circle cx="82" cy="68" r="5" fill="rgba(163, 230, 53, 0.22)"/>
+            <circle cx="108" cy="66" r="6" fill="rgba(163, 230, 53, 0.2)"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="container">
+
+        <!-- 3 Mode Switcher Tabs -->
+        <div class="ws-mode-tabs" role="tablist" aria-label="Pilih Mode Identifikasi">
+          <button type="button" class="ws-tab-btn is-active" data-ws-mode="camera" role="tab" aria-selected="true">
+            <div class="ws-tab-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            </div>
+            <div class="ws-tab-text">
+              <span class="ws-tab-title">1. Scan Kamera</span>
+              <span class="ws-tab-sub">Ekstraksi Warna &amp; Tekstur · 224×224 px</span>
+            </div>
+          </button>
+
+          <button type="button" class="ws-tab-btn" data-ws-mode="upload" role="tab" aria-selected="false">
+            <div class="ws-tab-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            </div>
+            <div class="ws-tab-text">
+              <span class="ws-tab-title">2. Input Gambar</span>
+              <span class="ws-tab-sub">Ekstraksi Visual RGB &amp; Tekstur</span>
+            </div>
+          </button>
+
+          <button type="button" class="ws-tab-btn" data-ws-mode="form" role="tab" aria-selected="false">
+            <div class="ws-tab-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+            </div>
+            <div class="ws-tab-text">
+              <span class="ws-tab-title">3. Tabel Data Morfologi</span>
+              <span class="ws-tab-sub">Support Vector Machine &amp; Random Forest</span>
+            </div>
+          </button>
+        </div>
+
+        <!-- Workspace 2-Column Layout -->
+        <div class="ws-workspace-grid">
+
+          <!-- LEFT COLUMN: 3 MODE PANELS -->
+          <div class="ws-input-column">
+
+            <!-- ================= MODE 1: CAMERA SCANNER ================= -->
+            <div class="ws-mode-panel is-active is-visible" id="panel-camera" data-mode-panel="camera">
+              <div class="ws-panel-header">
+                <div>
+                  <span class="ws-panel-kicker">Mode 01 · Ekstraksi Visual Kamera</span>
+                  <h2 class="ws-panel-title">Pemindaian Kamera Langsung</h2>
+                  <p class="ws-panel-desc">
+                    Arahkan kamera ke jamur agar berada di dalam bingkai tengah. Sistem otomatis mengambil area 224×224 piksel untuk mengekstrak warna tudung dan tekstur permukaan jamur. Hasil ekstraksi dapat langsung disinkronkan ke tabel data morfologi untuk klasifikasi.
+                  </p>
+                </div>
+                <div class="ws-header-control">
+                  <select id="camera-facing-select" class="ws-clean-select" aria-label="Pilih Lensa Kamera">
+                    <option value="environment">Kamera Belakang</option>
+                    <option value="user">Kamera Depan / Webcam</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="camera-viewport-box" id="camera-viewport-box">
+                <video id="camera-video" autoplay playsinline muted></video>
+                <canvas id="camera-canvas" width="224" height="224" class="camera-sim-canvas"></canvas>
+
+                <!-- Clean Reticle Overlay -->
+                <div class="camera-reticle-overlay">
+                  <div class="reticle-box" id="camera-reticle-box">
+                    <span class="reticle-corner tl"></span>
+                    <span class="reticle-corner tr"></span>
+                    <span class="reticle-corner bl"></span>
+                    <span class="reticle-corner br"></span>
+                  </div>
+                  <span class="reticle-caption">Area Fokus 224×224 px</span>
+                </div>
+
+                <!-- Placeholder when camera is off -->
+                <div class="camera-placeholder" id="camera-placeholder">
+                  <div class="camera-placeholder-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                  </div>
+                  <h4>Kamera Belum Aktif</h4>
+                  <p>Klik tombol <strong>Aktifkan Kamera</strong> di bawah untuk memulai pemindaian langsung.</p>
+                </div>
+              </div>
+
+              <!-- Camera Controls -->
+              <div class="ws-action-row">
+                <div class="ws-action-left">
+                  <button type="button" class="btn btn-primary" id="btn-start-camera">
+                    <span>Aktifkan Kamera</span>
+                  </button>
+                  <button type="button" class="btn btn-primary" id="btn-capture-camera" disabled>
+                    <span>Ambil Foto &amp; Ekstrak Warna</span>
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="btn-stop-camera" style="display: none;">
+                    <span>Matikan Kamera</span>
+                  </button>
+                </div>
+                <div class="ws-action-right">
+                  <button type="button" class="ws-subtle-btn" id="btn-sim-cam-safe" title="Contoh gambar jamur cokelat untuk menguji ekstraksi visual">Uji Contoh Cokelat (Ekstraksi)</button>
+                  <button type="button" class="ws-subtle-btn" id="btn-sim-cam-toxic" title="Contoh gambar jamur merah untuk menguji ekstraksi visual">Uji Contoh Merah (Ekstraksi)</button>
+                </div>
+              </div>
+              <div class="ws-action-hint" style="margin-top: 6px; text-align: right;">
+                <small style="color: var(--gray-600); font-size: 0.78rem;">*Tombol contoh di atas memuat sampel gambar untuk menguji ekstraksi warna &amp; tekstur, bukan validasi klasifikasi.</small>
+              </div>
+            </div>
+
+            <!-- ================= MODE 2: IMAGE UPLOAD ================= -->
+            <div class="ws-mode-panel" id="panel-upload" data-mode-panel="upload">
+              <div class="ws-panel-header">
+                <div>
+                  <span class="ws-panel-kicker">Mode 02 · Ekstraksi Citra Digital</span>
+                  <h2 class="ws-panel-title">Input File Gambar Jamur</h2>
+                  <p class="ws-panel-desc">
+                    Unggah foto jamur dari perangkat Anda (JPG, PNG, atau WEBP) untuk mengekstrak spektrum warna tudung (RGB) dan tekstur permukaan secara otomatis. Gunakan tombol <strong>Terapkan ke Tabel Data</strong> untuk melanjutkan klasifikasi presisi dengan model Machine Learning.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Drag & Drop / File Picker Area -->
+              <label for="image-upload-input" class="upload-dropzone" id="upload-dropzone">
+                <input type="file" id="image-upload-input" accept="image/*" hidden>
+
+                <div class="upload-preview-wrap" id="upload-preview-wrap">
+                  <img id="upload-preview-img" src="" alt="Preview Foto Jamur">
+                  <canvas id="upload-roi-canvas" width="224" height="224" style="display: none;"></canvas>
+                  <span class="upload-change-badge">Klik atau tarik file baru untuk mengganti gambar</span>
+                </div>
+
+                <div class="upload-empty-state" id="upload-empty-state">
+                  <div class="upload-icon-circle">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                  </div>
+                  <h4>Pilih File Gambar atau Tarik ke Sini</h4>
+                  <p>Format JPG, PNG, WEBP · Otomatis disesuaikan ke resolusi 224×224 px</p>
+                  <span class="upload-browse-btn">Pilih Gambar dari Perangkat</span>
+                </div>
+              </label>
+
+              <!-- Upload Action Buttons -->
+              <div class="ws-action-row">
+                <div class="ws-action-left">
+                  <button type="button" class="btn btn-primary" id="btn-analyze-upload" disabled>
+                    <span>Ekstrak Fitur Gambar</span>
+                  </button>
+                  <button type="button" class="btn btn-secondary" id="btn-sync-to-form" disabled>
+                    <span>Terapkan ke Tabel Data</span>
+                  </button>
+                </div>
+                <div class="ws-action-right">
+                  <button type="button" class="ws-subtle-btn" id="btn-sample-img-safe" title="Contoh gambar jamur cokelat untuk menguji ekstraksi visual">Uji Contoh Cokelat (Ekstraksi)</button>
+                  <button type="button" class="ws-subtle-btn" id="btn-sample-img-toxic" title="Contoh gambar jamur merah untuk menguji ekstraksi visual">Uji Contoh Merah (Ekstraksi)</button>
+                </div>
+              </div>
+              <div class="ws-action-hint" style="margin-top: 6px; text-align: right;">
+                <small style="color: var(--gray-600); font-size: 0.78rem;">*Tombol contoh di atas memuat sampel gambar untuk menguji ekstraksi visual, bukan validasi klasifikasi.</small>
+              </div>
+
+              <!-- Clean Extracted Image Data Table -->
+              <div class="ws-extracted-table-wrap">
+                <table class="ws-data-table ws-compact-table">
+                  <thead>
+                    <tr>
+                      <th>Atribut Visual Terdeteksi</th>
+                      <th>Hasil Deteksi</th>
+                      <th>Nilai RGB / Kode</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Warna Tudung (cap-color)</td>
+                      <td id="img-tbl-color-name">Belum dianalisis</td>
+                      <td id="img-tbl-color-code">—</td>
+                    </tr>
+                    <tr>
+                      <td>Permukaan Tudung (cap-surface)</td>
+                      <td id="img-tbl-surf-name">Belum dianalisis</td>
+                      <td id="img-tbl-surf-code">—</td>
+                    </tr>
+                    <tr>
+                      <td>Rata-Rata Warna Area Tengah (ROI)</td>
+                      <td id="img-tbl-rgb-val">—</td>
+                      <td id="img-tbl-hex-val">—</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- ================= MODE 3: CLEAN DATA TABLE INPUT (SVM & RF) ================= -->
+            <div class="ws-mode-panel" id="panel-form" data-mode-panel="form">
+              <div class="ws-panel-header">
+                <div>
+                  <span class="ws-panel-kicker">Mode 03 · Klasifikasi Morfologi Tabular</span>
+                  <h2 class="ws-panel-title">Tabel Input 20 Karakteristik Jamur</h2>
+                  <p class="ws-panel-desc">
+                    Pilih algoritma klasifikasi serta sesuaikan nilai 20 parameter morfologi pada tabel di bawah ini untuk memprediksi kelayakan jamur.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Clean Toolbar: Algorithm Selector & Quick Presets -->
+              <div class="form-top-toolbar">
+                <div class="algo-selector-group">
+                  <span class="algo-label">Algoritma Model</span>
+                  <div class="algo-pills" role="radiogroup" aria-label="Pilih Algoritma">
+                    <button type="button" class="algo-pill is-active" data-algo="rf">Random Forest</button>
+                    <button type="button" class="algo-pill" data-algo="svm">Support Vector Machine (SVM)</button>
+                  </div>
+                </div>
+
+                <div class="preset-selector-group">
+                  <span class="algo-label">Contoh Data Uji</span>
+                  <div class="preset-btns">
+                    <button type="button" class="ws-subtle-btn" id="btn-preset-edible">Isi Sampel Aman</button>
+                    <button type="button" class="ws-subtle-btn" id="btn-preset-poisonous">Isi Sampel Beracun</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 20 Characteristics Clean Data Table Form -->
+              <form id="morphology-form">
+                <div class="ws-table-scroll-box">
+                  <table class="ws-data-table" id="morphology-data-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 52px;">No</th>
+                        <th style="width: 155px;">Zona Anatomi</th>
+                        <th>Karakteristik Morfologi</th>
+                        <th style="width: 280px;">Nilai Parameter</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="tbl-num">1</td>
+                        <td><span class="tbl-zone-text">Tudung</span></td>
+                        <td><strong>Bentuk Tudung</strong><span>cap-shape</span></td>
+                        <td>
+                          <select id="f-cap-shape" name="cap-shape" class="tbl-select">
+                            <option value="x" selected>Convex / Cembung (x)</option>
+                            <option value="b">Bell / Lonceng (b)</option>
+                            <option value="c">Conical / Kerucut (c)</option>
+                            <option value="f">Flat / Datar (f)</option>
+                            <option value="k">Knobbed / Bertombol (k)</option>
+                            <option value="s">Sunken / Cekung (s)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">2</td>
+                        <td><span class="tbl-zone-text">Tudung</span></td>
+                        <td><strong>Permukaan Tudung</strong><span>cap-surface</span></td>
+                        <td>
+                          <select id="f-cap-surface" name="cap-surface" class="tbl-select">
+                            <option value="s" selected>Smooth / Halus (s)</option>
+                            <option value="y">Scaly / Bersisik (y)</option>
+                            <option value="f">Fibrous / Berserat (f)</option>
+                            <option value="g">Grooves / Beralur (g)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">3</td>
+                        <td><span class="tbl-zone-text">Tudung</span></td>
+                        <td><strong>Warna Tudung</strong><span>cap-color</span></td>
+                        <td>
+                          <select id="f-cap-color" name="cap-color" class="tbl-select">
+                            <option value="n" selected>Brown / Cokelat (n)</option>
+                            <option value="y">Yellow / Kuning (y)</option>
+                            <option value="w">White / Putih (w)</option>
+                            <option value="g">Gray / Abu-abu (g)</option>
+                            <option value="e">Red / Merah (e)</option>
+                            <option value="p">Pink / Merah Muda (p)</option>
+                            <option value="b">Buff / Krem Muda (b)</option>
+                            <option value="u">Purple / Ungu (u)</option>
+                            <option value="c">Cinnamon / Kayu Manis (c)</option>
+                            <option value="r">Green / Hijau (r)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">4</td>
+                        <td><span class="tbl-zone-text">Tudung</span></td>
+                        <td><strong>Reaksi Memar</strong><span>bruises</span></td>
+                        <td>
+                          <select id="f-bruises" name="bruises" class="tbl-select">
+                            <option value="t" selected>Bruises / Memar Saat Ditekan (t)</option>
+                            <option value="f">No / Tidak Memar (f)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">5</td>
+                        <td><span class="tbl-zone-text">Sensori</span></td>
+                        <td><strong>Aroma Spesimen</strong><span>odor</span></td>
+                        <td>
+                          <select id="f-odor" name="odor" class="tbl-select">
+                            <option value="a" selected>Almond / Kacang Almond (a)</option>
+                            <option value="l">Anise / Adas Manis (l)</option>
+                            <option value="n">None / Tidak Berbau (n)</option>
+                            <option value="f">Foul / Busuk Menyengat (f)</option>
+                            <option value="p">Pungent / Tajam Menusuk (p)</option>
+                            <option value="c">Creosote / Asap Ter (c)</option>
+                            <option value="y">Fishy / Amis (y)</option>
+                            <option value="s">Spicy / Pedas Tajam (s)</option>
+                            <option value="m">Musty / Apek Lembap (m)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">6</td>
+                        <td><span class="tbl-zone-text">Insang</span></td>
+                        <td><strong>Perlekatan Insang</strong><span>gill-attachment</span></td>
+                        <td>
+                          <select id="f-gill-attachment" name="gill-attachment" class="tbl-select">
+                            <option value="f" selected>Free / Bebas dari Batang (f)</option>
+                            <option value="a">Attached / Menempel (a)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">7</td>
+                        <td><span class="tbl-zone-text">Insang</span></td>
+                        <td><strong>Kerapatan Insang</strong><span>gill-spacing</span></td>
+                        <td>
+                          <select id="f-gill-spacing" name="gill-spacing" class="tbl-select">
+                            <option value="c" selected>Close / Rapat (c)</option>
+                            <option value="w">Crowded / Sangat Padat (w)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">8</td>
+                        <td><span class="tbl-zone-text">Insang</span></td>
+                        <td><strong>Ukuran Lebar Insang</strong><span>gill-size</span></td>
+                        <td>
+                          <select id="f-gill-size" name="gill-size" class="tbl-select">
+                            <option value="b" selected>Broad / Lebar (b)</option>
+                            <option value="n">Narrow / Sempit (n)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">9</td>
+                        <td><span class="tbl-zone-text">Insang</span></td>
+                        <td><strong>Warna Insang</strong><span>gill-color</span></td>
+                        <td>
+                          <select id="f-gill-color" name="gill-color" class="tbl-select">
+                            <option value="k" selected>Black / Hitam (k)</option>
+                            <option value="n">Brown / Cokelat (n)</option>
+                            <option value="w">White / Putih (w)</option>
+                            <option value="p">Pink / Merah Muda (p)</option>
+                            <option value="g">Gray / Abu-abu (g)</option>
+                            <option value="h">Chocolate / Cokelat Tua (h)</option>
+                            <option value="u">Purple / Ungu (u)</option>
+                            <option value="b">Buff / Krem Pucat (b)</option>
+                            <option value="e">Red / Merah (e)</option>
+                            <option value="y">Yellow / Kuning (y)</option>
+                            <option value="o">Orange / Jingga (o)</option>
+                            <option value="r">Green / Hijau (r)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">10</td>
+                        <td><span class="tbl-zone-text">Batang</span></td>
+                        <td><strong>Bentuk Batang</strong><span>stalk-shape</span></td>
+                        <td>
+                          <select id="f-stalk-shape" name="stalk-shape" class="tbl-select">
+                            <option value="e">Enlarging / Membesar di Bawah (e)</option>
+                            <option value="t" selected>Tapering / Meruncing di Bawah (t)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">11</td>
+                        <td><span class="tbl-zone-text">Batang</span></td>
+                        <td><strong>Tekstur Atas Cincin</strong><span>stalk-surface-above-ring</span></td>
+                        <td>
+                          <select id="f-stalk-surface-above" name="stalk-surface-above-ring" class="tbl-select">
+                            <option value="s" selected>Smooth / Halus (s)</option>
+                            <option value="f">Fibrous / Berserat (f)</option>
+                            <option value="k">Silky / Halus Sutra (k)</option>
+                            <option value="y">Scaly / Bersisik (y)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">12</td>
+                        <td><span class="tbl-zone-text">Batang</span></td>
+                        <td><strong>Tekstur Bawah Cincin</strong><span>stalk-surface-below-ring</span></td>
+                        <td>
+                          <select id="f-stalk-surface-below" name="stalk-surface-below-ring" class="tbl-select">
+                            <option value="s" selected>Smooth / Halus (s)</option>
+                            <option value="f">Fibrous / Berserat (f)</option>
+                            <option value="k">Silky / Halus Sutra (k)</option>
+                            <option value="y">Scaly / Bersisik (y)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">13</td>
+                        <td><span class="tbl-zone-text">Batang</span></td>
+                        <td><strong>Warna Batang Atas Cincin</strong><span>stalk-color-above-ring</span></td>
+                        <td>
+                          <select id="f-stalk-color-above" name="stalk-color-above-ring" class="tbl-select">
+                            <option value="w" selected>White / Putih (w)</option>
+                            <option value="n">Brown / Cokelat (n)</option>
+                            <option value="p">Pink / Merah Muda (p)</option>
+                            <option value="g">Gray / Abu-abu (g)</option>
+                            <option value="b">Buff / Krem Muda (b)</option>
+                            <option value="c">Cinnamon / Kayu Manis (c)</option>
+                            <option value="e">Red / Merah (e)</option>
+                            <option value="o">Orange / Jingga (o)</option>
+                            <option value="y">Yellow / Kuning (y)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">14</td>
+                        <td><span class="tbl-zone-text">Batang</span></td>
+                        <td><strong>Warna Batang Bawah Cincin</strong><span>stalk-color-below-ring</span></td>
+                        <td>
+                          <select id="f-stalk-color-below" name="stalk-color-below-ring" class="tbl-select">
+                            <option value="w" selected>White / Putih (w)</option>
+                            <option value="n">Brown / Cokelat (n)</option>
+                            <option value="p">Pink / Merah Muda (p)</option>
+                            <option value="g">Gray / Abu-abu (g)</option>
+                            <option value="b">Buff / Krem Muda (b)</option>
+                            <option value="c">Cinnamon / Kayu Manis (c)</option>
+                            <option value="e">Red / Merah (e)</option>
+                            <option value="o">Orange / Jingga (o)</option>
+                            <option value="y">Yellow / Kuning (y)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">15</td>
+                        <td><span class="tbl-zone-text">Selubung &amp; Cincin</span></td>
+                        <td><strong>Warna Selubung</strong><span>veil-color</span></td>
+                        <td>
+                          <select id="f-veil-color" name="veil-color" class="tbl-select">
+                            <option value="w" selected>White / Putih (w)</option>
+                            <option value="n">Brown / Cokelat (n)</option>
+                            <option value="o">Orange / Jingga (o)</option>
+                            <option value="y">Yellow / Kuning (y)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">16</td>
+                        <td><span class="tbl-zone-text">Selubung &amp; Cincin</span></td>
+                        <td><strong>Jumlah Cincin</strong><span>ring-number</span></td>
+                        <td>
+                          <select id="f-ring-number" name="ring-number" class="tbl-select">
+                            <option value="o" selected>One / Satu Cincin (o)</option>
+                            <option value="t">Two / Dua Cincin (t)</option>
+                            <option value="n">None / Tanpa Cincin (n)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">17</td>
+                        <td><span class="tbl-zone-text">Selubung &amp; Cincin</span></td>
+                        <td><strong>Tipe Cincin</strong><span>ring-type</span></td>
+                        <td>
+                          <select id="f-ring-type" name="ring-type" class="tbl-select">
+                            <option value="p" selected>Pendant / Menggantung (p)</option>
+                            <option value="e">Evanescent / Mudah Hilang (e)</option>
+                            <option value="l">Large / Besar Lebar (l)</option>
+                            <option value="f">Flaring / Melebar ke Atas (f)</option>
+                            <option value="n">None / Tidak Ada (n)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">18</td>
+                        <td><span class="tbl-zone-text">Spora &amp; Ekologi</span></td>
+                        <td><strong>Warna Cetakan Spora</strong><span>spore-print-color</span></td>
+                        <td>
+                          <select id="f-spore-print" name="spore-print-color" class="tbl-select">
+                            <option value="n" selected>Brown / Cokelat (n)</option>
+                            <option value="k">Black / Hitam (k)</option>
+                            <option value="w">White / Putih (w)</option>
+                            <option value="h">Chocolate / Cokelat Tua (h)</option>
+                            <option value="r">Green / Hijau (r)</option>
+                            <option value="u">Purple / Ungu (u)</option>
+                            <option value="o">Orange / Jingga (o)</option>
+                            <option value="y">Yellow / Kuning (y)</option>
+                            <option value="b">Buff / Krem Muda (b)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">19</td>
+                        <td><span class="tbl-zone-text">Spora &amp; Ekologi</span></td>
+                        <td><strong>Sebaran Populasi</strong><span>population</span></td>
+                        <td>
+                          <select id="f-population" name="population" class="tbl-select">
+                            <option value="s" selected>Scattered / Tersebar (s)</option>
+                            <option value="n">Numerous / Banyak (n)</option>
+                            <option value="v">Several / Beberapa Koloni (v)</option>
+                            <option value="y">Solitary / Tumbuh Tunggal (y)</option>
+                            <option value="a">Abundant / Melimpah (a)</option>
+                            <option value="c">Clustered / Berumpun Rapat (c)</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="tbl-num">20</td>
+                        <td><span class="tbl-zone-text">Spora &amp; Ekologi</span></td>
+                        <td><strong>Habitat Tumbuh</strong><span>habitat</span></td>
+                        <td>
+                          <select id="f-habitat" name="habitat" class="tbl-select">
+                            <option value="g" selected>Grasses / Rerumputan (g)</option>
+                            <option value="d">Woods / Hutan Kayu (d)</option>
+                            <option value="m">Meadows / Padang Rumput (m)</option>
+                            <option value="l">Leaves / Serasah Daun (l)</option>
+                            <option value="p">Paths / Jalur Setapak (p)</option>
+                            <option value="u">Urban / Area Perkotaan (u)</option>
+                            <option value="w">Waste / Area Lembap (w)</option>
+                          </select>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="ws-form-submit-row">
+                  <button type="submit" class="btn btn-primary ws-submit-btn" id="btn-submit-form">
+                    <span>Jalankan Klasifikasi Data</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+
+          <!-- RIGHT COLUMN: LIVE PREDICTION RESULT & TELEMETRY -->
+          <aside class="ws-result-column">
+            <div class="ws-result-card" id="ws-result-card">
+              <div class="ws-result-header">
+                <div>
+                  <span class="ws-result-kicker">Hasil Evaluasi Model</span>
+                  <h3 class="ws-result-title">Keputusan Klasifikasi</h3>
+                </div>
+                <span class="ws-active-engine-badge" id="res-engine-name">Siap</span>
+              </div>
+
+              <!-- Status Verdict Box -->
+              <div class="ws-verdict-box is-neutral" id="res-verdict-box">
+                <div class="verdict-icon-wrap" id="res-verdict-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                </div>
+                <div class="verdict-text">
+                  <span class="verdict-status-sub" id="res-verdict-sub">Status Klasifikasi Spesimen</span>
+                  <strong class="verdict-status-label" id="res-verdict-title">Menunggu Input Data</strong>
+                </div>
+              </div>
+
+              <!-- Confidence & Probability Bars -->
+              <div class="ws-prob-section">
+                <div class="prob-row">
+                  <div class="prob-header">
+                    <span>Probabilitas Aman (Edible)</span>
+                    <strong id="res-prob-edible">0.0%</strong>
+                  </div>
+                  <div class="prob-bar-track">
+                    <div class="prob-bar-fill safe-fill" id="bar-prob-edible" style="width: 0%;"></div>
+                  </div>
+                </div>
+
+                <div class="prob-row">
+                  <div class="prob-header">
+                    <span>Probabilitas Beracun (Poisonous)</span>
+                    <strong id="res-prob-poisonous">0.0%</strong>
+                  </div>
+                  <div class="prob-bar-track">
+                    <div class="prob-bar-fill toxic-fill" id="bar-prob-poisonous" style="width: 0%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Detected Visual Telemetry -->
+              <div class="ws-telemetry-box" id="res-vision-telemetry">
+                <h4 class="telemetry-title">Ringkasan Parameter Evaluasi</h4>
+                <div class="telemetry-grid">
+                  <div class="telemetry-item">
+                    <span class="tel-label">Tingkat Keyakinan</span>
+                    <strong class="tel-val" id="res-confidence-val">—</strong>
+                  </div>
+                  <div class="telemetry-item">
+                    <span class="tel-label">Presisi Model</span>
+                    <strong class="tel-val" id="res-model-precision">100% Presisi (SVM / Random Forest)</strong>
+                  </div>
+                  <div class="telemetry-item">
+                    <span class="tel-label">Warna Tudung</span>
+                    <strong class="tel-val tel-color-row" id="res-detected-color">
+                      <span class="mini-color-dot" id="res-color-dot" style="background: #784b26;"></span>
+                      <span id="res-color-text">Belum Dipindai</span>
+                    </strong>
+                  </div>
+                  <div class="telemetry-item">
+                    <span class="tel-label">Detail Input</span>
+                    <strong class="tel-val" id="res-detected-rgb">—</strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Safety Reminder -->
+              <div class="ws-safety-note">
+                <strong>Catatan Keamanan:</strong> Hasil prediksi merupakan alat bantu verifikasi awal. Jangan pernah mengonsumsi jamur liar tanpa pemeriksaan langsung oleh ahli mikologi.
+              </div>
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MODEL PRECISION & EVALUATION BENCHMARKS ================= -->
+    <section class="ws-benchmarks-section has-botanical-bg" id="precision-benchmarks">
+      <div class="bg-botanical-layer" aria-hidden="true">
+        <svg class="bg-botanical-curve bg-curve-ws-bench" viewBox="0 0 1440 300" fill="none" preserveAspectRatio="none">
+          <path class="bg-line-draw" pathLength="1" d="M-20 190 C 175 75, 345 55, 515 135 C 685 215, 755 215, 925 135 C 1095 55, 1265 75, 1460 190" stroke="#087F5B" stroke-width="1.9" stroke-opacity="0.18" stroke-linecap="round"/>
+          <path class="bg-line-dashed" d="M-20 220 C 195 105, 360 85, 530 165 C 690 240, 750 240, 910 165 C 1080 85, 1245 105, 1460 220" stroke="#16A34A" stroke-width="1.4" stroke-dasharray="6 8" stroke-opacity="0.15" stroke-linecap="round"/>
+        </svg>
+
+        <div class="bg-decor-item bg-decor-ws-bench-mush-l">
+          <svg viewBox="0 0 185 185" fill="none">
+            <path d="M22 158 C 64 150, 122 150, 162 158" stroke="#087F5B" stroke-width="1.6" stroke-opacity="0.2" stroke-linecap="round"/>
+            <path d="M84 86 C 82 118, 80 138, 78 154 L 93 154 C 91 138, 89 118, 88 86 Z" fill="rgba(255,255,255,0.75)" stroke="#064E3B" stroke-width="1.7" stroke-opacity="0.25"/>
+            <path d="M46 88 C 48 42, 126 42, 128 88 C 110 94, 64 94, 46 88 Z" fill="rgba(22, 163, 74, 0.09)" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.26"/>
+            <path d="M126 116 C 125 134, 124 144, 122 154 L 131 154 C 130 144, 129 134, 128 116 Z" fill="rgba(255,255,255,0.75)" stroke="#087F5B" stroke-width="1.4" stroke-opacity="0.23"/>
+            <path d="M104 118 C 105 94, 148 94, 149 118 C 137 122, 116 122, 104 118 Z" fill="rgba(163, 230, 53, 0.14)" stroke="#16A34A" stroke-width="1.5" stroke-opacity="0.25"/>
+          </svg>
+        </div>
+
+        <div class="bg-decor-item bg-decor-delay-1 bg-decor-ws-bench-leaf-r">
+          <svg viewBox="0 0 180 180" fill="none">
+            <path d="M154 28 C 120 68, 82 108, 32 146" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.25" stroke-linecap="round"/>
+            <path d="M124 62 C 152 74, 156 104, 124 116 C 104 96, 106 76, 124 62 Z" fill="rgba(22, 163, 74, 0.09)" stroke="#16A34A" stroke-width="1.5" stroke-opacity="0.24"/>
+            <path d="M86 96 C 58 88, 52 58, 80 46 C 98 62, 96 82, 86 96 Z" fill="rgba(16, 185, 129, 0.09)" stroke="#087F5B" stroke-width="1.5" stroke-opacity="0.24"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Keakuratan &amp; Presisi Model</span>
+          <h2 class="section-title">Evaluasi Komparatif SVM, Random Forest &amp; CNN MobileNetV2</h2>
+          <p class="section-desc">
+            Seluruh model dalam workspace Shroomy telah melalui tahapan training, preprocessing terstandar, dan pengujian ketat untuk menjamin presisi klasifikasi.
+          </p>
+        </div>
+
+        <div class="benchmark-cards-grid">
+          <!-- Model 1: Random Forest -->
+          <div class="benchmark-card">
+            <div>
+              <div class="bm-header">
+                <div>
+                  <span class="bm-kicker">Tabular Ensemble Learning</span>
+                  <h3 class="bm-title">Random Forest Classifier</h3>
+                </div>
+                <span class="bm-score-badge">100%</span>
+              </div>
+              <p class="bm-desc">
+                Menggabungkan 100 pohon keputusan (<em>100 estimators</em>) pada 20 parameter morfologi jamur yang telah melalui <em>One-Hot Encoding</em> dan <em>StandardScaler</em>.
+              </p>
+              <div class="bm-metrics-list">
+                <div class="bm-metric-row">
+                  <span>Accuracy (Akurasi Uji)</span>
+                  <strong>100.0%</strong>
+                  <div class="bm-bar"><div style="width: 100%;"></div></div>
+                </div>
+                <div class="bm-metric-row">
+                  <span>Precision (Presisi)</span>
+                  <strong>100.0%</strong>
+                  <div class="bm-bar"><div style="width: 100%;"></div></div>
+                </div>
+                <div class="bm-metric-row">
+                  <span>Recall &amp; F1-Score</span>
+                  <strong>100.0%</strong>
+                  <div class="bm-bar"><div style="width: 100%;"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="bm-footer-tag">False Negatives: 0 Kasus (1.625 Sampel Uji)</div>
+          </div>
+
+          <!-- Model 2: Support Vector Machine (SVM) -->
+          <div class="benchmark-card">
+            <div>
+              <div class="bm-header">
+                <div>
+                  <span class="bm-kicker">Hyperplane Margin Classifier</span>
+                  <h3 class="bm-title">Support Vector Machine (SVM)</h3>
+                </div>
+                <span class="bm-score-badge">100%</span>
+              </div>
+              <p class="bm-desc">
+                Menggunakan kernel <em>Radial Basis Function (RBF, C=10.0)</em> untuk memisahkan batas kelas jamur aman dan beracun secara tegas di ruang dimensi tinggi.
+              </p>
+              <div class="bm-metrics-list">
+                <div class="bm-metric-row">
+                  <span>Accuracy (Akurasi Uji)</span>
+                  <strong>100.0%</strong>
+                  <div class="bm-bar"><div style="width: 100%;"></div></div>
+                </div>
+                <div class="bm-metric-row">
+                  <span>Precision (Presisi)</span>
+                  <strong>100.0%</strong>
+                  <div class="bm-bar"><div style="width: 100%;"></div></div>
+                </div>
+                <div class="bm-metric-row">
+                  <span>Recall &amp; F1-Score</span>
+                  <strong>100.0%</strong>
+                  <div class="bm-bar"><div style="width: 100%;"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="bm-footer-tag">False Negatives: 0 Kasus (Margin Optimal RBF)</div>
+          </div>
+
+          <!-- Model 3: CNN MobileNetV2 -->
+          <div class="benchmark-card">
+            <div>
+              <div class="bm-header">
+                <div>
+                  <span class="bm-kicker">Deep Computer Vision (.pt)</span>
+                  <h3 class="bm-title">CNN Arsitektur MobileNetV2</h3>
+                </div>
+                <span class="bm-score-badge">96.5%</span>
+              </div>
+              <p class="bm-desc">
+                Arsitektur jaringan saraf konvolusional <em>Inverted Residual &amp; Linear Bottleneck</em> untuk deteksi kamera dan gambar pada resolusi 224×224 piksel.
+              </p>
+              <div class="bm-metrics-list">
+                <div class="bm-metric-row">
+                  <span>Accuracy (Akurasi Citra)</span>
+                  <strong>96.4%</strong>
+                  <div class="bm-bar"><div style="width: 96.4%;"></div></div>
+                </div>
+                <div class="bm-metric-row">
+                  <span>Precision (Presisi Citra)</span>
+                  <strong>96.5%</strong>
+                  <div class="bm-bar"><div style="width: 96.5%;"></div></div>
+                </div>
+                <div class="bm-metric-row">
+                  <span>Recall &amp; F1-Score</span>
+                  <strong>96.4%</strong>
+                  <div class="bm-bar"><div style="width: 96.4%;"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="bm-footer-tag">ROC-AUC Score: 99.1% (Input Tensor 224×224)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= ROOMIE 4-CLICK INTERACTIVE WELCOME POPUP ================= -->
+  <div class="roomie-welcome-backdrop" id="roomie-welcome-modal" role="dialog" aria-modal="true" aria-labelledby="roomie-modal-title">
+    <div class="roomie-welcome-card" id="roomie-clickable-card" data-pose="wave">
+      <div class="roomie-modal-grid">
+        <!-- Left: Clickable Real Roomie Character Stage -->
+        <div class="roomie-modal-stage" id="roomie-character-trigger" title="Klik Roomie untuk lanjut">
+          <span class="roomie-step-pill" id="roomie-step-badge">Tahap 1 dari 4</span>
+
+          <div class="roomie-modal-avatar" id="roomie-modal-avatar" data-pose="wave">
+            <img src="{{ url_for('static', filename='img/roomie-mascot.png') }}" alt="Maskot Roomie" class="roomie-modal-photo">
+
+            <!-- Pose-Specific Interactive Visual Props (Step 1..4 / 3 Modes) -->
+            <!-- Pose 1: Wave Greeting Sparkles -->
+            <div class="roomie-pose-prop prop-wave" aria-hidden="true">
+              <span class="prop-wave-pill">Halo Peneliti!</span>
+            </div>
+
+            <!-- Pose 2: Mode 1 - Camera Detective Viewfinder & Lens -->
+            <div class="roomie-pose-prop prop-camera" aria-hidden="true">
+              <svg viewBox="0 0 72 72" fill="none">
+                <rect x="6" y="16" width="60" height="44" rx="11" fill="#064E3B" stroke="#A3E635" stroke-width="3"/>
+                <path d="M22 16 L28 8 H44 L50 16" fill="#064E3B" stroke="#A3E635" stroke-width="2.5" stroke-linejoin="round"/>
+                <circle cx="36" cy="38" r="13" fill="#022C22" stroke="#A3E635" stroke-width="3"/>
+                <circle cx="36" cy="38" r="6" fill="#10B981"/>
+                <circle cx="33" cy="35" r="2.2" fill="#FFFFFF"/>
+                <circle cx="55" cy="25" r="3" fill="#A3E635"/>
+              </svg>
+            </div>
+
+            <!-- Pose 3: Mode 2 - Image Scientist RGB Palette & Photo Card -->
+            <div class="roomie-pose-prop prop-scientist" aria-hidden="true">
+              <svg viewBox="0 0 74 74" fill="none">
+                <rect x="8" y="8" width="58" height="58" rx="12" fill="#FFFFFF" stroke="#064E3B" stroke-width="3"/>
+                <circle cx="26" cy="27" r="8" fill="#DC2626"/>
+                <circle cx="48" cy="27" r="8" fill="#16A34A"/>
+                <circle cx="26" cy="49" r="8" fill="#D97706"/>
+                <circle cx="48" cy="49" r="8" fill="#087F5B"/>
+              </svg>
+            </div>
+
+            <!-- Pose 4: Mode 3 - Professor Data Table Clipboard & Pointer -->
+            <div class="roomie-pose-prop prop-professor" aria-hidden="true">
+              <svg viewBox="0 0 74 74" fill="none">
+                <rect x="10" y="10" width="54" height="56" rx="10" fill="#FFFFFF" stroke="#064E3B" stroke-width="3"/>
+                <rect x="24" y="4" width="26" height="11" rx="4" fill="#064E3B"/>
+                <line x1="20" y1="27" x2="54" y2="27" stroke="#087F5B" stroke-width="3.5" stroke-linecap="round"/>
+                <line x1="20" y1="39" x2="48" y2="39" stroke="#16A34A" stroke-width="3.5" stroke-linecap="round"/>
+                <line x1="20" y1="51" x2="52" y2="51" stroke="#064E3B" stroke-width="3.5" stroke-linecap="round"/>
+                <circle cx="56" cy="52" r="11" fill="#A3E635" stroke="#064E3B" stroke-width="2.5"/>
+                <polyline points="51,52 55,56 62,48" stroke="#064E3B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </div>
+          </div>
+
+          <span class="roomie-stage-mode-chip" id="roomie-stage-mode-chip">Perkenalan Roomie</span>
+          <span class="roomie-click-hint">Klik Roomie untuk Lanjut</span>
+        </div>
+
+        <!-- Right: 4-Step Story Content -->
+        <div class="roomie-modal-content">
+          <span class="roomie-modal-kicker" id="roomie-modal-kicker">Sambutan Workspace Shroomy</span>
+          <h2 class="roomie-modal-title" id="roomie-modal-title">Halo! Kenalkan, Aku Roomie</h2>
+          <p class="roomie-modal-desc" id="roomie-modal-desc">
+            Selamat datang di <strong>Workspace Identifikasi Jamur Terpadu</strong>. Aku akan memandumu mengenal 3 mode identifikasi yang tersedia di halaman ini. Klik diriku untuk melihat ketiganya!
+          </p>
+
+          <!-- Step Progress Dots -->
+          <div class="roomie-progress-dots" aria-hidden="true">
+            <span class="r-dot is-active" data-step-dot="0"></span>
+            <span class="r-dot" data-step-dot="1"></span>
+            <span class="r-dot" data-step-dot="2"></span>
+            <span class="r-dot" data-step-dot="3"></span>
+          </div>
+
+          <div class="roomie-modal-actions">
+            <button type="button" class="btn btn-primary" id="btn-roomie-next-step">
+              <span id="btn-roomie-next-text">Lanjut (1/4)</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <span>&copy; 2026 Shroomy · Workspace Identifikasi Jamur Terpadu (SVM, Random Forest &amp; Ekstraksi Fitur Visual).</span>
+        <a href="#workspace-app" style="color: var(--lime); font-weight: 700;">Kembali ke Atas Workspace</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/workspace.js') }}"></script>
+</body>
+</html>

@@ -8,3 +8,5 @@ templates/backup-old/
 venv/
 .env
 .vercel
+
+.venv_vision/
