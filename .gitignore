@@ -10,3 +10,18 @@ venv/
 .vercel
 
 .venv_vision/
+
+# Mushroom dataset images
+dataset/raw/
+dataset/curated/
+dataset/splits/
+
+# Dataset manifests
+dataset/manifests/*.csv
+dataset/manifests/*.json
+
+# Temporary files
+scratch/
+
+# Dataset manifests
+dataset/manifests/
