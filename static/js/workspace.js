@@ -1,11 +1,10 @@
 /**
  * ==========================================================================
  * SHROOMY — Full-Page AI Workspace Controller
- * 1. Entrance Animation & 4-Click Roomie Welcome Popup
- *    (Step 1: Menyapa -> Step 2: Detektif Kamera -> Step 3: Ilmuwan Citra -> Step 4: Profesor Tabel Data -> Masuk Workspace)
- * 2. Mode 1: Ekstraksi Visual Kamera (Area Fokus 224×224 px)
- * 3. Mode 2: Input Citra Digital (Ekstraksi Spektrum RGB & Tekstur)
- * 4. Mode 3: Tabel Data Morfologi 20 Parameter (Support Vector Machine & Random Forest)
+ * 1. Entrance Animation & 3-Click Roomie Welcome Popup
+ *    (Step 1: Menyapa -> Step 2: Scan Kamera Realtime -> Step 3: Input Gambar Digital -> Masuk Workspace)
+ * 2. Mode 1: Scan Kamera Realtime (Klasifikasi Citra CNN MobileNetV2 · 224×224 px)
+ * 3. Mode 2: Input Citra Digital (Klasifikasi Citra CNN MobileNetV2 & Ekstraksi Warna)
  * ==========================================================================
  */
 
@@ -116,39 +115,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const ROOMIE_ONBOARDING_STEPS = [
         {
             pose: 'wave',
-            badge: 'Tahap 1 dari 4',
+            badge: 'Tahap 1 dari 3',
             stageChip: 'Sambutan Roomie',
             kicker: 'Sambutan Workspace Shroomy',
             title: 'Halo! Kenalkan, Aku Roomie',
-            desc: 'Selamat datang di <strong>Workspace Identifikasi Jamur Terpadu</strong>. Aku akan memperkenalkan 3 mode yang tersedia di halaman ini. Klik Roomie untuk melihat mode pertama.',
-            btnLabel: 'Lanjut ke Ekstraksi Kamera (1/4)'
+            desc: 'Selamat datang di <strong>Workspace Identifikasi Jamur Terpadu</strong>. Aku akan memperkenalkan 2 mode identifikasi citra yang tersedia di halaman ini. Klik Roomie untuk melihat mode pertama.',
+            btnLabel: 'Lanjut ke Scan Kamera (1/3)'
         },
         {
             pose: 'camera',
-            badge: 'Tahap 2 dari 4',
-            stageChip: 'Detektif Kamera · Ekstraksi Visual',
-            kicker: 'Mode 01 · Ekstraksi Visual Kamera',
-            title: 'Detektif Kamera (Ekstraksi Visual)',
-            desc: 'Pada <strong>Mode 1</strong>, arahkan kamera perangkat langsung ke jamur. Sistem otomatis mengambil area fokus 224×224 px untuk mengekstrak warna tudung dan tekstur permukaan guna disinkronkan ke tabel morfologi.',
-            btnLabel: 'Lanjut ke Ekstraksi Citra (2/4)'
+            badge: 'Tahap 2 dari 3',
+            stageChip: 'Detektif Kamera · Scan Realtime',
+            kicker: 'Mode 01 · Scan Kamera Realtime',
+            title: 'Detektif Kamera (Klasifikasi Citra CNN)',
+            desc: 'Pada <strong>Mode 1</strong>, arahkan kamera perangkat langsung ke jamur. Sistem otomatis memproses citra pada resolusi 224×224 px menggunakan model deep learning <strong>CNN MobileNetV2</strong> secara realtime.',
+            btnLabel: 'Lanjut ke Input Gambar (2/3)'
         },
         {
             pose: 'scientist',
-            badge: 'Tahap 3 dari 4',
-            stageChip: 'Ilmuwan Citra · Ekstraksi Citra Digital',
-            kicker: 'Mode 02 · Ekstraksi Citra Digital',
-            title: 'Ilmuwan Citra (Ekstraksi Warna & Tekstur)',
-            desc: 'Pada <strong>Mode 2</strong>, unggah file foto jamur dari perangkatmu. Sistem mengekstrak spektrum warna tudung (RGB & HEX) serta tekstur permukaan untuk menyelaraskan parameter morfologi pada tabel data.',
-            btnLabel: 'Lanjut ke Tabel Data (3/4)'
-        },
-        {
-            pose: 'professor',
-            badge: 'Tahap 4 dari 4',
-            stageChip: 'Profesor Tabel · SVM & Random Forest',
-            kicker: 'Mode 03 · Tabel Data Morfologi',
-            title: 'Profesor Tabel Data (SVM & Random Forest)',
-            desc: 'Pada <strong>Mode 3</strong>, tersedia <strong>Tabel 20 Karakteristik Morfologi</strong> yang diklasifikasikan oleh algoritma <strong>Support Vector Machine (SVM)</strong> dan <strong>Random Forest</strong> dengan akurasi dan presisi uji 100%.',
-            btnLabel: 'Mulai Gunakan Workspace (4/4)'
+            badge: 'Tahap 3 dari 3',
+            stageChip: 'Ilmuwan Citra · Input File Gambar',
+            kicker: 'Mode 02 · Input Gambar Digital',
+            title: 'Ilmuwan Citra (Klasifikasi Citra & Analisis Warna)',
+            desc: 'Pada <strong>Mode 2</strong>, unggah file foto jamur dari perangkatmu. Sistem mengevaluasi citra menggunakan model <strong>CNN MobileNetV2</strong> serta menganalisis estimasi spektrum warna tudung (RGB & HEX).',
+            btnLabel: 'Mulai Gunakan Workspace (3/3)'
         }
     ];
 
@@ -247,128 +237,396 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const urlParams = new URLSearchParams(window.location.search);
     const initialMode = urlParams.get('mode');
-    if (initialMode && ['camera', 'upload', 'form'].includes(initialMode)) {
+    if (initialMode && ['camera', 'upload'].includes(initialMode)) {
         switchWorkspaceMode(initialMode);
     }
 
-    /* ---------- 3. Result Panel Updating Helper ---------- */
+    /* ---------- 3. Result Panel Updating Helper (Identifikasi & Edukasi) ---------- */
     const resEngineName = document.getElementById('res-engine-name');
-    const resVerdictBox = document.getElementById('res-verdict-box');
-    const resVerdictSub = document.getElementById('res-verdict-sub');
-    const resVerdictTitle = document.getElementById('res-verdict-title');
-    const resProbEdible = document.getElementById('res-prob-edible');
-    const resProbPoisonous = document.getElementById('res-prob-poisonous');
-    const barProbEdible = document.getElementById('bar-prob-edible');
-    const barProbPoisonous = document.getElementById('bar-prob-poisonous');
-    const resConfidenceVal = document.getElementById('res-confidence-val');
-    const resModelPrecision = document.getElementById('res-model-precision');
-    const resColorDot = document.getElementById('res-color-dot');
-    const resColorText = document.getElementById('res-color-text');
-    const resDetectedRgb = document.getElementById('res-detected-rgb');
 
-    function renderPredictionResult(data, sourceType) {
-        if (resEngineName) {
-            resEngineName.textContent = data.model_used || 'Model Aktif';
-        }
+    // A. Identitas Spesies Utama (Tingkat 1) & Specimen Showcase
+    const resSpeciesKicker = document.getElementById('res-species-kicker');
+    const resSpeciesName = document.getElementById('res-species-name');
+    const resSpeciesCommon = document.getElementById('res-species-common');
+    const resSpeciesConfidence = document.getElementById('res-species-confidence');
+    const resLowConfBanner = document.getElementById('res-low-conf-banner');
+    const resLowConfText = document.getElementById('res-low-conf-text');
+    const resCandidatesList = document.getElementById('res-candidates-list');
 
-        const probSection = document.querySelector('.ws-prob-section');
-        const telConfItem = resConfidenceVal ? resConfidenceVal.closest('.telemetry-item') : null;
-        const labelProbE = document.querySelector('.prob-row:first-child .prob-header span');
-        const labelProbP = document.querySelector('.prob-row:nth-child(2) .prob-header span');
-        const telConfLabel = resConfidenceVal ? resConfidenceVal.closest('.telemetry-item')?.querySelector('.tel-label') : null;
+    // Field Guide Visual Specimen Frame
+    const resSpecimenImg = document.getElementById('res-specimen-img');
+    const resSpecimenPlaceholder = document.getElementById('res-specimen-placeholder');
+    const resSpecimenLensTag = document.getElementById('res-specimen-lens-tag');
+    const resSpeciesEditorialDesc = document.getElementById('res-species-editorial-desc');
+    const resSpeciesCommonOverlay = document.getElementById('res-species-common-overlay');
+    const resSpeciesNameOverlay = document.getElementById('res-species-name-overlay');
+    const resConfMeterWrap = document.getElementById('res-conf-meter-wrap');
+    const resConfMeterFill = document.getElementById('res-conf-meter-fill');
+    const resConfMeterVal = document.getElementById('res-conf-meter-val');
+    const resColorHexBadge = document.getElementById('res-color-hex-badge');
 
-        if (sourceType === 'vision' && (data.classification_available === false || data.label === 'unclassified')) {
-            // Mode Ekstraksi Fitur Visual (Non-CNN / Serverless Runtime)
-            // Sembunyikan bar probabilitas dan tingkat keyakinan agar tidak menampilkan nilai strip
-            if (probSection) probSection.style.display = 'none';
-            if (telConfItem) telConfItem.style.display = 'none';
-
-            if (resVerdictBox) {
-                resVerdictBox.classList.remove('is-edible', 'is-poisonous');
-                resVerdictBox.classList.add('is-neutral');
-            }
-            if (resVerdictSub) {
-                resVerdictSub.textContent = 'Ekstraksi Fitur Visual (Non-CNN)';
-            }
-            if (resVerdictTitle) {
-                resVerdictTitle.textContent = 'Ekstraksi Fitur Visual Berhasil — Klasifikasi Gambar Belum Tersedia';
-            }
-            if (resModelPrecision) {
-                resModelPrecision.textContent = 'Ekstraksi Fitur (Heuristik RGB)';
-            }
+    function updateSpecimenVisual(imageSrc, tagText) {
+        if (!resSpecimenImg) return;
+        if (imageSrc) {
+            resSpecimenImg.src = imageSrc;
+            resSpecimenImg.style.display = 'block';
+            if (resSpecimenPlaceholder) resSpecimenPlaceholder.style.display = 'none';
+            if (resSpecimenLensTag && tagText) resSpecimenLensTag.textContent = tagText;
         } else {
-            // Tampilkan kembali bar probabilitas dan tingkat keyakinan jika sebelumnya disembunyikan
-            if (probSection) probSection.style.display = '';
-            if (telConfItem) telConfItem.style.display = '';
+            resSpecimenImg.style.display = 'none';
+            if (resSpecimenPlaceholder) resSpecimenPlaceholder.style.display = 'flex';
+        }
+    }
 
-            // Mode Klasifikasi Aktif (Tabular SVM/RF atau Native CNN)
-            const isPoison = data.label === 'poisonous';
-            const isSVM = data.score_type === 'uncalibrated_decision_score' || (data.model_used && data.model_used.includes('SVM'));
-            const scores = data.probabilities || data.class_scores || {};
-            const probE = scores.e !== undefined ? scores.e : (isPoison ? 0 : 100);
-            const probP = scores.p !== undefined ? scores.p : (isPoison ? 100 : 0);
+    // C. Status Spesies Berdasarkan Referensi
+    const resRefStatusCard = document.getElementById('res-ref-status-card');
+    const resRefStatusBadge = document.getElementById('res-ref-status-badge');
+    const resRefStatusNote = document.getElementById('res-ref-status-note');
+    const resConsistencyNotice = document.getElementById('res-consistency-notice');
+    const resBinaryMeta = document.getElementById('res-binary-meta');
+    const resBinaryScore = document.getElementById('res-binary-score');
+    const resDetailStatusFull = document.getElementById('res-detail-status-full');
 
-            if (resVerdictBox) {
-                resVerdictBox.classList.remove('is-neutral', 'is-edible', 'is-poisonous');
-                resVerdictBox.classList.add(isPoison ? 'is-poisonous' : 'is-edible');
+    // Tingkat 2 Toggle (Lihat Informasi Lengkap)
+    const btnToggleFullInfo = document.getElementById('btn-toggle-full-info');
+    const btnToggleFullInfoText = document.getElementById('btn-toggle-full-info-text');
+    const wsDetailPanel = document.getElementById('ws-detail-panel');
+
+    if (btnToggleFullInfo && wsDetailPanel) {
+        btnToggleFullInfo.addEventListener('click', () => {
+            const isExpanded = btnToggleFullInfo.getAttribute('aria-expanded') === 'true';
+            const nextState = !isExpanded;
+            btnToggleFullInfo.setAttribute('aria-expanded', String(nextState));
+            btnToggleFullInfo.classList.toggle('is-open', nextState);
+            wsDetailPanel.hidden = !nextState;
+            if (btnToggleFullInfoText) {
+                btnToggleFullInfoText.textContent = nextState ? 'Sembunyikan Informasi Lengkap' : 'Lihat Informasi Lengkap';
             }
+        });
+    }
 
-            if (resVerdictSub) {
-                if (sourceType === 'vision') {
-                    resVerdictSub.textContent = 'Evaluasi Citra (CNN MobileNetV2)';
-                } else if (isSVM) {
-                    resVerdictSub.textContent = 'Klasifikasi Morfologi (SVM · Skor Keputusan)';
-                } else {
-                    resVerdictSub.textContent = 'Klasifikasi Morfologi (Random Forest · Estimasi Probabilitas)';
-                }
-            }
+    function formatAreaPct(val) {
+        if (val === undefined || val === null || val === '' || isNaN(Number(val)) || Number(val) <= 0) {
+            return '';
+        }
+        return ` (${String(Number(val).toFixed(1)).replace('.', ',')}%)`;
+    }
 
-            if (resVerdictTitle) {
-                resVerdictTitle.textContent = data.label_full || (isPoison ? 'POISONOUS (Beracun)' : 'EDIBLE (Aman Dimakan)');
-            }
+    // B. Informasi Spesies & Morfologi
+    const resColorDot1 = document.getElementById('res-color-dot-1');
+    const resColorDot2 = document.getElementById('res-color-dot-2');
+    const resColorTextPrimary = document.getElementById('res-color-text-primary');
+    const resRefCapColor = document.getElementById('res-ref-cap-color');
+    const resRefCapShape = document.getElementById('res-ref-cap-shape');
+    const resDetSurface = document.getElementById('res-det-surface');
+    const resRefCapSurface = document.getElementById('res-ref-cap-surface');
+    const resRefStem = document.getElementById('res-ref-stem');
+    const resRefHymenium = document.getElementById('res-ref-hymenium');
+    const resRefHabitat = document.getElementById('res-ref-habitat');
 
-            // Atur label dan nilai probabilitas / skor keputusan secara akurat
-            if (isSVM) {
-                if (labelProbE) labelProbE.textContent = 'Skor Estimasi Aman (Edible)';
-                if (labelProbP) labelProbP.textContent = 'Skor Estimasi Beracun (Poisonous)';
-                if (telConfLabel) telConfLabel.textContent = 'Skor Keputusan (SVM)';
-                if (resConfidenceVal) {
-                    const rawDec = data.decision_score !== undefined && data.decision_score !== null ? ` (Margin: ${data.decision_score})` : '';
-                    resConfidenceVal.textContent = `${data.estimated_score}%${rawDec}`;
-                }
-                if (resModelPrecision) {
-                    resModelPrecision.textContent = '100.0% Presisi Uji (Margin RBF Optimal)';
-                }
+    // D. Edukasi & Catatan Biologis
+    const resSpeciesDesc = document.getElementById('res-species-desc');
+    const resSpeciesFactBox = document.getElementById('res-species-fact-box');
+    const resSpeciesFactText = document.getElementById('res-species-fact-text');
+    const safetyEl = document.getElementById('res-safety-text');
+
+    const CONCISE_SAFETY_TEXT = 'Hasil identifikasi Shroomy bersifat informatif dan edukatif, bukan rekomendasi konsumsi. Jangan mengonsumsi jamur hanya berdasarkan hasil aplikasi.';
+
+    function renderPredictionResult(data) {
+        if (resEngineName) {
+            resEngineName.textContent = data.model_used || 'MobileNetV2 + SVM RBF';
+        }
+
+        if (safetyEl) {
+            safetyEl.textContent = CONCISE_SAFETY_TEXT;
+        }
+
+        if (btnToggleFullInfo) {
+            btnToggleFullInfo.disabled = false;
+        }
+
+        const conf = data.species_confidence !== undefined ? Number(data.species_confidence) : Number(data.confidence || 0);
+        const threshold = data.confidence_threshold !== undefined ? Number(data.confidence_threshold) : 50.0;
+        const isConfident = (data.is_confident !== undefined) ? Boolean(data.is_confident) : (conf >= threshold);
+        const isInconclusive = !isConfident || data.status_code === 'inconclusive';
+        const mappingVerified = data.mapping_verified !== false;
+        const mc = data.model_consistency || {};
+        const bp = data.binary_prediction || {};
+        const refBinStatus = data.reference_binary_status || mc.reference_binary_status || 'unknown';
+        const consistencyStatus = mc.consistency_status || bp.consistency_status || '';
+        const isBinaryConsistent = (mc.is_binary_consistent !== undefined)
+            ? Boolean(mc.is_binary_consistent)
+            : (bp.is_consistent_with_reference !== false);
+
+        // 1. Render Identitas Spesies Utama (Tingkat 1)
+        if (resSpeciesKicker) {
+            if (!mappingVerified) {
+                resSpeciesKicker.textContent = 'Informasi Spesies Belum Terverifikasi';
+            } else if (isInconclusive) {
+                resSpeciesKicker.textContent = 'Kandidat Visual Terdekat';
             } else {
-                if (labelProbE) labelProbE.textContent = 'Estimasi Probabilitas Aman (Edible)';
-                if (labelProbP) labelProbP.textContent = 'Estimasi Probabilitas Beracun (Poisonous)';
-                if (telConfLabel) telConfLabel.textContent = 'Estimasi Probabilitas (RF)';
-                if (resConfidenceVal) {
-                    resConfidenceVal.textContent = data.confidence !== null && data.confidence !== undefined ? `${data.confidence}%` : (data.estimated_score !== undefined ? `${data.estimated_score}%` : '—');
-                }
-                if (resModelPrecision) {
-                    resModelPrecision.textContent = sourceType === 'vision'
-                        ? 'Inference MobileNetV2'
-                        : '100.0% Presisi (100 Trees Ensemble)';
-                }
+                resSpeciesKicker.textContent = 'Spesies Teridentifikasi';
             }
-
-            if (resProbEdible) resProbEdible.textContent = `${probE}%`;
-            if (resProbPoisonous) resProbPoisonous.textContent = `${probP}%`;
-            if (barProbEdible) barProbEdible.style.width = `${probE}%`;
-            if (barProbPoisonous) barProbPoisonous.style.width = `${probP}%`;
+        }
+        if (resSpeciesName) {
+            resSpeciesName.textContent = data.species_name || 'Spesies Belum Teridentifikasi';
+        }
+        if (resSpeciesCommon) {
+            resSpeciesCommon.textContent = data.common_name || 'Nama umum belum tersedia dalam referensi';
+        }
+        if (resSpeciesCommonOverlay) {
+            resSpeciesCommonOverlay.textContent = data.common_name || data.species_name || 'Spesimen Terdeteksi';
+        }
+        if (resSpeciesNameOverlay) {
+            resSpeciesNameOverlay.textContent = data.species_name || 'Klasifikasi Citra';
         }
 
-        if (data.detected_color_name && resColorText && resColorDot) {
-            resColorText.textContent = data.detected_color_name;
-            resColorDot.style.background = data.hex || '#16a34a';
+        // Editorial 1-sentence botanical description
+        if (resSpeciesEditorialDesc) {
+            if (data.short_description) {
+                resSpeciesEditorialDesc.textContent = data.short_description;
+                resSpeciesEditorialDesc.style.display = 'block';
+            } else {
+                resSpeciesEditorialDesc.style.display = 'none';
+            }
         }
 
-        if (data.rgb && resDetectedRgb) {
-            const surf = data.detected_surface_name ? ` · ${data.detected_surface_name}` : '';
-            resDetectedRgb.textContent = `RGB(${data.rgb.join(', ')})${surf}`;
-        } else if (sourceType === 'tabular' && resDetectedRgb) {
-            resDetectedRgb.textContent = '20 Parameter Tabel';
+        // Specimen image auto-sync if not set yet
+        if (resSpecimenImg && (!resSpecimenImg.src || resSpecimenImg.style.display === 'none')) {
+            if (uploadPreviewImg && uploadPreviewImg.src && uploadPreviewWrap && uploadPreviewWrap.classList.contains('is-visible')) {
+                updateSpecimenVisual(uploadPreviewImg.src, 'Citra Unggahan');
+            } else if (canvasEl && (canvasEl.classList.contains('is-sim-visible') || currentStream)) {
+                try {
+                    updateSpecimenVisual(canvasEl.toDataURL('image/jpeg', 0.94), 'Tangkapan Kamera');
+                } catch (_) {}
+            }
+        }
+        const confFormatted = String(conf.toFixed(1)).replace('.', ',');
+        if (resSpeciesConfidence) {
+            if (isInconclusive) {
+                resSpeciesConfidence.textContent = `${confFormatted}% · Belum Meyakinkan`;
+                resSpeciesConfidence.classList.add('is-low-confidence');
+            } else {
+                resSpeciesConfidence.textContent = `${confFormatted}% · Keyakinan Visual`;
+                resSpeciesConfidence.classList.remove('is-low-confidence');
+            }
+        }
+
+        if (resConfMeterWrap && resConfMeterFill && resConfMeterVal) {
+            resConfMeterWrap.style.display = 'block';
+            const confClamped = Math.min(100, Math.max(0, conf));
+            resConfMeterFill.style.width = `${confClamped}%`;
+            resConfMeterVal.textContent = `${confFormatted}%`;
+            if (isInconclusive) {
+                resConfMeterFill.classList.add('is-low');
+            } else {
+                resConfMeterFill.classList.remove('is-low');
+            }
+        }
+
+        if (resLowConfBanner && resLowConfText) {
+            if (!mappingVerified) {
+                resLowConfBanner.style.display = 'flex';
+                resLowConfText.textContent = 'Data referensi spesies ini belum terverifikasi di basis pengetahuan. Jangan jadikan hasil ini sebagai kepastian identifikasi.';
+            } else if (isInconclusive) {
+                resLowConfBanner.style.display = 'flex';
+                resLowConfText.textContent = 'Tingkat keyakinan visual masih rendah (< 50%). Spesies di atas hanya kandidat terdekat dan belum dapat dipastikan.';
+            } else {
+                resLowConfBanner.style.display = 'none';
+            }
+        }
+
+        // 2. Render Kandidat Kemiripan Visual Terdekat (Di dalam Tingkat 2 Detail Informasi)
+        if (resCandidatesList) {
+            if (data.top_candidates && data.top_candidates.length > 0) {
+                let candHtml = '';
+                data.top_candidates.slice(0, 3).forEach(cand => {
+                    const pct = cand.confidence !== undefined ? cand.confidence : 0;
+                    let tagClass = 'tag-neutral';
+                    let cleanStatus = 'Referensi';
+                    if (cand.status_category === 'deadly') {
+                        tagClass = 'tag-deadly';
+                        cleanStatus = 'Sangat Beracun';
+                    } else if (cand.status_category === 'poisonous') {
+                        tagClass = 'tag-poisonous';
+                        cleanStatus = 'Referensi: Beracun';
+                    } else if (cand.status_category === 'edible') {
+                        tagClass = 'tag-edible';
+                        cleanStatus = 'Referensi: Pangan';
+                    }
+
+                    candHtml += `
+                      <div class="candidate-row">
+                        <div class="cand-rank-badge">#${cand.rank}</div>
+                        <div class="cand-info">
+                          <div class="cand-names">
+                            <strong class="cand-sci">${cand.species}</strong>
+                            <span class="cand-com">${cand.common_name ? `(${cand.common_name})` : ''}</span>
+                          </div>
+                          <div class="cand-bar-wrap">
+                            <div class="cand-bar-fill" style="width: ${Math.min(100, Math.max(3, pct))}%;"></div>
+                          </div>
+                        </div>
+                        <div class="cand-meta">
+                          <span class="cand-pct">${pct}%</span>
+                          <span class="cand-status-tag ${tagClass}">${cleanStatus}</span>
+                        </div>
+                      </div>
+                    `;
+                });
+                resCandidatesList.innerHTML = candHtml;
+            } else {
+                resCandidatesList.innerHTML = '<div class="candidate-row empty-state">Data kandidat spesies belum tersedia</div>';
+            }
+        }
+
+        // 3. Render Status Spesies Berdasarkan Referensi Ilmiah & Evaluasi Konsistensi Model
+        const cat = data.reference_status_category || 'unknown';
+        if (resRefStatusCard) {
+            resRefStatusCard.classList.remove('is-neutral', 'is-edible', 'is-poisonous', 'is-deadly', 'is-unmapped');
+            if (!mappingVerified) {
+                resRefStatusCard.classList.add('is-neutral', 'is-unmapped');
+            } else if (isInconclusive) {
+                resRefStatusCard.classList.add('is-neutral');
+            } else if (cat === 'deadly') {
+                resRefStatusCard.classList.add('is-deadly');
+            } else if (cat === 'poisonous') {
+                resRefStatusCard.classList.add('is-poisonous');
+            } else if (cat === 'edible') {
+                resRefStatusCard.classList.add('is-edible');
+            } else {
+                resRefStatusCard.classList.add('is-neutral');
+            }
+        }
+
+        if (resRefStatusBadge) {
+            if (!mappingVerified) {
+                resRefStatusBadge.textContent = 'Belum Terverifikasi';
+            } else if (isInconclusive) {
+                resRefStatusBadge.textContent = 'Belum dapat dipastikan';
+            } else if (cat === 'deadly') {
+                resRefStatusBadge.textContent = 'Referensi: Sangat Beracun';
+            } else if (cat === 'poisonous') {
+                resRefStatusBadge.textContent = 'Referensi: Beracun';
+            } else if (cat === 'edible') {
+                resRefStatusBadge.textContent = 'Referensi: Pangan';
+            } else {
+                resRefStatusBadge.textContent = 'Referensi Ilmiah';
+            }
+        }
+
+        if (resDetailStatusFull) {
+            resDetailStatusFull.textContent = data.reference_status || 'Informasi belum tersedia';
+        }
+
+        if (resRefStatusNote) {
+            if (!mappingVerified) {
+                resRefStatusNote.textContent = 'Informasi status referensi spesies ini belum tersedia dalam basis pengetahuan. Status ini bukan rekomendasi konsumsi.';
+            } else if (isInconclusive) {
+                resRefStatusNote.textContent = `Status referensi belum dapat dipastikan karena tingkat keyakinan visual masih rendah (${String(conf.toFixed(1)).replace('.', ',')}%). Kandidat terdekat (${data.species_name || '—'}) tercatat dalam literatur sebagai: ${data.reference_status || '—'}. Informasi ini bukan rekomendasi konsumsi.`;
+            } else {
+                const baseNote = data.reference_status_note || 'Status tercatat dalam literatur mikologi ilmiah.';
+                resRefStatusNote.textContent = `${baseNote} Informasi ini merupakan referensi ilmiah spesies, bukan rekomendasi konsumsi.`;
+            }
+        }
+
+        if (resConsistencyNotice) {
+            if (!isBinaryConsistent) {
+                resConsistencyNotice.style.display = 'block';
+                const binLabel = bp.predicted_class === 'edible' ? 'Pangan' : 'Beracun';
+                const refLabel = refBinStatus === 'edible' ? 'Pangan' : 'Beracun';
+                resConsistencyNotice.textContent = `Catatan: Klasifikasi referensi biner menunjukkan kecenderungan "${binLabel}", berbeda dengan catatan referensi spesies kandidat ("${refLabel}"). Harap gunakan informasi ini dengan kehati-hatian ekstra.`;
+            } else {
+                resConsistencyNotice.style.display = 'none';
+                resConsistencyNotice.textContent = '';
+            }
+        }
+
+        if (resBinaryMeta) {
+            resBinaryMeta.classList.toggle('is-inconsistent', !isBinaryConsistent);
+        }
+
+        if (resBinaryScore && data.binary_prediction) {
+            const baseBinScore = `Pangan: ${bp.p_edible}% · Beracun: ${bp.p_poisonous}%`;
+            if (consistencyStatus === 'consistent_confident') {
+                resBinaryScore.textContent = `${baseBinScore} (Selaras dengan referensi spesies)`;
+            } else if (consistencyStatus === 'consistent_low_confidence') {
+                resBinaryScore.textContent = `${baseBinScore} (Searah kandidat, namun identifikasi belum meyakinkan)`;
+            } else if (!isBinaryConsistent) {
+                resBinaryScore.textContent = `${baseBinScore} (Berbeda dengan status referensi spesies)`;
+            } else {
+                resBinaryScore.textContent = baseBinScore;
+            }
+        }
+
+        // 4. Render Karakteristik Morfologi & Deteksi Visual
+        const detColor = data.detected_cap_color || {};
+        if (resColorDot1) {
+            resColorDot1.style.background = detColor.primary_hex || data.hex || '#888888';
+        }
+        if (resColorHexBadge) {
+            const hexVal = detColor.primary_hex || data.hex || '';
+            if (hexVal) {
+                resColorHexBadge.textContent = hexVal.toUpperCase();
+                resColorHexBadge.style.display = 'inline-block';
+            } else {
+                resColorHexBadge.style.display = 'none';
+            }
+        }
+        if (resColorDot2) {
+            if (detColor.secondary_hex) {
+                resColorDot2.style.display = 'inline-block';
+                resColorDot2.style.background = detColor.secondary_hex;
+            } else {
+                resColorDot2.style.display = 'none';
+            }
+        }
+        if (resColorTextPrimary) {
+            if (detColor.primary_name) {
+                let txt = `${detColor.primary_name}${formatAreaPct(detColor.primary_area_pct)}`;
+                if (detColor.secondary_name) {
+                    txt += ` + ${detColor.secondary_name}${formatAreaPct(detColor.secondary_area_pct)}`;
+                }
+                resColorTextPrimary.textContent = txt;
+            } else {
+                resColorTextPrimary.textContent = 'Warna tudung belum dapat diidentifikasi';
+            }
+        }
+
+        const morph = data.morphology || {};
+        if (resRefCapColor) {
+            resRefCapColor.textContent = morph.cap_color || 'Informasi belum tersedia';
+        }
+        if (resRefCapShape) {
+            resRefCapShape.textContent = morph.cap_shape || 'Informasi belum tersedia';
+        }
+        if (resDetSurface) {
+            resDetSurface.textContent = detColor.surface_name || data.detected_surface_name || 'Belum dianalisis';
+        }
+        if (resRefCapSurface) {
+            resRefCapSurface.textContent = morph.cap_surface || 'Informasi belum tersedia';
+        }
+        if (resRefStem) {
+            resRefStem.textContent = morph.stem_characteristics || 'Informasi belum tersedia';
+        }
+        if (resRefHymenium) {
+            resRefHymenium.textContent = morph.hymenium_type || 'Informasi belum tersedia';
+        }
+        if (resRefHabitat) {
+            resRefHabitat.textContent = data.ecological_habitat || 'Informasi belum tersedia';
+        }
+
+        // 5. Render Edukasi & Fakta Biologis Spesies
+        if (resSpeciesDesc) {
+            resSpeciesDesc.textContent = data.short_description || 'Deskripsi ilmiah spesies belum tersedia dalam referensi.';
+        }
+        if (resSpeciesFactBox && resSpeciesFactText) {
+            if (data.educational_facts) {
+                resSpeciesFactBox.style.display = 'block';
+                resSpeciesFactText.textContent = data.educational_facts;
+            } else {
+                resSpeciesFactBox.style.display = 'none';
+            }
         }
     }
 
@@ -467,7 +725,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function evaluateCanvasVision(targetCanvas, onDone) {
         if (!targetCanvas) return;
         targetCanvas.toBlob(async (blob) => {
-            if (!blob) return;
+            if (!blob) {
+                if (typeof onDone === 'function') onDone();
+                return;
+            }
             const formData = new FormData();
             formData.append('image', blob, 'capture_224.jpg');
             try {
@@ -475,15 +736,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     method: 'POST',
                     body: formData
                 });
-                const data = await res.json();
-                if (!data.error) {
-                    lastDetectedVision = data;
-                    renderPredictionResult(data, 'vision');
-                    updateExtractedImageTable(data);
-                    syncVisionToFormFields(data);
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok || data.error) {
+                    alert(`Gagal memproses gambar kamera: ${data.error || ('Status HTTP ' + res.status)}`);
+                    return;
                 }
-            } catch (_) {
-                /* ignore */
+                lastDetectedVision = data;
+                renderPredictionResult(data);
+                updateExtractedImageTable(data);
+            } catch (err) {
+                alert(`Gangguan koneksi saat mengirim citra kamera: ${err.message || 'Network error'}`);
             } finally {
                 if (typeof onDone === 'function') onDone();
             }
@@ -495,15 +757,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = canvasEl.getContext('2d');
         if (videoEl && currentStream) {
             ctx.drawImage(videoEl, 0, 0, 224, 224);
+            try {
+                updateSpecimenVisual(canvasEl.toDataURL('image/jpeg', 0.94), 'Tangkapan Kamera');
+            } catch (_) {}
         }
         if (btnCaptureCam) {
             btnCaptureCam.disabled = true;
             const span = btnCaptureCam.querySelector('span');
-            const orig = span.textContent;
-            span.textContent = 'Mengekstrak Warna...';
+            const orig = span ? span.textContent : 'Ambil Foto & Analisis AI';
+            if (span) span.textContent = 'Menganalisis Citra AI...';
             evaluateCanvasVision(canvasEl, () => {
                 btnCaptureCam.disabled = false;
-                span.textContent = orig;
+                if (span) span.textContent = orig;
             });
         } else {
             evaluateCanvasVision(canvasEl);
@@ -514,6 +779,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!canvasEl) return;
         drawSyntheticMushroom(canvasEl, type);
         canvasEl.classList.add('is-sim-visible');
+        try {
+            updateSpecimenVisual(canvasEl.toDataURL('image/jpeg', 0.94), 'Simulasi Kamera');
+        } catch (_) {}
         if (cameraPlaceholder) cameraPlaceholder.classList.add('is-hidden');
         if (btnCaptureCam) btnCaptureCam.disabled = false;
         evaluateCanvasVision(canvasEl);
@@ -538,38 +806,94 @@ document.addEventListener('DOMContentLoaded', () => {
     const uploadRoiCanvas = document.getElementById('upload-roi-canvas');
     const uploadEmptyState = document.getElementById('upload-empty-state');
     const btnAnalyzeUpload = document.getElementById('btn-analyze-upload');
-    const btnSyncToForm = document.getElementById('btn-sync-to-form');
     const btnSampleImgSafe = document.getElementById('btn-sample-img-safe');
     const btnSampleImgToxic = document.getElementById('btn-sample-img-toxic');
     let selectedImageBlob = null;
 
     function updateExtractedImageTable(data) {
+        const spName = document.getElementById('img-tbl-species-name');
+        const spConf = document.getElementById('img-tbl-species-conf');
         const cName = document.getElementById('img-tbl-color-name');
-        const cCode = document.getElementById('img-tbl-color-code');
-        const sName = document.getElementById('img-tbl-surf-name');
-        const sCode = document.getElementById('img-tbl-surf-code');
-        const rgbVal = document.getElementById('img-tbl-rgb-val');
         const hexVal = document.getElementById('img-tbl-hex-val');
+        const sName = document.getElementById('img-tbl-surf-name');
+        const rgbVal = document.getElementById('img-tbl-rgb-val');
 
-        if (cName && data.detected_color_name) cName.textContent = data.detected_color_name;
-        if (cCode && data.detected_color_code) cCode.textContent = `Kode: ${data.detected_color_code}`;
-        if (sName && data.detected_surface_name) sName.textContent = data.detected_surface_name;
-        if (sCode && data.detected_surface_code) sCode.textContent = `Kode: ${data.detected_surface_code}`;
-        if (rgbVal && data.rgb) rgbVal.textContent = `RGB(${data.rgb.join(', ')})`;
-        if (hexVal && data.hex) hexVal.textContent = data.hex;
+        const conf = data.species_confidence !== undefined ? Number(data.species_confidence) : Number(data.confidence || 0);
+        const threshold = data.confidence_threshold !== undefined ? Number(data.confidence_threshold) : 50.0;
+        const isConfident = (data.is_confident !== undefined) ? Boolean(data.is_confident) : (conf >= threshold);
+        const isInconclusive = !isConfident || data.status_code === 'inconclusive';
+
+        if (spName) {
+            if (data.species_name) {
+                const baseSp = `${data.species_name} ${data.common_name ? `(${data.common_name})` : ''}`.trim();
+                spName.textContent = isInconclusive ? `${baseSp} [Kandidat Terdekat · Belum Meyakinkan]` : baseSp;
+            } else {
+                spName.textContent = 'Belum dianalisis';
+            }
+        }
+        if (spConf) {
+            if (data.species_confidence !== undefined || data.confidence !== undefined) {
+                const confFormatted = String(conf.toFixed(1)).replace('.', ',');
+                spConf.textContent = isInconclusive
+                    ? `${confFormatted}% · Belum Meyakinkan`
+                    : `${confFormatted}% · Keyakinan Visual`;
+            } else {
+                spConf.textContent = '—';
+            }
+        }
+        if (cName) {
+            const dc = data.detected_cap_color || {};
+            if (dc.primary_name) {
+                let cText = `${dc.primary_name}${formatAreaPct(dc.primary_area_pct)}`;
+                if (dc.secondary_name) {
+                    cText += ` + ${dc.secondary_name}${formatAreaPct(dc.secondary_area_pct)}`;
+                }
+                cName.textContent = cText;
+            } else {
+                cName.textContent = data.detected_color_name || 'Belum dianalisis';
+            }
+        }
+        if (hexVal) {
+            hexVal.textContent = data.hex || (data.detected_cap_color && data.detected_cap_color.primary_hex) || '—';
+        }
+        if (sName) {
+            sName.textContent = (data.detected_cap_color && data.detected_cap_color.surface_name) || data.detected_surface_name || 'Belum dianalisis';
+        }
+        if (rgbVal && data.rgb) {
+            rgbVal.textContent = `RGB(${data.rgb.join(', ')})`;
+        }
     }
 
     function handleSelectedFile(file) {
-        if (!file || !file.type.startsWith('image/')) return;
+        if (!file) return;
+
+        // Validasi format berkas
+        const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        const validExts = ['.jpg', '.jpeg', '.png', '.webp'];
+        const name = (file.name || '').toLowerCase();
+        const hasValidExt = validExts.some(ext => name.endsWith(ext));
+        const hasValidType = validTypes.includes(file.type);
+
+        if (!hasValidType && !hasValidExt) {
+            alert('Format berkas tidak didukung. Harap pilih gambar dengan format JPG, PNG, atau WEBP.');
+            return;
+        }
+
+        // Validasi ukuran file (maksimal 10 MB)
+        if (file.size > 10 * 1024 * 1024) {
+            alert('Ukuran berkas terlalu besar (' + (file.size / (1024 * 1024)).toFixed(1) + ' MB). Maksimal ukuran berkas adalah 10 MB.');
+            return;
+        }
+
         selectedImageBlob = file;
 
         const reader = new FileReader();
         reader.onload = (e) => {
             if (uploadPreviewImg) uploadPreviewImg.src = e.target.result;
+            updateSpecimenVisual(e.target.result, 'Citra Unggahan');
             if (uploadPreviewWrap) uploadPreviewWrap.classList.add('is-visible');
             if (uploadEmptyState) uploadEmptyState.classList.add('is-hidden');
             if (btnAnalyzeUpload) btnAnalyzeUpload.disabled = false;
-            if (btnSyncToForm) btnSyncToForm.disabled = false;
             runUploadAnalysis();
         };
         reader.readAsDataURL(file);
@@ -579,30 +903,30 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!selectedImageBlob || !btnAnalyzeUpload) return;
         btnAnalyzeUpload.disabled = true;
         const spanEl = btnAnalyzeUpload.querySelector('span');
-        const origText = spanEl.textContent;
-        spanEl.textContent = 'Mengekstrak Fitur...';
+        const origText = spanEl ? spanEl.textContent : 'Klasifikasi Gambar AI';
+        if (spanEl) spanEl.textContent = 'Memproses Klasifikasi AI...';
 
         const formData = new FormData();
-        formData.append('image', selectedImageBlob, 'uploaded_mushroom.jpg');
+        formData.append('image', selectedImageBlob, selectedImageBlob.name || 'uploaded_mushroom.jpg');
 
         try {
             const res = await fetch('/api/predict-vision', {
                 method: 'POST',
                 body: formData
             });
-            const data = await res.json();
-            if (!data.error) {
-                lastDetectedVision = data;
-                renderPredictionResult(data, 'vision');
-                updateExtractedImageTable(data);
-                syncVisionToFormFields(data);
-                if (btnSyncToForm) btnSyncToForm.disabled = false;
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok || data.error) {
+                alert(`Gagal memproses gambar: ${data.error || ('Status HTTP ' + res.status)}`);
+                return;
             }
-        } catch (_) {
-            /* ignore */
+            lastDetectedVision = data;
+            renderPredictionResult(data);
+            updateExtractedImageTable(data);
+        } catch (err) {
+            alert(`Gangguan koneksi saat mengirim citra: ${err.message || 'Network error'}`);
         } finally {
             btnAnalyzeUpload.disabled = false;
-            spanEl.textContent = origText;
+            if (spanEl) spanEl.textContent = origText;
         }
     }
 
@@ -611,10 +935,10 @@ document.addEventListener('DOMContentLoaded', () => {
         drawSyntheticMushroom(uploadRoiCanvas, type);
         const dataUrl = uploadRoiCanvas.toDataURL('image/jpeg', 0.94);
         if (uploadPreviewImg) uploadPreviewImg.src = dataUrl;
+        updateSpecimenVisual(dataUrl, 'Sampel Pengujian');
         if (uploadPreviewWrap) uploadPreviewWrap.classList.add('is-visible');
         if (uploadEmptyState) uploadEmptyState.classList.add('is-hidden');
         if (btnAnalyzeUpload) btnAnalyzeUpload.disabled = false;
-        if (btnSyncToForm) btnSyncToForm.disabled = false;
 
         uploadRoiCanvas.toBlob((blob) => {
             if (!blob) return;
@@ -652,96 +976,128 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnSampleImgSafe) btnSampleImgSafe.addEventListener('click', () => loadSampleImageForUpload('safe'));
     if (btnSampleImgToxic) btnSampleImgToxic.addEventListener('click', () => loadSampleImageForUpload('toxic'));
 
-    function syncVisionToFormFields(data) {
-        const capColorSelect = document.getElementById('f-cap-color');
-        const capSurfaceSelect = document.getElementById('f-cap-surface');
-        if (capColorSelect && data.detected_color_code) {
-            capColorSelect.value = data.detected_color_code;
-        }
-        if (capSurfaceSelect && data.detected_surface_code) {
-            capSurfaceSelect.value = data.detected_surface_code;
-        }
-    }
 
-    if (btnSyncToForm) {
-        btnSyncToForm.addEventListener('click', () => {
-            if (lastDetectedVision) {
-                syncVisionToFormFields(lastDetectedVision);
-            }
-            switchWorkspaceMode('form');
-        });
-    }
-
-    /* ---------- 7. MODE 3: 20-Characteristic Data Table (SVM & Random Forest) ---------- */
-    const algoPills = document.querySelectorAll('.algo-pill');
-    const morphologyForm = document.getElementById('morphology-form');
-    const btnPresetEdible = document.getElementById('btn-preset-edible');
-    const btnPresetPoisonous = document.getElementById('btn-preset-poisonous');
-    let selectedAlgo = 'rf';
-
-    algoPills.forEach(pill => {
-        pill.addEventListener('click', () => {
-            algoPills.forEach(p => p.classList.remove('is-active'));
-            pill.classList.add('is-active');
-            selectedAlgo = pill.dataset.algo || 'rf';
-            if (morphologyForm) morphologyForm.dispatchEvent(new Event('submit'));
-        });
-    });
-
-    const PRESET_EDIBLE = {
-        'cap-shape': 'x', 'cap-surface': 's', 'cap-color': 'n', 'bruises': 't', 'odor': 'a',
-        'gill-attachment': 'f', 'gill-spacing': 'c', 'gill-size': 'b', 'gill-color': 'k',
-        'stalk-shape': 't', 'stalk-surface-above-ring': 's', 'stalk-surface-below-ring': 's',
-        'stalk-color-above-ring': 'w', 'stalk-color-below-ring': 'w', 'veil-color': 'w',
-        'ring-number': 'o', 'ring-type': 'p', 'spore-print-color': 'n', 'population': 's', 'habitat': 'g'
-    };
-
-    const PRESET_POISONOUS = {
-        'cap-shape': 'x', 'cap-surface': 'y', 'cap-color': 'e', 'bruises': 'f', 'odor': 'f',
-        'gill-attachment': 'f', 'gill-spacing': 'c', 'gill-size': 'n', 'gill-color': 'b',
-        'stalk-shape': 't', 'stalk-surface-above-ring': 'k', 'stalk-surface-below-ring': 'k',
-        'stalk-color-above-ring': 'p', 'stalk-color-below-ring': 'p', 'veil-color': 'w',
-        'ring-number': 'o', 'ring-type': 'e', 'spore-print-color': 'w', 'population': 'v', 'habitat': 'd'
-    };
-
-    function applyFormPreset(presetObj) {
-        if (!morphologyForm) return;
-        Object.entries(presetObj).forEach(([name, val]) => {
-            const el = morphologyForm.elements[name];
-            if (el) el.value = val;
-        });
-        morphologyForm.dispatchEvent(new Event('submit'));
-    }
-
-    if (btnPresetEdible) {
-        btnPresetEdible.addEventListener('click', () => applyFormPreset(PRESET_EDIBLE));
-    }
-    if (btnPresetPoisonous) {
-        btnPresetPoisonous.addEventListener('click', () => applyFormPreset(PRESET_POISONOUS));
-    }
-
-    if (morphologyForm) {
-        morphologyForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(morphologyForm);
-            const payload = { model_type: selectedAlgo };
-            formData.forEach((value, key) => {
-                payload[key] = value;
-            });
-
-            try {
-                const res = await fetch('/predict', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const data = await res.json();
-                if (!data.error) {
-                    renderPredictionResult(data, 'tabular');
-                }
-            } catch (_) {
-                alert('Gagal melakukan prediksi morfologi.');
-            }
-        });
-    }
 });
+
+
+/* ==========================================================================
+   SHROOMY BIOLUMINESCENT LIVING PARTICLES & SPORES (EYE-CATCHING EFFECT)
+   Inspired by Reference Image 5 & 1 (Floating ethereal nature spores)
+   ========================================================================== */
+(function initBioluminescentSpores() {
+    const targets = document.querySelectorAll('.hero-section, .ws-banner');
+    if (!targets.length) return;
+
+    targets.forEach(target => {
+        if (target.querySelector('.shroomy-spores-canvas')) return;
+
+        const canvas = document.createElement('canvas');
+        canvas.className = 'shroomy-spores-canvas';
+        canvas.style.position = 'absolute';
+        canvas.style.inset = '0';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.zIndex = '1';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        target.style.position = 'relative';
+        target.insertBefore(canvas, target.firstChild);
+
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = target.offsetWidth;
+        let height = canvas.height = target.offsetHeight;
+
+        let mouse = { x: -1000, y: -1000, active: false };
+        target.addEventListener('mousemove', (e) => {
+            const rect = target.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+            mouse.active = true;
+        });
+        target.addEventListener('mouseleave', () => {
+            mouse.active = false;
+        });
+
+        const particles = [];
+        const count = Math.min(42, Math.max(18, Math.floor((width * height) / 18000)));
+        const colors = [
+            'rgba(163, 230, 53, ',
+            'rgba(134, 239, 172, ',
+            'rgba(253, 224, 71, ',
+            'rgba(110, 231, 183, '
+        ];
+
+        for (let i = 0; i < count; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                radius: Math.random() * 2.2 + 1.2,
+                colorPrefix: colors[Math.floor(Math.random() * colors.length)],
+                alpha: Math.random() * 0.55 + 0.25,
+                vx: (Math.random() - 0.5) * 0.35,
+                vy: -(Math.random() * 0.45 + 0.2),
+                pulseSpeed: Math.random() * 0.02 + 0.01,
+                pulseOffset: Math.random() * Math.PI * 2
+            });
+        }
+
+        let isVisible = true;
+        if ('IntersectionObserver' in window) {
+            const obs = new IntersectionObserver(([entry]) => {
+                isVisible = entry.isIntersecting;
+            });
+            obs.observe(target);
+        }
+
+        let t = 0;
+        function render() {
+            if (isVisible && width > 0 && height > 0) {
+                ctx.clearRect(0, 0, width, height);
+                t += 0.015;
+
+                for (let i = 0; i < particles.length; i++) {
+                    const p = particles[i];
+                    p.y += p.vy;
+                    p.x += p.vx + Math.sin(t + p.pulseOffset) * 0.3;
+
+                    if (mouse.active) {
+                        const dx = p.x - mouse.x;
+                        const dy = p.y - mouse.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 120 && dist > 0) {
+                            const force = (120 - dist) / 120;
+                            p.x += (dx / dist) * force * 1.5;
+                            p.y += (dy / dist) * force * 1.5;
+                        }
+                    }
+
+                    if (p.y < -10) {
+                        p.y = height + 10;
+                        p.x = Math.random() * width;
+                    }
+                    if (p.x < -10) p.x = width + 10;
+                    if (p.x > width + 10) p.x = -10;
+
+                    const currentAlpha = p.alpha + Math.sin(t * p.pulseSpeed * 60 + p.pulseOffset) * 0.18;
+                    const clampedAlpha = Math.max(0.08, Math.min(0.85, currentAlpha));
+
+                    const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 3);
+                    grad.addColorStop(0, p.colorPrefix + clampedAlpha + ')');
+                    grad.addColorStop(0.4, p.colorPrefix + (clampedAlpha * 0.45) + ')');
+                    grad.addColorStop(1, p.colorPrefix + '0)');
+
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius * 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            requestAnimationFrame(render);
+        }
+        render();
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = target.offsetWidth;
+            height = canvas.height = target.offsetHeight;
+        }, { passive: true });
+    });
+})();

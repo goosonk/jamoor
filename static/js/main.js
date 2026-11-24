@@ -7,6 +7,9 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+    /* ---------- 0. Hero Title Typewriter ---------- */
+    initHeroTypewriter();
+
     /* ---------- 1. Sticky Header & Scroll Spy ---------- */
     const siteHeader = document.getElementById('site-header');
     const navLinks = Array.from(document.querySelectorAll('.nav-link'));
@@ -294,6 +297,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const staggerGroups = [
         '.about-grid .about-card',
         '.steps-timeline .step-card',
+        '.ai-pipeline-diagram .pipeline-step-card',
+        '.features-grid .feature-benefit-card',
+        '.benchmark-cards-grid .benchmark-card',
         '.workspace-models-grid .ws-model-card',
         '.exploration-columns .exp-col',
         '.team-grid .dev-card-wrapper',
@@ -307,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const revealTargets = document.querySelectorAll(
-        '.section-header, .about-card, .step-card, .ws-model-card, .exploration-sidebar, .exp-col, .security-box, .security-point, .dev-card-wrapper'
+        '.section-header, .about-card, .step-card, .pipeline-step-card, .ai-transparency-card, .feature-benefit-card, .benchmark-card, .ws-model-card, .exploration-sidebar, .exp-col, .security-box, .security-point, .dev-card-wrapper'
     );
 
     if ('IntersectionObserver' in window) {
@@ -413,6 +419,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let welcomeTimer = null;
 
     function shrinkWelcomeToCorner() {
+        // Dispatch event for typewriter title animation
+        window.dispatchEvent(new CustomEvent('shroomy:welcome-dismissed'));
         if (!welcomeBackdrop || !welcomeBackdrop.classList.contains('is-open')) return;
         if (welcomeTimer) {
             clearTimeout(welcomeTimer);
@@ -499,18 +507,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const ROOMIE_INITIAL_GREETING =
         'Halo! Aku <strong>Roomie</strong>, asisten FAQ 24/7 di Shroomy.<br><br>' +
         'Kamu dapat menanyakan hal-hal umum seputar:<br>' +
-        '• <strong>Model Machine Learning</strong> (SVM, Random Forest, CNN MobileNetV2)<br>' +
-        '• <strong>Jamur &amp; Morfologi</strong> (20 ciri fisik, jamur aman vs beracun)<br>' +
-        '• <strong>Panduan Website Shroomy</strong> (3 mode Workspace &amp; profil tim IPB)';
+        '• <strong>Model Deep Learning</strong> (CNN MobileNetV2 224×224 px)<br>' +
+        '• <strong>Sains Mikologi &amp; Morfologi</strong> (Anatomi jamur, warna tudung, keamanan konsumsi)<br>' +
+        '• <strong>Panduan Workspace Shroomy</strong> (2 mode: Scan Kamera &amp; Input Gambar, serta profil tim IPB)';
 
     const ROOMIE_FALLBACK_TEMPLATE =
         'Maaf, pertanyaan tersebut berada <strong>di luar batas kemampuan Roomie</strong>.<br>' +
         '<div class="roomie-msg-fallback-box">' +
         '<strong>Batas Topik Jawaban Roomie:</strong><br>' +
         'Saat ini Roomie hanya diprogram untuk menjawab pertanyaan umum seputar:<br>' +
-        '1. <strong>Model Machine Learning</strong> (SVM, Random Forest, CNN MobileNetV2, akurasi &amp; preprocessing)<br>' +
-        '2. <strong>Sains Mikologi &amp; Jamur</strong> (20 ciri morfologi, keamanan konsumsi, warna tudung)<br>' +
-        '3. <strong>Website Shroomy</strong> (cara kerja 3 mode Workspace &amp; tim pengembang IPB)<br><br>' +
+        '1. <strong>Model Deep Learning</strong> (CNN MobileNetV2, preprocessing 224×224 px &amp; safety gate 75%)<br>' +
+        '2. <strong>Sains Mikologi &amp; Jamur</strong> (Anatomi fisik, keamanan konsumsi, warna tudung)<br>' +
+        '3. <strong>Website Shroomy</strong> (Cara kerja 2 mode Workspace &amp; tim pengembang IPB)<br><br>' +
         'Silakan pilih topik pertanyaan populer di bawah atau ajukan pertanyaan terkait ketiga topik tersebut.' +
         '</div>';
 
@@ -519,58 +527,54 @@ document.addEventListener('DOMContentLoaded', () => {
             keywords: ['halo', 'hai', 'hi', 'pagi', 'siang', 'sore', 'malam', 'assalamualaikum', 'roomie', 'siapa kamu', 'perkenalkan'],
             answer:
                 'Halo! Aku <strong>Roomie</strong>, maskot sekaligus asisten tanya jawab di website <strong>Shroomy</strong>.<br><br>' +
-                'Aku bisa membantumu memahami <strong>model Machine Learning</strong> yang dipakai (SVM, Random Forest, CNN MobileNetV2), <strong>ciri morfologi jamur</strong>, serta <strong>cara menggunakan halaman Workspace</strong>.'
+                'Aku bisa membantumu memahami <strong>model Deep Learning</strong> yang dipakai (CNN MobileNetV2), <strong>ciri visual jamur</strong>, serta <strong>panduan menggunakan 2 mode Workspace</strong>.'
         },
         {
             keywords: ['apa itu shroomy', 'tentang shroomy', 'website ini', 'aplikasi apa', 'fungsi shroomy', 'kegunaan', 'tujuan'],
             answer:
-                '<strong>Shroomy (Identifikasi Jamur Terpadu)</strong> adalah platform edukasi dan analisis mikologi berbasis <strong>Machine Learning</strong> serta <strong>Computer Vision</strong> untuk mengevaluasi kelayakan jamur liar (<em>Edible / Aman</em> vs <em>Poisonous / Beracun</em>).<br><br>' +
-                'Platform ini memadukan <strong>SVM</strong>, <strong>Random Forest</strong>, dan <strong>CNN MobileNetV2</strong> yang dilatih pada <strong>8.124 sampel UCI Mushroom Dataset</strong>.'
+                '<strong>Shroomy (Identifikasi Jamur Terpadu)</strong> adalah platform edukasi dan analisis mikologi berbasis <strong>Deep Learning Computer Vision</strong> untuk mengevaluasi citra jamur liar secara praktis dan terpadu.<br><br>' +
+                'Sistem mengandalkan arsitektur <strong>CNN MobileNetV2</strong> yang memproses citra 224×224 piksel secara otomatis tanpa perlu pengisian formulir manual yang rumit.'
         },
         {
             keywords: ['model', 'machine learning', 'ml', 'algoritma', 'akurasi', 'presisi', 'svm', 'support vector', 'random forest', 'cnn', 'mobilenet', 'mobilenetv2', 'roc', 'f1'],
             answer:
-                'Shroomy menggabungkan 3 model teruji:<br><br>' +
-                '1. <strong>Support Vector Machine (SVM — RBF Kernel)</strong>: Akurasi <strong>100%</strong>, Presisi <strong>100%</strong>, dan <strong>0 False Negative</strong> pada 20 parameter morfologi.<br>' +
-                '2. <strong>Random Forest (100 Pohon Keputusan)</strong>: Akurasi <strong>100%</strong>, Presisi <strong>100%</strong>, F1-Score <strong>100%</strong>.<br>' +
-                '3. <strong>CNN MobileNetV2</strong>: Akurasi <strong>96,4%</strong>, Presisi <strong>96,5%</strong>, dan ROC-AUC <strong>99,1%</strong> untuk klasifikasi kamera &amp; gambar.'
+                'Shroomy menggunakan <strong>MobileNetV2 pretrained ImageNet</strong> sebagai ekstraktor fitur visual (1.280 dimensi) yang dipadukan dengan classifier <strong>SVM RBF Multikelas (39 spesies)</strong> dan <strong>SVM RBF Biner (2 kelas)</strong> pada resolusi input <strong>224×224 piksel RGB</strong>.<br><br>' +
+                'Sistem dilengkapi <strong>Ambang Keyakinan Visual 50%</strong> serta pemeriksaan konsistensi antar-model untuk mencegah kepastian semu.'
         },
         {
-            keywords: ['workspace', '3 mode', 'tiga mode', 'cara pakai', 'cara kerja', 'cara menggunakan', 'kamera', 'upload', 'gambar', 'tabel', 'scan', 'prediksi'],
+            keywords: ['workspace', '3 mode', 'tiga mode', '2 mode', 'dua mode', 'cara pakai', 'cara kerja', 'cara menggunakan', 'kamera', 'upload', 'gambar', 'tabel', 'scan', 'prediksi'],
             answer:
-                'Di halaman <strong>Workspace Identifikasi</strong> (tombol <em>Mulai Eksplorasi</em>), tersedia <strong>3 mode kerja</strong>:<br><br>' +
-                '• <strong>Mode 1 — Scan Kamera</strong>: Memindai spesimen melalui kamera langsung dengan model <strong>CNN MobileNetV2</strong> (224×224 px).<br>' +
-                '• <strong>Mode 2 — Input Gambar</strong>: Mengunggah foto jamur untuk dievaluasi oleh <strong>CNN MobileNetV2</strong> beserta ekstraksi warna tudung RGB otomatis.<br>' +
-                '• <strong>Mode 3 — Tabel Data Morfologi</strong>: Memilih 20 ciri fisik jamur untuk diklasifikasikan oleh <strong>SVM &amp; Random Forest</strong>.'
+                'Di halaman <strong>Workspace Identifikasi</strong> (tombol <em>Mulai Eksplorasi</em>), tersedia <strong>2 mode kerja terpadu</strong>:<br><br>' +
+                '• <strong>Mode 1 — Scan Kamera Realtime</strong>: Memindai spesimen secara langsung menggunakan kamera dengan area fokus 224×224 piksel, dianalisis instan oleh <strong>CNN MobileNetV2</strong>.<br>' +
+                '• <strong>Mode 2 — Input Gambar</strong>: Mengunggah berkas foto jamur dari perangkat (JPG, PNG, WEBP) untuk dievaluasi oleh <strong>CNN MobileNetV2</strong> sekaligus ekstraksi spektrum warna tudung berbasis RGB.'
         },
         {
             keywords: ['false negative', '0 false', 'zero false', 'keamanan', 'etika', 'when in doubt', 'aman dikonsumsi', 'makan'],
             answer:
                 '<strong>False Negative</strong> adalah kondisi fatal ketika jamur yang sebenarnya <strong>beracun</strong> salah diprediksi sebagai <strong>aman</strong>.<br><br>' +
-                'Model <strong>SVM</strong> dan <strong>Random Forest</strong> di Shroomy mencatat <strong>0 False Negatives</strong> (100% presisi pada dataset uji). Namun sesuai prinsip <em>"When in Doubt, Never Ingest"</em>, hasil website ini ditujukan untuk edukasi dan riset—verifikasi langsung oleh ahli mikologi tetap wajib sebelum mengonsumsi jamur liar.'
+                'Untuk memitigasi bahaya ini, Shroomy menerapkan <strong>ambang batas keyakinan (confidence threshold) ≥ 75%</strong>. Jika skor keyakinan di bawah 75%, sistem secara otomatis menetapkan status <em>Inconclusive</em> (Tidak Pasti). Sesuai kaidah mikologi <em>"When in Doubt, Never Ingest"</em>, hasil identifikasi ditujukan untuk riset dan edukasi—verifikasi ahli mikologi tetap mutlak sebelum menyentuh jamur liar.'
         },
         {
             keywords: ['ciri', 'morfologi', '20', 'dua puluh', 'parameter', 'beracun', 'aman', 'edible', 'poisonous', 'bau', 'aroma', 'odor', 'spora', 'memar', 'insang', 'tudung', 'cincin', 'amanita'],
             answer:
-                'Shroomy mengevaluasi <strong>20 ciri morfologi jamur</strong> yang mencakup 5 zona: <strong>Tudung &amp; Memar</strong>, <strong>Insang</strong>, <strong>Batang</strong>, <strong>Cincin &amp; Selubung</strong>, serta <strong>Ekologi &amp; Sensori</strong>.<br><br>' +
-                'Indikator dengan bobot informasi tertinggi antara lain:<br>' +
-                '• <strong>Aroma (Odor — bobot 62%)</strong>: Aroma menyengat/busuk umumnya menandakan jamur beracun.<br>' +
-                '• <strong>Memar Saat Ditekan (Bruises — bobot 17%)</strong> dan <strong>Warna Cetakan Spora (bobot 10%)</strong>.'
+                'Dalam sains mikologi, jamur dievaluasi melalui 5 zona anatomi utama: <strong>Tudung &amp; Memar</strong>, <strong>Insang</strong>, <strong>Batang</strong>, <strong>Cincin &amp; Selubung</strong>, serta <strong>Ekologi &amp; Spora</strong>.<br><br>' +
+                'Di Shroomy, ciri visual seperti warna tudung dan tekstur permukaan dianalisis secara otomatis dari piksel citra oleh <strong>CNN MobileNetV2</strong> tanpa perlu input manual.'
         },
         {
             keywords: ['warna', 'rgb', 'roi', 'spektroskopi', 'euclidean', 'pillow', 'preprocessing', 'one-hot', 'normalisasi', 'standardscaler', 'dataset', 'uci', '8124', '8.124'],
             answer:
-                'Pada tahapan <strong>Preprocessing</strong>:<br><br>' +
-                '• <strong>Gambar &amp; Kamera</strong>: Citra dipotong pada area fokus tengah (ROI) 25% untuk mengurangi gangguan latar, dicocokkan dengan jarak Euclidean RGB ke 10 warna botani, lalu disesuaikan ke ukuran <strong>224×224 px</strong> untuk <strong>CNN MobileNetV2</strong>.<br>' +
-                '• <strong>Data Tabel</strong>: 8.124 sampel UCI Mushroom Dataset diproses memakai <strong>One-Hot Encoding</strong> dan <strong>StandardScaler</strong>.'
+                'Pada tahapan <strong>Preprocessing Citra Shroomy</strong>:<br><br>' +
+                '• <strong>Standarisasi Ukuran</strong>: Citra diubah ukurannya langsung (*direct resize*) ke <strong>224×224 piksel</strong> kanal RGB.<br>' +
+                '• <strong>Normalisasi ImageNet</strong>: Nilai piksel dinormalisasi dengan bobot standar computer vision (mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]).<br>' +
+                '• <strong>Deteksi Warna (ROI)</strong>: Area tengah spesimen dianalisis untuk mencocokkan spektrum warna ke 10 palet botani acuan.'
         },
         {
             keywords: ['tim', 'pengembang', 'developer', 'pembuat', 'siapa yang buat', 'ipb', 'kampus', 'mahasiswa', 'faza', 'nailah', 'fachry', 'kelompok'],
             answer:
                 'Website <strong>Shroomy</strong> dikembangkan oleh <strong>Kelompok 4 PJBL Machine Learning 2026</strong>, Mahasiswa <strong>Teknologi Rekayasa Komputer IPB</strong>:<br><br>' +
-                '1. <strong>Mohammad Faza Munsya\'ari</strong> (NIM J0404241169) — <em>Machine Learning Engineer</em> (SVM, Random Forest &amp; CNN MobileNetV2)<br>' +
-                '2. <strong>Nailah Syarifah Sagala</strong> (NIM J0404241082) — <em>Data Engineer &amp; Preprocessing</em> (UCI Dataset &amp; One-Hot Encoding)<br>' +
-                '3. <strong>Fachryreza Andaris Albar</strong> (NIM J0404241004) — <em>Full-Stack Web Architect</em> (Flask REST API &amp; Desain Sistem)'
+                '1. <strong>Mohammad Faza Munsya\'ari</strong> (NIM J0404241169) — <em>Machine Learning Engineer</em> (CNN MobileNetV2 &amp; Model Evaluation)<br>' +
+                '2. <strong>Nailah Syarifah Sagala</strong> (NIM J0404241082) — <em>Data Engineer &amp; Preprocessing</em> (Standardized Image Pipeline &amp; Normalization)<br>' +
+                '3. <strong>Fachryreza Andaris Albar</strong> (NIM J0404241004) — <em>Full-Stack Web Architect</em> (Flask REST API, UI/UX &amp; System Integration)'
         }
     ];
 
@@ -667,3 +671,204 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+/* ==========================================================================
+   SHROOMY BIOLUMINESCENT LIVING PARTICLES & SPORES (EYE-CATCHING EFFECT)
+   Inspired by Reference Image 5 & 1 (Floating ethereal nature spores)
+   ========================================================================== */
+(function initBioluminescentSpores() {
+    const targets = document.querySelectorAll('.hero-section, .ws-banner');
+    if (!targets.length) return;
+
+    targets.forEach(target => {
+        if (target.querySelector('.shroomy-spores-canvas')) return;
+
+        const canvas = document.createElement('canvas');
+        canvas.className = 'shroomy-spores-canvas';
+        canvas.style.position = 'absolute';
+        canvas.style.inset = '0';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.zIndex = '1';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        target.style.position = 'relative';
+        target.insertBefore(canvas, target.firstChild);
+
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = target.offsetWidth;
+        let height = canvas.height = target.offsetHeight;
+
+        let mouse = { x: -1000, y: -1000, active: false };
+        target.addEventListener('mousemove', (e) => {
+            const rect = target.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+            mouse.active = true;
+        });
+        target.addEventListener('mouseleave', () => {
+            mouse.active = false;
+        });
+
+        const particles = [];
+        const count = Math.min(42, Math.max(18, Math.floor((width * height) / 18000)));
+        const colors = [
+            'rgba(163, 230, 53, ',
+            'rgba(134, 239, 172, ',
+            'rgba(253, 224, 71, ',
+            'rgba(110, 231, 183, '
+        ];
+
+        for (let i = 0; i < count; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                radius: Math.random() * 2.2 + 1.2,
+                colorPrefix: colors[Math.floor(Math.random() * colors.length)],
+                alpha: Math.random() * 0.55 + 0.25,
+                vx: (Math.random() - 0.5) * 0.35,
+                vy: -(Math.random() * 0.45 + 0.2),
+                pulseSpeed: Math.random() * 0.02 + 0.01,
+                pulseOffset: Math.random() * Math.PI * 2
+            });
+        }
+
+        let isVisible = true;
+        if ('IntersectionObserver' in window) {
+            const obs = new IntersectionObserver(([entry]) => {
+                isVisible = entry.isIntersecting;
+            });
+            obs.observe(target);
+        }
+
+        let t = 0;
+        function render() {
+            if (isVisible && width > 0 && height > 0) {
+                ctx.clearRect(0, 0, width, height);
+                t += 0.015;
+
+                for (let i = 0; i < particles.length; i++) {
+                    const p = particles[i];
+                    p.y += p.vy;
+                    p.x += p.vx + Math.sin(t + p.pulseOffset) * 0.3;
+
+                    if (mouse.active) {
+                        const dx = p.x - mouse.x;
+                        const dy = p.y - mouse.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 120 && dist > 0) {
+                            const force = (120 - dist) / 120;
+                            p.x += (dx / dist) * force * 1.5;
+                            p.y += (dy / dist) * force * 1.5;
+                        }
+                    }
+
+                    if (p.y < -10) {
+                        p.y = height + 10;
+                        p.x = Math.random() * width;
+                    }
+                    if (p.x < -10) p.x = width + 10;
+                    if (p.x > width + 10) p.x = -10;
+
+                    const currentAlpha = p.alpha + Math.sin(t * p.pulseSpeed * 60 + p.pulseOffset) * 0.18;
+                    const clampedAlpha = Math.max(0.08, Math.min(0.85, currentAlpha));
+
+                    const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 3);
+                    grad.addColorStop(0, p.colorPrefix + clampedAlpha + ')');
+                    grad.addColorStop(0.4, p.colorPrefix + (clampedAlpha * 0.45) + ')');
+                    grad.addColorStop(1, p.colorPrefix + '0)');
+
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius * 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            requestAnimationFrame(render);
+        }
+        render();
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = target.offsetWidth;
+            height = canvas.height = target.offsetHeight;
+        }, { passive: true });
+    });
+})();
+
+
+/* ==========================================================================
+   HERO TITLE TYPEWRITER ANIMATION (Triggered after Roomie welcome popup)
+   ========================================================================== */
+function initHeroTypewriter() {
+    const heroTitle = document.querySelector('.hero-title');
+    if (!heroTitle) return;
+
+    const part1 = "Inteligensi Mikologi Presisi untuk ";
+    const part2 = "Identifikasi Jamur Liar";
+
+    let hasStarted = false;
+
+    // Set initial state: waiting for Roomie popup to close
+    heroTitle.classList.add('is-typing-ready');
+    heroTitle.innerHTML = '<span class="typewriter-text"></span><span class="typewriter-cursor">|</span>';
+
+    function startTyping() {
+        if (hasStarted) return;
+        hasStarted = true;
+
+        const textSpan = heroTitle.querySelector('.typewriter-text');
+        const cursorSpan = heroTitle.querySelector('.typewriter-cursor');
+        if (!textSpan) return;
+
+        let i = 0;
+        let j = 0;
+        const speed1 = 36; // ms per char
+        const speed2 = 42; // ms per char
+
+        function typePart1() {
+            if (i < part1.length) {
+                textSpan.textContent += part1.charAt(i);
+                i++;
+                setTimeout(typePart1, speed1);
+            } else {
+                const highlightSpan = document.createElement('span');
+                highlightSpan.className = 'highlight';
+                textSpan.appendChild(highlightSpan);
+                typePart2(highlightSpan);
+            }
+        }
+
+        function typePart2(targetSpan) {
+            if (j < part2.length) {
+                targetSpan.textContent += part2.charAt(j);
+                j++;
+                setTimeout(() => typePart2(targetSpan), speed2);
+            } else {
+                heroTitle.classList.add('is-typing-done');
+                setTimeout(() => {
+                    if (cursorSpan) {
+                        cursorSpan.classList.add('is-finished');
+                    }
+                }, 2500);
+            }
+        }
+
+        setTimeout(typePart1, 300);
+    }
+
+    // Listen for Roomie welcome popup dismissal
+    window.addEventListener('shroomy:welcome-dismissed', () => {
+        setTimeout(startTyping, 200);
+    }, { once: true });
+
+    // Fallback: If popup is dismissed or not present, start typing safely
+    const welcomeBackdrop = document.getElementById('roomie-landing-welcome-backdrop');
+    if (!welcomeBackdrop) {
+        setTimeout(startTyping, 400);
+    } else {
+        // Safety timeout so title is never empty if user takes no action
+        setTimeout(() => {
+            if (!hasStarted) startTyping();
+        }, 6800);
+    }
+}
