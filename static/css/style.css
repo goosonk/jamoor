@@ -9555,11 +9555,11 @@ body.is-launching-workspace {
 /* --- 1. GLOBAL TYPOGRAPHY & SMOOTH PERFORMANCE --- */
 html {
     scroll-behavior: smooth;
-    background-color: var(--forest-black);
+    background-color: #FFFFFF;
 }
 
 body {
-    background-color: var(--forest-black);
+    background-color: #FFFFFF;
     color: var(--ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
@@ -10191,6 +10191,10 @@ section[id],
     -moz-osx-font-smoothing: grayscale !important;
 }
 
+html.workspace-html-root {
+    background-color: #F8F8F4 !important;
+}
+
 /* Scroll Clearance for Floating Navbar */
 .workspace-page-body section[id] {
     scroll-margin-top: 100px !important;
@@ -10428,10 +10432,10 @@ section[id],
     position: absolute !important;
     inset: -4% !important;
     background-size: cover !important;
-    background-position: center 30% !important;
+    background-position: center 38% !important;
     background-repeat: no-repeat !important;
-    opacity: 0.38 !important; /* Clearly visible, rich natural forest photo */
-    filter: saturate(1.22) contrast(1.08) brightness(1.02) !important;
+    opacity: 0.88 !important; /* Vivid, rich photorealistic natural forest photo */
+    filter: saturate(1.28) contrast(1.12) brightness(1.02) !important;
     transform: scale(1.02) !important;
     animation: wsLiveBgSubtle 30s ease-in-out infinite alternate !important;
     will-change: transform;
@@ -10441,7 +10445,8 @@ section[id],
 .workspace-page-body .ws-nature-mist {
     position: absolute !important;
     inset: 0 !important;
-    background: radial-gradient(ellipse 80% 65% at 50% 40%, rgba(244, 248, 244, 0.42) 0%, rgba(234, 244, 236, 0.58) 60%, rgba(244, 248, 244, 0.85) 100%) !important;
+    /* Selective gentle vignette: lighter in center behind title, subtle fade on edges */
+    background: radial-gradient(ellipse 65% 58% at 50% 44%, rgba(248, 250, 248, 0.76) 0%, rgba(244, 248, 244, 0.42) 65%, rgba(240, 246, 242, 0.22) 100%) !important;
     pointer-events: none !important;
     z-index: 2 !important;
 }
@@ -10487,7 +10492,7 @@ section[id],
 .workspace-page-body .ws-vignette-overlay {
     position: absolute !important;
     inset: 0 !important;
-    background: radial-gradient(circle at 50% 38%, rgba(253, 254, 251, 0.35) 0%, rgba(248, 248, 244, 0.5) 50%, rgba(234, 244, 236, 0.82) 88%, #F4F8F4 100%) !important;
+    background: radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.55) 0%, rgba(250, 252, 249, 0.28) 55%, rgba(244, 248, 244, 0.65) 90%, #F4F8F4 100%) !important;
     pointer-events: none !important;
     z-index: 3 !important;
 }
@@ -10629,6 +10634,7 @@ section[id],
     gap: 12px !important;
     flex-wrap: wrap !important;
     margin: 0 auto !important;
+    text-align: center !important;
     opacity: 0 !important;
     transform: translateY(16px) !important;
     filter: blur(6px) !important;
@@ -10644,6 +10650,8 @@ section[id],
 .workspace-page-body .ws-stat-pill {
     display: inline-flex !important;
     align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
     gap: 8px !important;
     background: rgba(255, 255, 255, 0.6) !important;
     backdrop-filter: blur(20px) saturate(180%) !important;
@@ -10765,6 +10773,95 @@ section[id],
     .workspace-page-body .ws-stat-pill {
         width: 100% !important;
         justify-content: space-between !important;
+    }
+}
+
+/* ==========================================================================
+   WORKSPACE BOTANICAL DECORATIVE ELEMENTS (#ai-architecture & #precision-benchmarks)
+   ========================================================================== */
+.ws-ai-architecture-section,
+.ws-benchmarks-section {
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.ws-forest-decor-canvas {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+    overflow: hidden !important;
+}
+
+.ws-forest-decor-canvas .ws-decor-node {
+    position: absolute !important;
+    pointer-events: none !important;
+    user-select: none !important;
+    line-height: 0 !important;
+    filter: drop-shadow(0 12px 28px rgba(6, 78, 59, 0.08)) !important;
+    transition: transform 0.8s var(--ease-apple), opacity 0.8s ease !important;
+}
+
+.ws-forest-decor-canvas .ws-decor-node img {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+}
+
+/* Top-right branch in #ai-architecture (exact Cara Kerja decor styling) */
+.ws-decor-arch-tr {
+    top: 8px !important;
+    right: -12px !important;
+    width: clamp(230px, 21vw, 340px) !important;
+    opacity: 0.92 !important;
+    transform-origin: top right !important;
+    animation: forestBranchSway 14s ease-in-out infinite alternate-reverse !important;
+}
+
+/* Bottom-left natural grounded Mycena clump in #ai-architecture */
+.ws-decor-arch-bl {
+    bottom: -15px !important;
+    left: -20px !important;
+    width: clamp(220px, 20vw, 320px) !important;
+    opacity: 0.9 !important;
+}
+
+/* Top-left branch in #precision-benchmarks (flipped horizontally to point into section) */
+.ws-decor-bm-tl {
+    top: 8px !important;
+    left: -12px !important;
+    width: clamp(230px, 21vw, 340px) !important;
+    opacity: 0.92 !important;
+    transform: scaleX(-1) !important;
+    transform-origin: top left !important;
+    animation: forestBranchSway 12s ease-in-out infinite alternate !important;
+}
+
+/* Bottom-right habitat stone & specimen in #precision-benchmarks */
+.ws-decor-bm-br {
+    bottom: -15px !important;
+    right: -20px !important;
+    width: clamp(240px, 22vw, 350px) !important;
+    opacity: 0.9 !important;
+}
+
+@media (max-width: 1024px) {
+    .ws-forest-decor-canvas .ws-decor-node {
+        opacity: 0.55 !important;
+        transform: scale(0.85) !important;
+    }
+    .ws-decor-bm-tl {
+        transform: scaleX(-1) scale(0.85) !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .ws-forest-decor-canvas {
+        display: none !important;
     }
 }
 
@@ -12844,6 +12941,7 @@ section[id],
     gap: 12px !important;
     margin-top: 20px !important;
     flex-wrap: nowrap !important;
+    width: 100% !important;
 }
 
 .roomie-btn-primary,
@@ -12855,7 +12953,7 @@ section[id],
     gap: 8px !important;
     height: 44px !important;
     min-height: 44px !important;
-    padding: 0 24px !important;
+    padding: 0 20px !important;
     border-radius: 9999px !important;
     font-family: var(--font-sans) !important;
     font-size: 13.5px !important;
@@ -12870,7 +12968,7 @@ section[id],
     overflow: hidden !important;
     transition: transform 0.25s var(--ease-apple), box-shadow 0.25s var(--ease-apple), background 0.25s ease !important;
     white-space: nowrap !important;
-    flex-shrink: 0 !important;
+    flex: 1 1 0 !important;
 }
 
 .roomie-btn-primary::after,
@@ -12911,7 +13009,7 @@ section[id],
     justify-content: center !important;
     height: 44px !important;
     min-height: 44px !important;
-    padding: 0 22px !important;
+    padding: 0 20px !important;
     border-radius: 9999px !important;
     font-family: var(--font-sans) !important;
     font-size: 13.5px !important;
@@ -12928,7 +13026,7 @@ section[id],
     overflow: hidden !important;
     transition: transform 0.25s var(--ease-apple), box-shadow 0.25s var(--ease-apple), border-color 0.25s ease, background 0.25s ease !important;
     white-space: nowrap !important;
-    flex-shrink: 0 !important;
+    flex: 1 1 0 !important;
 }
 
 .roomie-btn-secondary:hover,

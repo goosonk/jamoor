@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="workspace-html-root">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,7 +77,7 @@
     <section class="ws-banner ws-anim-item ws-anim-2" id="ws-banner">
       <!-- Live Nature Atmospheric Stage matching Landing Page -->
       <div class="ws-live-stage" aria-hidden="true">
-        <div class="ws-bg-layer" style="background-image: url('{{ url_for('static', filename='img/backgrounds/cda8472143365b27c9e6c309215a45b1.jpg') }}');"></div>
+        <div class="ws-bg-layer" style="background-image: url('{{ url_for('static', filename='img/backgrounds/7939965fee3a0bf04cca0945ef3c7dd4.jpg') }}');"></div>
         <div class="ws-nature-mist"></div>
         <div class="ws-mist-layer mist-1"></div>
         <div class="ws-mist-layer mist-2"></div>
@@ -91,11 +91,6 @@
 
       <div class="container ws-banner-inner">
         <div class="ws-banner-copy" id="ws-banner-copy">
-          <div class="badge badge-forest ws-cnn-badge">
-            <span class="badge-pulse-dot"></span>
-            <span>CNN Vision · MobileNetV2 · 224×224 px</span>
-          </div>
-
           <h1 class="ws-banner-title" id="ws-banner-title">
             <span class="ws-title-line line-1">Workspace Identifikasi</span>
             <span class="ws-title-line line-2">Jamur Terpadu</span>
@@ -603,6 +598,18 @@
 
     <!-- ================= ARSITEKTUR AI (HOW SHROOMY AI WORKS) ================= -->
     <section class="ws-ai-architecture-section has-botanical-bg" id="ai-architecture">
+      <!-- Botanical Organic Decorative Elements -->
+      <div class="ws-forest-decor-canvas" aria-hidden="true">
+        <picture class="ws-decor-node ws-decor-arch-tr">
+          <source srcset="{{ url_for('static', filename='img/decorations/custom_team_portrait_frame_tr_mirrored.webp') }}" type="image/webp">
+          <img src="{{ url_for('static', filename='img/decorations/custom_team_portrait_frame_tr_mirrored.webp') }}" alt="" loading="lazy" decoding="async">
+        </picture>
+        <picture class="ws-decor-node ws-decor-arch-bl">
+          <source srcset="{{ url_for('static', filename='img/decorations/custom_about_grounded_mycena_bl.webp') }}" type="image/webp">
+          <img src="{{ url_for('static', filename='img/decorations/custom_about_grounded_mycena_bl.webp') }}" alt="" loading="lazy" decoding="async">
+        </picture>
+      </div>
+
       <div class="bg-botanical-layer" aria-hidden="true">
         <svg class="bg-botanical-curve" viewBox="0 0 1440 320" fill="none" preserveAspectRatio="none">
           <path class="bg-line-draw" pathLength="1" d="M-20 220 C 220 80, 420 240, 680 140 C 940 40, 1140 220, 1460 110" stroke="#087F5B" stroke-width="2" stroke-opacity="0.16" stroke-linecap="round"/>
@@ -752,6 +759,18 @@
 
     <!-- ================= SPESIFIKASI MODEL (MODEL SPECIFICATIONS) ================= -->
     <section class="ws-benchmarks-section has-botanical-bg" id="precision-benchmarks">
+      <!-- Botanical Organic Decorative Elements -->
+      <div class="ws-forest-decor-canvas" aria-hidden="true">
+        <picture class="ws-decor-node ws-decor-bm-tl">
+          <source srcset="{{ url_for('static', filename='img/decorations/custom_why_canopy_branch_tr_mirrored.webp') }}" type="image/webp">
+          <img src="{{ url_for('static', filename='img/decorations/custom_why_canopy_branch_tr_mirrored.webp') }}" alt="" loading="lazy" decoding="async">
+        </picture>
+        <picture class="ws-decor-node ws-decor-bm-br">
+          <source srcset="{{ url_for('static', filename='img/decorations/custom_exp_specimen_habitat_br.webp') }}" type="image/webp">
+          <img src="{{ url_for('static', filename='img/decorations/custom_exp_specimen_habitat_br.webp') }}" alt="" loading="lazy" decoding="async">
+        </picture>
+      </div>
+
       <div class="bg-botanical-layer" aria-hidden="true">
         <svg class="bg-botanical-curve bg-curve-ws-bench" viewBox="0 0 1440 300" fill="none" preserveAspectRatio="none">
           <path class="bg-line-draw" pathLength="1" d="M-20 190 C 175 75, 345 55, 515 135 C 685 215, 755 215, 925 135 C 1095 55, 1265 75, 1460 190" stroke="#087F5B" stroke-width="1.9" stroke-opacity="0.18" stroke-linecap="round"/>
