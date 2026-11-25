@@ -20,19 +20,29 @@
 </head>
 <body class="workspace-page-body is-entering" id="workspace-body">
 
-  <!-- ================= ENTRANCE TRANSITION CURTAIN ================= -->
+  <!-- ================= CINEMATIC WORKSPACE ENTRY EXPERIENCE (APPLE LIQUID GLASS ENTRY) ================= -->
   <div class="ws-entrance-curtain" id="ws-entrance-curtain" aria-hidden="true">
-    <div class="ws-curtain-inner">
-      <div class="ws-curtain-badge">Shroomy Workspace</div>
-      <div class="ws-curtain-title">Menyiapkan Ruang Kerja Identifikasi...</div>
-      <div class="ws-curtain-loader"><div class="ws-curtain-bar"></div></div>
+    <div class="ws-curtain-bg-layer" style="background-image: url('{{ url_for('static', filename='img/backgrounds/f7c2fd362039823ffa7883c7dbbc9b5f.jpg') }}');"></div>
+    <div class="ws-curtain-mist"></div>
+    <div class="ws-curtain-vignette"></div>
+
+    <div class="ws-curtain-glass-panel">
+      <div class="ws-curtain-logo-wrap">
+        <img src="{{ url_for('static', filename='img/shroomy-logo-green.png') }}" alt="Shroomy Logo" class="ws-curtain-logo-img">
+      </div>
+      <div class="ws-curtain-badge">Shroomy Workspace AI</div>
+      <h2 class="ws-curtain-title">Menyiapkan Ruang Kerja Identifikasi</h2>
+      <p class="ws-curtain-sub">Menginisialisasi pipeline model CNN MobileNetV2 224×224 px...</p>
+      <div class="ws-curtain-loader">
+        <div class="ws-curtain-bar"></div>
+      </div>
     </div>
   </div>
 
   <!-- ================= WORKSPACE HEADER ================= -->
-  <header class="site-header is-scrolled ws-anim-item ws-anim-1" id="site-header">
+  <header class="site-header ws-anim-item ws-anim-1" id="site-header">
     <div class="container nav-container">
-      <!-- Brand stays inside workspace -->
+      <!-- Brand stays inside workspace, standalone logo exactly like landing page -->
       <a href="#workspace-app" class="brand-link" aria-label="Shroomy Workspace">
         <img src="{{ url_for('static', filename='img/shroomy-logo-green.png') }}" alt="Shroomy Logo" class="brand-logo-img">
         <div class="brand-text">
@@ -50,8 +60,8 @@
       </nav>
 
       <div class="nav-actions">
-        <a href="{{ url_for('index') }}" class="btn btn-secondary ws-back-btn" id="btn-back-main-home">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <a href="{{ url_for('index') }}" class="btn ws-back-btn" id="btn-back-main-home">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
           <span class="ws-back-label-full">Kembali ke Halaman Utama</span>
           <span class="ws-back-label-short">Beranda</span>
         </a>
@@ -63,34 +73,59 @@
   </header>
 
   <main>
-    <!-- ================= WORKSPACE HERO BANNER ================= -->
-    <section class="ws-banner ws-anim-item ws-anim-2" style="background-image: linear-gradient(135deg, rgba(3, 43, 31, 0.82) 0%, rgba(6, 78, 59, 0.88) 100%), url('{{ url_for('static', filename='img/backgrounds/cda8472143365b27c9e6c309215a45b1.jpg') }}'); background-size: cover; background-position: center;">
+    <!-- ================= WORKSPACE HERO BANNER (CENTERED EDITORIAL LIKE LANDING PAGE) ================= -->
+    <section class="ws-banner ws-anim-item ws-anim-2" id="ws-banner">
+      <!-- Live Nature Atmospheric Stage matching Landing Page -->
+      <div class="ws-live-stage" aria-hidden="true">
+        <div class="ws-bg-layer" style="background-image: url('{{ url_for('static', filename='img/backgrounds/cda8472143365b27c9e6c309215a45b1.jpg') }}');"></div>
+        <div class="ws-nature-mist"></div>
+        <div class="ws-mist-layer mist-1"></div>
+        <div class="ws-mist-layer mist-2"></div>
+        <div class="ws-vignette-overlay"></div>
+        <!-- Soft Organic Rolling Hills (Matching Target Mockup Image 2) -->
+        <svg class="ws-landscape-curves" viewBox="0 0 1440 320" fill="none" preserveAspectRatio="none">
+          <path d="M-40 240 C 260 140, 560 300, 920 180 C 1220 80, 1380 200, 1500 170 L 1500 320 L -40 320 Z" fill="rgba(218, 235, 224, 0.35)"/>
+          <path d="M-40 270 C 320 200, 680 310, 1040 220 C 1280 160, 1420 250, 1500 230 L 1500 320 L -40 320 Z" fill="rgba(202, 224, 210, 0.45)"/>
+        </svg>
+      </div>
+
       <div class="container ws-banner-inner">
-        <div class="ws-banner-copy">
-          <div class="badge badge-forest">
+        <div class="ws-banner-copy" id="ws-banner-copy">
+          <div class="badge badge-forest ws-cnn-badge">
             <span class="badge-pulse-dot"></span>
             <span>CNN Vision · MobileNetV2 · 224×224 px</span>
           </div>
-          <h1 class="ws-banner-title">Workspace Identifikasi Jamur Terpadu</h1>
-          <p class="ws-banner-desc">
-            Pilih metode identifikasi visual di bawah: pemindaian kamera langsung secara realtime atau unggah foto jamur dari galeri perangkat Anda. Sistem kecerdasan buatan akan memproses citra melalui model deep learning <strong>CNN MobileNetV2</strong> secara otomatis, cepat, dan terstandarisasi.
-          </p>
-        </div>
 
-        <div class="ws-banner-pills">
-          <div class="ws-stat-pill">
-            <span class="ws-stat-label">Model CNN</span>
-            <strong class="ws-stat-val">MobileNetV2</strong>
-          </div>
-          <div class="ws-stat-pill">
-            <span class="ws-stat-label">Resolusi Input</span>
-            <strong class="ws-stat-val">224×224 px RGB</strong>
-          </div>
-          <div class="ws-stat-pill">
-            <span class="ws-stat-label">Normalisasi</span>
-            <strong class="ws-stat-val">ImageNet Standard</strong>
+          <h1 class="ws-banner-title" id="ws-banner-title">
+            <span class="ws-title-line line-1">Workspace Identifikasi</span>
+            <span class="ws-title-line line-2">Jamur Terpadu</span>
+          </h1>
+
+          <p class="ws-banner-desc" id="ws-banner-desc">
+            Identifikasi visual melalui kamera realtime atau unggahan foto.
+          </p>
+
+          <!-- 3 Minimalist Spec Pills in Centered Horizontal Row (Matching User Mockup Image 2) -->
+          <div class="ws-banner-pills" id="ws-banner-pills">
+            <div class="ws-stat-pill">
+              <strong class="ws-stat-val">MobileNetV2</strong>
+            </div>
+            <div class="ws-stat-pill">
+              <strong class="ws-stat-val">224×224 RGB</strong>
+            </div>
+            <div class="ws-stat-pill">
+              <strong class="ws-stat-val">ImageNet Standard</strong>
+            </div>
           </div>
         </div>
+      </div>
+
+      <!-- Organic Wave Transition towards Identification Area (Matching User Mockup) -->
+      <div class="ws-wave-transition" aria-hidden="true">
+        <svg viewBox="0 0 1440 90" fill="none" preserveAspectRatio="none">
+          <path d="M0,45 C280,85 540,15 880,55 C1160,85 1340,35 1440,45 L1440,90 L0,90 Z" fill="#F4F8F4"></path>
+          <path d="M0,60 C320,88 640,30 960,65 C1200,90 1360,50 1440,60 L1440,90 L0,90 Z" fill="#F4F8F4" opacity="0.6"></path>
+        </svg>
       </div>
     </section>
 
@@ -122,27 +157,16 @@
 
       <div class="container ws-container">
 
-        <!-- 2 Mode Switcher Tabs -->
-        <div class="ws-mode-tabs" role="tablist" aria-label="Pilih Mode Identifikasi">
-          <button type="button" class="ws-tab-btn is-active" data-ws-mode="camera" role="tab" aria-selected="true">
-            <div class="ws-tab-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-            </div>
-            <div class="ws-tab-text">
-              <span class="ws-tab-title">1. Identifikasi Melalui Kamera</span>
-              <span class="ws-tab-sub">Pindai spesimen langsung via kamera realtime</span>
-            </div>
-          </button>
-
-          <button type="button" class="ws-tab-btn" data-ws-mode="upload" role="tab" aria-selected="false">
-            <div class="ws-tab-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-            </div>
-            <div class="ws-tab-text">
-              <span class="ws-tab-title">2. Identifikasi Melalui Gambar</span>
-              <span class="ws-tab-sub">Unggah berkas foto spesimen dari perangkat</span>
-            </div>
-          </button>
+        <!-- Sleek Segmented Pill Control (Matching Target Mockup Image 2) -->
+        <div class="ws-mode-tabs-container">
+          <div class="ws-mode-tabs" role="tablist" aria-label="Pilih Mode Identifikasi">
+            <button type="button" class="ws-tab-btn is-active" data-ws-mode="camera" role="tab" aria-selected="true">
+              <span class="ws-tab-title">Identifikasi Melalui Kamera</span>
+            </button>
+            <button type="button" class="ws-tab-btn" data-ws-mode="upload" role="tab" aria-selected="false">
+              <span class="ws-tab-title">Identifikasi Melalui Gambar</span>
+            </button>
+          </div>
         </div>
 
         <!-- Workspace 2-Column Balanced Layout (50:50) -->
@@ -197,20 +221,23 @@
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
                   </div>
                   <h4>Kamera Belum Aktif</h4>
-                  <p>Klik tombol <strong>Aktifkan Kamera</strong> untuk memulai pemindaian langsung.</p>
+                  <p>Klik tombol <strong>Mulai Kamera</strong> untuk memulai pemindaian langsung.</p>
                 </div>
               </div>
 
-              <!-- Camera Controls -->
+              <!-- Camera Controls (Matching Image 2 Actions) -->
               <div class="ws-action-row">
                 <div class="ws-action-left">
-                  <button type="button" class="btn btn-primary" id="btn-start-camera">
-                    <span>Aktifkan Kamera</span>
+                  <button type="button" class="btn btn-primary ws-pill-action-btn" id="btn-start-camera">
+                    <span>Mulai Kamera</span>
                   </button>
-                  <button type="button" class="btn btn-primary" id="btn-capture-camera" disabled>
+                  <button type="button" class="btn btn-secondary ws-pill-action-btn" id="btn-camera-control" title="Pilih Lensa &amp; Kontrol Kamera">
+                    <span>Kontrol Kamera</span>
+                  </button>
+                  <button type="button" class="btn btn-primary ws-pill-action-btn" id="btn-capture-camera" disabled style="display: none;">
                     <span>Ambil Foto &amp; Analisis AI</span>
                   </button>
-                  <button type="button" class="btn btn-secondary" id="btn-stop-camera" style="display: none;">
+                  <button type="button" class="btn btn-secondary ws-pill-action-btn" id="btn-stop-camera" style="display: none;">
                     <span>Matikan Kamera</span>
                   </button>
                 </div>
@@ -350,78 +377,88 @@
               <!-- 3. Konten Utama Bawah Foto -->
               <div class="nd-body-content" id="res-species-hero-card">
                 
-                <!-- Top Row: Ringkasan Spesies (Kiri) + Botanical Morph Diagram (Kanan seperti peta di Gambar 2) -->
-                <div class="nd-specimen-overview-grid">
-                  <div class="nd-overview-text">
-                    <div class="nd-rank-meta-row">
-                      <span class="species-rank-tag" id="res-species-kicker">Spesies Teridentifikasi</span>
-                      <span class="species-conf-badge" id="res-species-confidence">Menunggu Gambar</span>
-                    </div>
-
-                    <h2 class="nd-primary-scientific" id="res-species-name">Menunggu Input Gambar</h2>
-                    <div class="nd-primary-common" id="res-species-common">Pindai kamera atau unggah foto untuk identifikasi spesies.</div>
-                    <p class="species-editorial-desc" id="res-species-editorial-desc" style="display: none;"></p>
-
-                    <!-- Minimalist Confidence Indicator (Horizontal progress bar) -->
-                    <div class="nd-confidence-bar-wrap" id="res-conf-meter-wrap" style="display: none;">
-                      <div class="nd-conf-label-row">
-                        <span class="nd-conf-title">Keyakinan Visual Model</span>
-                        <strong class="nd-conf-score" id="res-conf-meter-val">0%</strong>
-                      </div>
-                      <div class="nd-conf-track">
-                        <div class="nd-conf-fill" id="res-conf-meter-fill" style="width: 0%;"></div>
-                      </div>
-                      <span class="nd-conf-caption" id="res-conf-meter-note">Skor kemiripan visual CNN MobileNetV2, bukan jaminan identifikasi mutlak</span>
-                    </div>
-
-                    <!-- Peringatan Keyakinan Rendah -->
-                    <div class="species-warning-banner" id="res-low-conf-banner" style="display: none;">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                      <span id="res-low-conf-text">Hasil identifikasi belum meyakinkan. Spesies di atas hanya kandidat visual terdekat dan belum dapat dipastikan.</span>
-                    </div>
+                <!-- Top Section: Identitas Spesies & Skor Keyakinan (Full Width Lebar Penuh) -->
+                <div class="nd-overview-text">
+                  <div class="nd-rank-meta-row">
+                    <span class="species-rank-tag" id="res-species-kicker">Spesies Teridentifikasi</span>
+                    <span class="species-conf-badge" id="res-species-confidence">Menunggu Gambar</span>
                   </div>
 
-                  <!-- Visual Pendamping: Botanical Line-Art Silhouette Diagram dengan Hotspot Interaktif (Inspirasi Gambar 4) -->
-                  <div class="nd-morph-diagram-card" id="nd-morph-diagram-card" title="Diagram Morfologi Fungi (Arahkan kursor ke titik 1, 2, 3)">
-                    <div class="nd-diagram-interactive-stage">
-                      <svg viewBox="0 0 100 80" fill="none" class="nd-morph-svg">
-                        <path d="M15 48 C 15 22, 85 22, 85 48 C 65 52, 35 52, 15 48 Z" stroke="#087f5b" stroke-width="2.2" stroke-linecap="round" fill="rgba(22, 163, 74, 0.08)"/>
-                        <circle cx="36" cy="34" r="2.5" fill="#16a34a" opacity="0.6"/>
-                        <circle cx="62" cy="32" r="3" fill="#16a34a" opacity="0.6"/>
-                        <circle cx="50" cy="26" r="2" fill="#16a34a" opacity="0.6"/>
-                        <path d="M44 50 L 41 74 C 41 76, 59 76, 59 74 L 56 50" stroke="#064e3b" stroke-width="2" stroke-linecap="round" fill="rgba(240, 253, 244, 0.6)"/>
-                        <path d="M40 58 C 47 61, 53 61, 60 58" stroke="#087f5b" stroke-width="1.8" stroke-linecap="round"/>
-                        <ellipse cx="50" cy="74" rx="14" ry="3" stroke="#059669" stroke-width="1.5" stroke-dasharray="2 3"/>
-                      </svg>
-                      
-                      <!-- Hotspot 1: Tudung / Cap (Gambar 4 Hotspot 1) -->
-                      <button type="button" class="nd-hotspot-pin pin-cap" data-hotspot="1" aria-label="Tudung Jamur">
-                        <span>1</span>
-                        <div class="nd-hotspot-tooltip">
-                          <strong>Tudung (Pileus)</strong>
-                          <span>Area fokus ekstraksi warna &amp; pola</span>
-                        </div>
-                      </button>
+                  <h2 class="nd-primary-scientific" id="res-species-name">Menunggu Input Gambar</h2>
+                  <div class="nd-primary-common" id="res-species-common">Pindai kamera atau unggah foto untuk identifikasi spesies.</div>
+                  <p class="species-editorial-desc" id="res-species-editorial-desc" style="display: none;"></p>
 
-                      <!-- Hotspot 2: Insang / Hymenium (Gambar 4 Hotspot 2) -->
-                      <button type="button" class="nd-hotspot-pin pin-gills" data-hotspot="2" aria-label="Insang Jamur">
-                        <span>2</span>
-                        <div class="nd-hotspot-tooltip">
-                          <strong>Insang (Hymenium)</strong>
-                          <span>Permukaan pelepasan spora alami</span>
-                        </div>
-                      </button>
-
-                      <!-- Hotspot 3: Cincin & Batang / Stem (Gambar 4 Hotspot 3) -->
-                      <button type="button" class="nd-hotspot-pin pin-stem" data-hotspot="3" aria-label="Batang & Cincin">
-                        <span>3</span>
-                        <div class="nd-hotspot-tooltip">
-                          <strong>Batang &amp; Cincin (Stipe)</strong>
-                          <span>Penopang &amp; sisa selubung velum</span>
-                        </div>
-                      </button>
+                  <!-- Minimalist Confidence Indicator (Horizontal full-width progress bar) -->
+                  <div class="nd-confidence-bar-wrap" id="res-conf-meter-wrap" style="display: none;">
+                    <div class="nd-conf-label-row">
+                      <span class="nd-conf-title">Keyakinan Visual Model</span>
+                      <strong class="nd-conf-score" id="res-conf-meter-val">0%</strong>
                     </div>
-                    <span class="nd-diagram-caption">Morfologi Fungi</span>
+                    <div class="nd-conf-track">
+                      <div class="nd-conf-fill" id="res-conf-meter-fill" style="width: 0%;"></div>
+                    </div>
+                    <span class="nd-conf-caption" id="res-conf-meter-note">Skor kemiripan visual CNN MobileNetV2, bukan jaminan identifikasi mutlak</span>
+                  </div>
+
+                  <!-- Peringatan Keyakinan Rendah (Full Width) -->
+                  <div class="species-warning-banner" id="res-low-conf-banner" style="display: none;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <span id="res-low-conf-text">Hasil identifikasi belum meyakinkan. Spesies di atas hanya kandidat visual terdekat dan belum dapat dipastikan.</span>
+                  </div>
+                </div>
+
+                <!-- Tombol Horizontal Morfologi Fungi Selebar Kontainer (Reposisi Khusus yang Disetujui Pengguna) -->
+                <div class="nd-morph-action-card" id="nd-morph-action-card">
+                  <div class="nd-morph-action-left">
+                    <div class="nd-morph-action-icon">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2a9 9 0 0 0-9 9c0 2 2 3 9 3s9-1 9-3a9 9 0 0 0-9-9z"></path>
+                        <path d="M10 14v7a1 1 0 0 0 2 0v-7"></path>
+                        <path d="M7 11c2.5 1.5 7.5 1.5 10 0"></path>
+                      </svg>
+                    </div>
+                    <div class="nd-morph-action-text">
+                      <strong class="nd-morph-action-title">Morfologi Fungi &amp; Zona Anatomi Spesimen</strong>
+                      <span class="nd-morph-action-sub">Tudung (Pileus) · Insang (Hymenium) · Batang &amp; Cincin (Stipe)</span>
+                    </div>
+                  </div>
+                  <div class="nd-diagram-interactive-stage" id="nd-morph-diagram-card">
+                    <svg viewBox="0 0 100 80" fill="none" class="nd-morph-svg">
+                      <path d="M15 48 C 15 22, 85 22, 85 48 C 65 52, 35 52, 15 48 Z" stroke="#087f5b" stroke-width="2.2" stroke-linecap="round" fill="rgba(22, 163, 74, 0.08)"/>
+                      <circle cx="36" cy="34" r="2.5" fill="#16a34a" opacity="0.6"/>
+                      <circle cx="62" cy="32" r="3" fill="#16a34a" opacity="0.6"/>
+                      <circle cx="50" cy="26" r="2" fill="#16a34a" opacity="0.6"/>
+                      <path d="M44 50 L 41 74 C 41 76, 59 76, 59 74 L 56 50" stroke="#064e3b" stroke-width="2" stroke-linecap="round" fill="rgba(240, 253, 244, 0.6)"/>
+                      <path d="M40 58 C 47 61, 53 61, 60 58" stroke="#087f5b" stroke-width="1.8" stroke-linecap="round"/>
+                      <ellipse cx="50" cy="74" rx="14" ry="3" stroke="#059669" stroke-width="1.5" stroke-dasharray="2 3"/>
+                    </svg>
+                    
+                    <!-- Hotspot 1: Tudung / Cap -->
+                    <button type="button" class="nd-hotspot-pin pin-cap" data-hotspot="1" aria-label="Tudung Jamur">
+                      <span>1</span>
+                      <div class="nd-hotspot-tooltip">
+                        <strong>Tudung (Pileus)</strong>
+                        <span>Area fokus ekstraksi warna &amp; pola</span>
+                      </div>
+                    </button>
+
+                    <!-- Hotspot 2: Insang / Hymenium -->
+                    <button type="button" class="nd-hotspot-pin pin-gills" data-hotspot="2" aria-label="Insang Jamur">
+                      <span>2</span>
+                      <div class="nd-hotspot-tooltip">
+                        <strong>Insang (Hymenium)</strong>
+                        <span>Permukaan pelepasan spora alami</span>
+                      </div>
+                    </button>
+
+                    <!-- Hotspot 3: Cincin & Batang / Stem -->
+                    <button type="button" class="nd-hotspot-pin pin-stem" data-hotspot="3" aria-label="Batang & Cincin">
+                      <span>3</span>
+                      <div class="nd-hotspot-tooltip">
+                        <strong>Batang &amp; Cincin (Stipe)</strong>
+                        <span>Penopang &amp; sisa selubung velum</span>
+                      </div>
+                    </button>
                   </div>
                 </div>
 
@@ -560,6 +597,7 @@
           </aside>
 
         </div>
+
       </div>
     </section>
 
@@ -841,18 +879,22 @@
 
   </main>
 
-  <!-- ================= ROOMIE 3-CLICK INTERACTIVE WELCOME POPUP ================= -->
+  <!-- ================= ROOMIE 3-STAGE INTERACTIVE ONBOARDING POPUP (APPLE LIQUID GLASS) ================= -->
   <div class="roomie-welcome-backdrop" id="roomie-welcome-modal" role="dialog" aria-modal="true" aria-labelledby="roomie-modal-title">
-    <div class="roomie-welcome-card" id="roomie-clickable-card" data-pose="wave">
-      <div class="roomie-modal-grid">
+    <div class="roomie-welcome-card ws-onboarding-glass-card" id="roomie-clickable-card" data-pose="wave">
+      <button type="button" class="roomie-welcome-dismiss ws-onboarding-dismiss" id="roomie-welcome-dismiss" aria-label="Tutup panduan Roomie">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+
+      <div class="roomie-modal-grid ws-onboarding-grid">
         <!-- Left: Clickable Real Roomie Character Stage -->
-        <div class="roomie-modal-stage" id="roomie-character-trigger" title="Klik Roomie untuk lanjut">
+        <div class="roomie-modal-stage ws-onboarding-stage" id="roomie-character-trigger" title="Klik Roomie untuk lanjut">
           <span class="roomie-step-pill" id="roomie-step-badge">Tahap 1 dari 3</span>
 
           <div class="roomie-modal-avatar" id="roomie-modal-avatar" data-pose="wave">
             <img src="{{ url_for('static', filename='img/roomie-mascot.png') }}" alt="Maskot Roomie" class="roomie-modal-photo">
 
-            <!-- Pose-Specific Interactive Visual Props (Step 1..3 / 2 Modes) -->
+            <!-- Pose-Specific Interactive Visual Props (Step 1..3) -->
             <!-- Pose 1: Wave Greeting Sparkles -->
             <div class="roomie-pose-prop prop-wave" aria-hidden="true">
               <span class="prop-wave-pill">Halo Peneliti!</span>
@@ -882,16 +924,16 @@
             </div>
           </div>
 
-          <span class="roomie-stage-mode-chip" id="roomie-stage-mode-chip">Perkenalan Roomie</span>
+          <span class="roomie-stage-mode-chip" id="roomie-stage-mode-chip">Sambutan Roomie</span>
           <span class="roomie-click-hint">Klik Roomie untuk Lanjut</span>
         </div>
 
         <!-- Right: 3-Step Story Content -->
-        <div class="roomie-modal-content">
+        <div class="roomie-modal-content ws-onboarding-content">
           <span class="roomie-modal-kicker" id="roomie-modal-kicker">Sambutan Workspace Shroomy</span>
-          <h2 class="roomie-modal-title" id="roomie-modal-title">Halo! Kenalkan, Aku Roomie</h2>
+          <h3 class="roomie-modal-title" id="roomie-modal-title">Halo! Kenalkan, Aku Roomie</h3>
           <p class="roomie-modal-desc" id="roomie-modal-desc">
-            Selamat datang di <strong>Workspace Identifikasi Jamur Terpadu</strong>. Aku akan memandumu mengenal 2 mode identifikasi citra yang tersedia di halaman ini. Klik diriku untuk mulai menjelajah!
+            Selamat datang di <strong>Workspace Identifikasi Jamur Terpadu</strong>. Aku akan memperkenalkan 2 mode identifikasi citra yang tersedia di halaman ini. Klik Roomie untuk melihat mode pertama.
           </p>
 
           <!-- Step Progress Dots -->
@@ -901,10 +943,13 @@
             <span class="r-dot" data-step-dot="2"></span>
           </div>
 
-          <div class="roomie-modal-actions">
-            <button type="button" class="btn btn-primary" id="btn-roomie-next-step">
-              <span id="btn-roomie-next-text">Lanjut (1/3)</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          <div class="roomie-modal-actions ws-onboarding-actions">
+            <button type="button" class="roomie-btn-primary ws-onboarding-btn-primary" id="btn-roomie-next-step">
+              <span id="btn-roomie-next-text">Lanjut ke Scan Kamera (1/3)</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+            <button type="button" class="roomie-btn-secondary ws-onboarding-btn-ghost" id="roomie-welcome-dismiss-btn">
+              <span>Lewati Panduan</span>
             </button>
           </div>
         </div>

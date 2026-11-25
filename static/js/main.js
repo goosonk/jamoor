@@ -7,31 +7,47 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    /* ---------- 0. Hero Title Typewriter ---------- */
-    initHeroTypewriter();
+    /* ---------- 0. Hero Title Typewriter & Live Atmosphere ---------- */
+    initCinematicHeroReveal();
+    initLiveHeroAtmosphere();
 
     /* ---------- 1. Sticky Header & Scroll Spy ---------- */
     const siteHeader = document.getElementById('site-header');
-    const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+    const navLinks = Array.from(document.querySelectorAll('.site-nav .nav-link'));
     const sections = navLinks
         .map(link => document.querySelector(link.getAttribute('href')))
         .filter(Boolean);
 
     function handleScroll() {
-        if (window.scrollY > 16) {
+        if (window.scrollY > 20) {
             siteHeader.classList.add('is-scrolled');
         } else {
             siteHeader.classList.remove('is-scrolled');
         }
 
-        const scrollPos = window.scrollY + 140;
         let currentSectionId = '';
+        const firstSection = sections[0];
 
-        sections.forEach(sec => {
-            if (scrollPos >= sec.offsetTop) {
-                currentSectionId = '#' + sec.id;
+        // When in Hero section (above #about), NO nav link is active
+        if (firstSection) {
+            const firstRect = firstSection.getBoundingClientRect();
+            if (firstRect.top > 240) {
+                currentSectionId = '';
+            } else {
+                // Find which section is currently in the active viewport focal zone
+                sections.forEach(sec => {
+                    const rect = sec.getBoundingClientRect();
+                    if (rect.top <= 250 && rect.bottom > 120) {
+                        currentSectionId = '#' + sec.id;
+                    }
+                });
+
+                // Bottom of page threshold: activate last section (#team)
+                if ((window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 60)) {
+                    currentSectionId = '#' + sections[sections.length - 1].id;
+                }
             }
-        });
+        }
 
         navLinks.forEach(link => {
             link.classList.toggle('is-active', link.getAttribute('href') === currentSectionId);
@@ -39,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
     handleScroll();
 
     /* ---------- 2. Mobile Navigation Toggle ---------- */
@@ -105,10 +122,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         card.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
+                if (e.target.closest('a')) return;
                 e.preventDefault();
                 card.classList.toggle('is-flipped');
             }
         });
+
+        const flipBtn = card.querySelector('.dev-action-capsule-btn');
+        if (flipBtn) {
+            flipBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                card.classList.add('is-flipped');
+            });
+        }
+
+        const backBtn = card.querySelector('.dev-back-flip-btn');
+        if (backBtn) {
+            backBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                card.classList.remove('is-flipped');
+            });
+        }
     });
 
     const stepCards = document.querySelectorAll('.step-card');
@@ -419,8 +453,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let welcomeTimer = null;
 
     function shrinkWelcomeToCorner() {
-        // Dispatch event for typewriter title animation
-        window.dispatchEvent(new CustomEvent('shroomy:welcome-dismissed'));
+        try {
+            sessionStorage.setItem('shroomy_welcome_dismissed', '1');
+        } catch (_) {}
+
         if (!welcomeBackdrop || !welcomeBackdrop.classList.contains('is-open')) return;
         if (welcomeTimer) {
             clearTimeout(welcomeTimer);
@@ -457,18 +493,37 @@ document.addEventListener('DOMContentLoaded', () => {
         if (faqLauncher) faqLauncher.setAttribute('aria-expanded', 'false');
     }
 
-    // Show Roomie centered welcome popup on first load, then shrink to bottom-right corner
+    // Show Roomie centered welcome popup AFTER hero reveal completes + visual pause (Apple Choreography)
     if (welcomeBackdrop) {
-        setTimeout(() => {
+        let hasTriggeredWelcome = false;
+
+        function triggerRoomieWelcome() {
+            if (hasTriggeredWelcome) return;
+            hasTriggeredWelcome = true;
+
+            // If FAQ panel is already open, do not interrupt
             if (faqPanel && faqPanel.classList.contains('is-open')) return;
+
+            // Smooth scale-up entrance for Roomie
             welcomeBackdrop.classList.remove('is-shrinking');
             welcomeBackdrop.classList.add('is-open');
             welcomeBackdrop.setAttribute('aria-hidden', 'false');
 
+            // Auto-shrink after 8 seconds if no manual interaction
             welcomeTimer = setTimeout(() => {
                 shrinkWelcomeToCorner();
-            }, 6000);
-        }, 500);
+            }, 8000);
+        }
+
+        // Wait for hero reveal to finish, then pause for visual appreciation (~800ms)
+        window.addEventListener('shroomy:hero-reveal-complete', () => {
+            setTimeout(triggerRoomieWelcome, 800);
+        }, { once: true });
+
+        // Reliable fallback timer guaranteeing Roomie welcome appears after hero animation
+        setTimeout(() => {
+            if (!hasTriggeredWelcome) triggerRoomieWelcome();
+        }, 2600);
 
         welcomeBackdrop.addEventListener('click', (e) => {
             if (e.target === welcomeBackdrop) {
@@ -677,8 +732,15 @@ document.addEventListener('DOMContentLoaded', () => {
    SHROOMY BIOLUMINESCENT LIVING PARTICLES & SPORES (EYE-CATCHING EFFECT)
    Inspired by Reference Image 5 & 1 (Floating ethereal nature spores)
    ========================================================================== */
+/* ==========================================================================
+   SHROOMY BIOLUMINESCENT LIVING SPORES ENGINE (TAHAP 1: HIGH-EFFICIENCY & APPLE MOTION)
+   ========================================================================== */
 (function initBioluminescentSpores() {
-    const targets = document.querySelectorAll('.hero-section, .ws-banner');
+    // Check user preference for reduced motion
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const targets = document.querySelectorAll('.ws-banner');
     if (!targets.length) return;
 
     targets.forEach(target => {
@@ -686,12 +748,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const canvas = document.createElement('canvas');
         canvas.className = 'shroomy-spores-canvas';
-        canvas.style.position = 'absolute';
-        canvas.style.inset = '0';
-        canvas.style.pointerEvents = 'none';
-        canvas.style.zIndex = '1';
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
         target.style.position = 'relative';
         target.insertBefore(canvas, target.firstChild);
 
@@ -700,93 +756,211 @@ document.addEventListener('DOMContentLoaded', () => {
         let height = canvas.height = target.offsetHeight;
 
         let mouse = { x: -1000, y: -1000, active: false };
+        let isVisible = true;
+        let isTabActive = !document.hidden;
+
+        // Throttled mouse tracking for ambient cursor flashlight beam
+        let mouseTicking = false;
         target.addEventListener('mousemove', (e) => {
             const rect = target.getBoundingClientRect();
             mouse.x = e.clientX - rect.left;
             mouse.y = e.clientY - rect.top;
             mouse.active = true;
-        });
+
+            if (!mouseTicking) {
+                requestAnimationFrame(() => {
+                    target.style.setProperty('--hero-mouse-x', `${mouse.x}px`);
+                    target.style.setProperty('--hero-mouse-y', `${mouse.y}px`);
+                    mouseTicking = false;
+                });
+                mouseTicking = true;
+            }
+        }, { passive: true });
+
         target.addEventListener('mouseleave', () => {
             mouse.active = false;
+        }, { passive: true });
+
+        // Pause animation when tab is inactive to preserve CPU / GPU
+        document.addEventListener('visibilitychange', () => {
+            isTabActive = !document.hidden;
         });
 
-        const particles = [];
-        const count = Math.min(42, Math.max(18, Math.floor((width * height) / 18000)));
-        const colors = [
-            'rgba(163, 230, 53, ',
-            'rgba(134, 239, 172, ',
-            'rgba(253, 224, 71, ',
-            'rgba(110, 231, 183, '
-        ];
-
-        for (let i = 0; i < count; i++) {
-            particles.push({
-                x: Math.random() * width,
-                y: Math.random() * height,
-                radius: Math.random() * 2.2 + 1.2,
-                colorPrefix: colors[Math.floor(Math.random() * colors.length)],
-                alpha: Math.random() * 0.55 + 0.25,
-                vx: (Math.random() - 0.5) * 0.35,
-                vy: -(Math.random() * 0.45 + 0.2),
-                pulseSpeed: Math.random() * 0.02 + 0.01,
-                pulseOffset: Math.random() * Math.PI * 2
-            });
-        }
-
-        let isVisible = true;
+        // Pause animation when target section is scrolled out of viewport
         if ('IntersectionObserver' in window) {
-            const obs = new IntersectionObserver(([entry]) => {
+            const observer = new IntersectionObserver(([entry]) => {
                 isVisible = entry.isIntersecting;
-            });
-            obs.observe(target);
+            }, { threshold: 0.05 });
+            observer.observe(target);
         }
 
-        let t = 0;
-        function render() {
-            if (isVisible && width > 0 && height > 0) {
-                ctx.clearRect(0, 0, width, height);
-                t += 0.015;
+        const isHeroLeaves = target.classList.contains('hero-section');
+        const isMobile = window.innerWidth < 768;
 
-                for (let i = 0; i < particles.length; i++) {
-                    const p = particles[i];
-                    p.y += p.vy;
-                    p.x += p.vx + Math.sin(t + p.pulseOffset) * 0.3;
+        if (isHeroLeaves) {
+            // Subtle, organic floating botanical leaves for Landing Hero
+            const leafCount = isMobile ? 10 : 18;
+            const leaves = [];
+            const leafPalettes = [
+                { fill: 'rgba(77, 124, 15, ', vein: 'rgba(236, 252, 203, ' },   // deep moss leaf
+                { fill: 'rgba(101, 163, 13, ', vein: 'rgba(247, 254, 231, ' },  // fresh forest green
+                { fill: 'rgba(21, 128, 61, ', vein: 'rgba(220, 252, 231, ' },   // emerald botanical
+                { fill: 'rgba(132, 204, 22, ', vein: 'rgba(254, 249, 195, ' }   // sunlit lime leaf
+            ];
 
-                    if (mouse.active) {
-                        const dx = p.x - mouse.x;
-                        const dy = p.y - mouse.y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < 120 && dist > 0) {
-                            const force = (120 - dist) / 120;
-                            p.x += (dx / dist) * force * 1.5;
-                            p.y += (dy / dist) * force * 1.5;
-                        }
-                    }
-
-                    if (p.y < -10) {
-                        p.y = height + 10;
-                        p.x = Math.random() * width;
-                    }
-                    if (p.x < -10) p.x = width + 10;
-                    if (p.x > width + 10) p.x = -10;
-
-                    const currentAlpha = p.alpha + Math.sin(t * p.pulseSpeed * 60 + p.pulseOffset) * 0.18;
-                    const clampedAlpha = Math.max(0.08, Math.min(0.85, currentAlpha));
-
-                    const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 3);
-                    grad.addColorStop(0, p.colorPrefix + clampedAlpha + ')');
-                    grad.addColorStop(0.4, p.colorPrefix + (clampedAlpha * 0.45) + ')');
-                    grad.addColorStop(1, p.colorPrefix + '0)');
-
-                    ctx.fillStyle = grad;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius * 3, 0, Math.PI * 2);
-                    ctx.fill();
-                }
+            for (let i = 0; i < leafCount; i++) {
+                const pal = leafPalettes[i % leafPalettes.length];
+                leaves.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: Math.random() * 9 + 7,
+                    palette: pal,
+                    alpha: Math.random() * 0.34 + 0.24,
+                    vy: Math.random() * 0.34 + 0.16,
+                    vxBase: (Math.random() - 0.35) * 0.24,
+                    swayAmp: Math.random() * 0.45 + 0.25,
+                    swaySpeed: Math.random() * 0.015 + 0.01,
+                    angle: Math.random() * Math.PI * 2,
+                    spinSpeed: (Math.random() - 0.5) * 0.012,
+                    tiltPhase: Math.random() * Math.PI * 2,
+                    tiltSpeed: Math.random() * 0.02 + 0.01
+                });
             }
-            requestAnimationFrame(render);
+
+            let lt = 0;
+            function renderLeaves() {
+                if (isVisible && isTabActive && width > 0 && height > 0) {
+                    ctx.clearRect(0, 0, width, height);
+                    lt += 1;
+
+                    for (let i = 0; i < leaves.length; i++) {
+                        const lf = leaves[i];
+                        lf.y += lf.vy;
+                        lf.x += lf.vxBase + Math.sin(lt * lf.swaySpeed + lf.tiltPhase) * lf.swayAmp;
+                        lf.angle += lf.spinSpeed;
+
+                        if (mouse.active) {
+                            const dx = lf.x - mouse.x;
+                            const dy = lf.y - mouse.y;
+                            const dist = Math.sqrt(dx * dx + dy * dy);
+                            if (dist < 130 && dist > 0) {
+                                const force = (130 - dist) / 130;
+                                lf.x += (dx / dist) * force * 1.1;
+                                lf.y += (dy / dist) * force * 0.8;
+                            }
+                        }
+
+                        if (lf.y > height + 24) {
+                            lf.y = -20;
+                            lf.x = Math.random() * width;
+                        }
+                        if (lf.x < -24) lf.x = width + 20;
+                        if (lf.x > width + 24) lf.x = -20;
+
+                        const tiltScale = 0.55 + 0.45 * Math.abs(Math.cos(lt * lf.tiltSpeed + lf.tiltPhase));
+
+                        ctx.save();
+                        ctx.translate(lf.x, lf.y);
+                        ctx.rotate(lf.angle);
+                        ctx.scale(1, tiltScale);
+
+                        // Draw organic pointed botanical leaf
+                        const s = lf.size;
+                        ctx.beginPath();
+                        ctx.moveTo(-s, 0);
+                        ctx.quadraticCurveTo(0, -s * 0.72, s, 0);
+                        ctx.quadraticCurveTo(0, s * 0.72, -s, 0);
+                        ctx.closePath();
+                        ctx.fillStyle = lf.palette.fill + lf.alpha + ')';
+                        ctx.fill();
+
+                        // Subtle center vein
+                        ctx.beginPath();
+                        ctx.moveTo(-s * 0.82, 0);
+                        ctx.lineTo(s * 0.85, 0);
+                        ctx.strokeStyle = lf.palette.vein + (lf.alpha * 0.75) + ')';
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+
+                        ctx.restore();
+                    }
+                }
+                requestAnimationFrame(renderLeaves);
+            }
+            renderLeaves();
+        } else {
+            // Workspace Banner (.ws-banner): keep original bioluminescent particles untouched
+            const particleCount = isMobile ? 18 : 36;
+            const particles = [];
+            const colors = [
+                'rgba(188, 231, 154, ', // living-green
+                'rgba(163, 230, 53, ',  // lime-glow
+                'rgba(52, 211, 153, ',  // emerald
+                'rgba(251, 191, 36, '   // spore-amber
+            ];
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 2.2 + 1.1,
+                    colorPrefix: colors[Math.floor(Math.random() * colors.length)],
+                    alpha: Math.random() * 0.55 + 0.25,
+                    vx: (Math.random() - 0.5) * 0.32,
+                    vy: -(Math.random() * 0.42 + 0.18),
+                    pulseSpeed: Math.random() * 0.02 + 0.012,
+                    pulseOffset: Math.random() * Math.PI * 2
+                });
+            }
+
+            let t = 0;
+            function render() {
+                if (isVisible && isTabActive && width > 0 && height > 0) {
+                    ctx.clearRect(0, 0, width, height);
+                    t += 0.02;
+
+                    for (let i = 0; i < particles.length; i++) {
+                        const p = particles[i];
+                        p.x += p.vx;
+                        p.y += p.vy;
+
+                        // Mouse soft repulsion
+                        if (mouse.active) {
+                            const dx = p.x - mouse.x;
+                            const dy = p.y - mouse.y;
+                            const dist = Math.sqrt(dx * dx + dy * dy);
+                            if (dist < 110 && dist > 0) {
+                                const force = (110 - dist) / 110;
+                                p.x += (dx / dist) * force * 1.8;
+                                p.y += (dy / dist) * force * 1.8;
+                            }
+                        }
+
+                        // Wrap around boundaries smoothly
+                        if (p.x < -15) p.x = width + 15;
+                        if (p.x > width + 15) p.x = -15;
+                        if (p.y < -15) p.y = height + 15;
+                        if (p.y > height + 15) p.y = -15;
+
+                        const pulse = Math.sin(t * p.pulseSpeed * 60 + p.pulseOffset);
+                        const currentAlpha = p.alpha + pulse * 0.16;
+                        const clampedAlpha = Math.max(0.08, Math.min(0.85, currentAlpha));
+
+                        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 3.2);
+                        grad.addColorStop(0, p.colorPrefix + clampedAlpha + ')');
+                        grad.addColorStop(0.45, p.colorPrefix + (clampedAlpha * 0.42) + ')');
+                        grad.addColorStop(1, p.colorPrefix + '0)');
+
+                        ctx.fillStyle = grad;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.radius * 3.2, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+                requestAnimationFrame(render);
+            }
+            render();
         }
-        render();
 
         window.addEventListener('resize', () => {
             width = canvas.width = target.offsetWidth;
@@ -797,78 +971,176 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /* ==========================================================================
-   HERO TITLE TYPEWRITER ANIMATION (Triggered after Roomie welcome popup)
+   CINEMATIC OPENING EXPERIENCE (Apple Product Introduction Choreography)
+   1. Live Background & Subtle Drift
+   2. Navbar Entrance
+   3. Hero Title Staggered Two-Tone Fade-in (Line 1 -> Line 2)
+   4. Description Harmonious Rise
+   5. Visual Appreciation Pause
+   6. Roomie Welcome Popup (Dispatched via 'shroomy:hero-reveal-complete')
    ========================================================================== */
-function initHeroTypewriter() {
-    const heroTitle = document.querySelector('.hero-title');
+function initCinematicHeroReveal() {
+    const heroTitle = document.getElementById('hero-title');
+    const heroCopy = document.querySelector('.hero-copy');
     if (!heroTitle) return;
 
-    const part1 = "Inteligensi Mikologi Presisi untuk ";
-    const part2 = "Identifikasi Jamur Liar";
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let hasRevealed = false;
 
-    let hasStarted = false;
+    function revealHero() {
+        if (hasRevealed) return;
+        hasRevealed = true;
+        heroTitle.classList.add('is-revealed');
+        if (heroCopy) heroCopy.classList.add('is-revealed');
 
-    // Set initial state: waiting for Roomie popup to close
-    heroTitle.classList.add('is-typing-ready');
-    heroTitle.innerHTML = '<span class="typewriter-text"></span><span class="typewriter-cursor">|</span>';
-
-    function startTyping() {
-        if (hasStarted) return;
-        hasStarted = true;
-
-        const textSpan = heroTitle.querySelector('.typewriter-text');
-        const cursorSpan = heroTitle.querySelector('.typewriter-cursor');
-        if (!textSpan) return;
-
-        let i = 0;
-        let j = 0;
-        const speed1 = 36; // ms per char
-        const speed2 = 42; // ms per char
-
-        function typePart1() {
-            if (i < part1.length) {
-                textSpan.textContent += part1.charAt(i);
-                i++;
-                setTimeout(typePart1, speed1);
-            } else {
-                const highlightSpan = document.createElement('span');
-                highlightSpan.className = 'highlight';
-                textSpan.appendChild(highlightSpan);
-                typePart2(highlightSpan);
-            }
-        }
-
-        function typePart2(targetSpan) {
-            if (j < part2.length) {
-                targetSpan.textContent += part2.charAt(j);
-                j++;
-                setTimeout(() => typePart2(targetSpan), speed2);
-            } else {
-                heroTitle.classList.add('is-typing-done');
-                setTimeout(() => {
-                    if (cursorSpan) {
-                        cursorSpan.classList.add('is-finished');
-                    }
-                }, 2500);
-            }
-        }
-
-        setTimeout(typePart1, 300);
+        // Allow duration of cinematic typography reveal to finish (~1500ms)
+        const revealDuration = prefersReduced ? 50 : 1500;
+        setTimeout(() => {
+            window.dispatchEvent(new CustomEvent('shroomy:hero-reveal-complete'));
+        }, revealDuration);
     }
 
-    // Listen for Roomie welcome popup dismissal
-    window.addEventListener('shroomy:welcome-dismissed', () => {
-        setTimeout(startTyping, 200);
-    }, { once: true });
-
-    // Fallback: If popup is dismissed or not present, start typing safely
-    const welcomeBackdrop = document.getElementById('roomie-landing-welcome-backdrop');
-    if (!welcomeBackdrop) {
-        setTimeout(startTyping, 400);
+    if (prefersReduced) {
+        revealHero();
     } else {
-        // Safety timeout so title is never empty if user takes no action
-        setTimeout(() => {
-            if (!hasStarted) startTyping();
-        }, 6800);
+        // Fase 1 & 2: Start title reveal after initial environment settles (260ms)
+        setTimeout(revealHero, 260);
     }
 }
+
+/* ==========================================================================
+   LIVE HERO ATMOSPHERE ENGINE (Subtle Depth & Parallax Drift)
+   ========================================================================== */
+function initLiveHeroAtmosphere() {
+    const liveStage = document.getElementById('hero-live-stage');
+    if (!liveStage) return;
+
+    const bgLayer = document.getElementById('hero-live-bg-layer');
+    if (!bgLayer) return;
+
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    let isVisible = true;
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let rafId = null;
+
+    function onMouseMove(e) {
+        if (!isVisible) return;
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        // Subtle max displacement of 12px
+        targetX = ((e.clientX - centerX) / centerX) * 12;
+        targetY = ((e.clientY - centerY) / centerY) * 10;
+        if (!rafId) {
+            rafId = requestAnimationFrame(updateParallax);
+        }
+    }
+
+    function updateParallax() {
+        // Smooth lerp (linear interpolation)
+        currentX += (targetX - currentX) * 0.05;
+        currentY += (targetY - currentY) * 0.05;
+
+        bgLayer.style.transform = `translate3d(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px, 0)`;
+
+        if (Math.abs(targetX - currentX) > 0.05 || Math.abs(targetY - currentY) > 0.05) {
+            rafId = requestAnimationFrame(updateParallax);
+        } else {
+            rafId = null;
+        }
+    }
+
+    // Only listen on desktop devices with hover support
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        window.addEventListener('mousemove', onMouseMove, { passive: true });
+    }
+
+    // Observe visibility to eliminate idle work
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(([entry]) => {
+            isVisible = entry.isIntersecting;
+            if (!isVisible && rafId) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
+            }
+        }, { threshold: 0.05 
+
+    
+
+});
+        observer.observe(liveStage);
+    }
+}
+
+/* ---------- 9. Continuous Living Forest 2.5D Parallax & Cursor Engine ---------- */
+(function initLivingForestEngine() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const forestItems = document.querySelectorAll('.forest-env-item[data-parallax]');
+    if (forestItems.length === 0) return;
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetMouseX = 0;
+    let targetMouseY = 0;
+    let ticking = false;
+
+    // Track subtle cursor movement with gentle boundary
+    window.addEventListener('mousemove', (e) => {
+        const cx = window.innerWidth / 2;
+        const cy = window.innerHeight / 2;
+        targetMouseX = ((e.clientX - cx) / cx) * 8; // max 8px shift
+        targetMouseY = ((e.clientY - cy) / cy) * 6; // max 6px shift
+        requestTick();
+    }, { passive: true });
+
+    // Update on scroll
+    window.addEventListener('scroll', requestTick, { passive: true });
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(updateForestParallax);
+            ticking = true;
+        }
+    }
+
+    function updateForestParallax() {
+        // Smooth cursor interpolation
+        mouseX += (targetMouseX - mouseX) * 0.08;
+        mouseY += (targetMouseY - mouseY) * 0.08;
+
+        const winH = window.innerHeight;
+
+        forestItems.forEach(item => {
+            const rect = item.parentElement.getBoundingClientRect();
+            // Check if section is anywhere near viewport
+            if (rect.bottom < -200 || rect.top > winH + 200) return;
+
+            const rate = parseFloat(item.getAttribute('data-parallax')) || 0.05;
+            const mid = rect.top + rect.height / 2;
+            const distFromCenter = (mid - winH / 2) / winH;
+            const parallaxY = distFromCenter * rate * 90; // subtle depth offset
+
+            const anchor = item.getAttribute('data-anchor') || 'center';
+            let cursorFactorX = 1;
+            let cursorFactorY = 1;
+
+            if (anchor.includes('left')) cursorFactorX = -1;
+            if (anchor.includes('top')) cursorFactorY = -1;
+
+            const curX = mouseX * cursorFactorX;
+            const curY = mouseY * cursorFactorY;
+
+            item.style.transform = `translate3d(${curX.toFixed(2)}px, ${(parallaxY + curY).toFixed(2)}px, 0)`;
+        });
+
+        ticking = false;
+    }
+
+    // Initial run
+    requestTick();
+})();

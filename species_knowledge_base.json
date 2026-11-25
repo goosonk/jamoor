@@ -1,0 +1,665 @@
+{
+  "Agaricus bisporus": {
+    "scientific_name": "Agaricus bisporus",
+    "common_name": "Jamur Kancing / Portobello / Champignon",
+    "reference_status": "Tercatat sebagai jamur pangan (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Status bersumber dari literatur mikologi ilmiah sebagai jamur pangan komersial dunia.",
+    "morphology": {
+      "cap_color": "Putih bersih, krem, hingga cokelat muda.",
+      "cap_shape": "Cembung saat muda, lalu mendatar.",
+      "cap_surface": "Kering dan halus, terkadang berserat tipis.",
+      "stem_characteristics": "Silindris tebal dengan cincin tipis di bagian atas.",
+      "hymenium_type": "Insang rapat, merah muda saat muda lalu cokelat tua."
+    },
+    "ecological_habitat": "Tumbuh pada kompos, serasah daun, dan tanah kaya humus.",
+    "educational_facts": "Spesies jamur pangan paling banyak dibudidayakan di dunia. Bentuk mudanya dikenal sebagai jamur kancing, bentuk matangnya disebut Portobello.",
+    "short_description": "Jamur budidaya populer berdaging tebal dengan insang yang menggelap saat matang."
+  },
+  "Agaricus campestris": {
+    "scientific_name": "Agaricus campestris",
+    "common_name": "Field Mushroom / Jamur Padang Rumput",
+    "reference_status": "Tercatat sebagai jamur pangan (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Status bersumber dari literatur mikologi sebagai jamur liar pangan bernilai kuliner.",
+    "morphology": {
+      "cap_color": "Putih bersih hingga krem keabuan.",
+      "cap_shape": "Cembung, kemudian melebar datar.",
+      "cap_surface": "Kering dan halus seperti sutra.",
+      "stem_characteristics": "Putih kokoh dengan cincin tipis yang mudah lepas.",
+      "hymenium_type": "Insang merah muda cerah yang berubah menjadi cokelat tua."
+    },
+    "ecological_habitat": "Tumbuh di padang rumput terbuka dan area penggembalaan setelah hujan.",
+    "educational_facts": "Kerabat liar jamur kancing. Memiliki kemiripan visual dengan Amanita putih, pembedanya adalah insang campestris berwarna merah muda kecokelatan dan tanpa volva di pangkal.",
+    "short_description": "Jamur padang rumput bertudung putih dengan insang merah muda cerah."
+  },
+  "Amanita bisporigera": {
+    "scientific_name": "Amanita bisporigera",
+    "common_name": "Eastern Destroying Angel / Malaikat Perusak",
+    "reference_status": "Sangat Beracun / Mematikan (Amatoxin)",
+    "status_category": "deadly",
+    "reference_status_note": "Status bersumber dari referensi toksikologi mikologi: mengandung amatoksin mematikan.",
+    "morphology": {
+      "cap_color": "Putih salju murni.",
+      "cap_shape": "Bulat telur saat muda, melebar mendatar saat dewasa.",
+      "cap_surface": "Halus bersih, sedikit licin saat basah.",
+      "stem_characteristics": "Putih ramping dengan cincin menggantung dan kantung volva di dasar.",
+      "hymenium_type": "Insang putih bersih, tersusun rapat dan bebas dari batang."
+    },
+    "ecological_habitat": "Lantai hutan daun gugur, terutama di dekat pohon ek dan birch.",
+    "educational_facts": "Salah satu jamur paling mematikan di Amerika Utara. Toksin amatoksin merusak sel hati secara permanen tanpa memicu gejala hingga 6–24 jam setelah tertelan.",
+    "short_description": "Jamur putih anggun yang sangat mematikan karena kandungan amatoksin fatal."
+  },
+  "Amanita citrina": {
+    "scientific_name": "Amanita citrina",
+    "common_name": "False Death Cap / Jamur Sitrun",
+    "reference_status": "Beracun / Toksik (Mengandung Bufotenin)",
+    "status_category": "poisonous",
+    "reference_status_note": "Status bersumber dari referensi mikologi: mengandung toksin bufotenin.",
+    "morphology": {
+      "cap_color": "Kuning lemon pucat hingga krem keputihan.",
+      "cap_shape": "Cembung melebar mendatar.",
+      "cap_surface": "Terdapat bercak membran tipis keputihan atau kecokelatan.",
+      "stem_characteristics": "Putih kekuningan dengan cincin rapuh dan pangkal berumbi tegas.",
+      "hymenium_type": "Insang putih kekuningan pucat, rapat dan bebas dari batang."
+    },
+    "ecological_habitat": "Hutan gugur dan konifer pada tanah berpasir atau asam.",
+    "educational_facts": "Mengeluarkan aroma khas menyerupai kentang mentah atau lobak. Kerap dihindari karena berisiko tinggi tertukar dengan Amanita phalloides yang mematikan.",
+    "short_description": "Jamur bertudung kuning pucat beraroma kentang mentah dengan umbi pangkal jelas."
+  },
+  "Amanita muscaria": {
+    "scientific_name": "Amanita muscaria",
+    "common_name": "Fly Agaric / Jamur Lalat",
+    "reference_status": "Beracun (Asam Ibotenat & Muscimol)",
+    "status_category": "poisonous",
+    "reference_status_note": "Status bersumber dari referensi mikologi dan farmakologi: racun neurotoksik dan halusinogenik.",
+    "morphology": {
+      "cap_color": "Merah cerah, merah marun, hingga jingga kemerahan.",
+      "cap_shape": "Bulat saat muda, melebar cembung mendatar saat dewasa.",
+      "cap_surface": "Bintik-bintik kutil piramidal putih sisa selubung velum.",
+      "stem_characteristics": "Putih kokoh dengan cincin menggantung dan pangkal berumbi.",
+      "hymenium_type": "Insang putih murni, rapat dan bebas dari batang."
+    },
+    "ecological_habitat": "Membentuk mikoriza dengan pohon pinus dan birch di hutan sejuk.",
+    "educational_facts": "Ikon visual jamur paling terkenal dalam dongeng Eropa. Mengandung asam ibotenat dan muscimol yang bekerja langsung pada sistem saraf pusat.",
+    "short_description": "Memiliki tudung merah dengan bintik putih dan cincin pada batang. Dikenal luas sebagai Fly Agaric."
+  },
+  "Amanita ocreata": {
+    "scientific_name": "Amanita ocreata",
+    "common_name": "Western Destroying Angel",
+    "reference_status": "Sangat Beracun / Mematikan (Amatoxin)",
+    "status_category": "deadly",
+    "reference_status_note": "Status bersumber dari catatan toksikologi mikologi: amatoksin berkonsentrasi tinggi.",
+    "morphology": {
+      "cap_color": "Putih kapur dengan semburat oker kekuningan di tengah.",
+      "cap_shape": "Setengah bulat cembung lalu mendatar.",
+      "cap_surface": "Halus kering, terkadang agak lengket saat basah.",
+      "stem_characteristics": "Putih ramping tinggi dengan cincin tipis dan volva kantung tebal di dasar.",
+      "hymenium_type": "Insang putih bersih, rapat dan tidak menempel pada batang."
+    },
+    "ecological_habitat": "Hutan ek pesisir di kawasan barat Amerika Utara.",
+    "educational_facts": "Bertanggung jawab atas mayoritas kasus keracunan fatal di pesisir barat AS. Kandungan amatoksinnya tahan terhadap panas memasak maupun pengeringan.",
+    "short_description": "Jamur putih mematikan dari pesisir barat dengan kantung volva tebal di pangkal batang."
+  },
+  "Amanita pantherina": {
+    "scientific_name": "Amanita pantherina",
+    "common_name": "Panther Cap",
+    "reference_status": "Sangat Beracun (Toksin Pantherina)",
+    "status_category": "deadly",
+    "reference_status_note": "Status bersumber dari referensi toksikologi: racun muscimol berkonsentrasi tinggi.",
+    "morphology": {
+      "cap_color": "Cokelat zaitun, cokelat kekuningan, hingga kelabu kusam.",
+      "cap_shape": "Cembung menjadi mendatar dengan tepi bergaris halus.",
+      "cap_surface": "Dihiasi taburan bintik kutil putih salju yang teratur.",
+      "stem_characteristics": "Putih silindris dengan cincin menggantung dan umbi berkerah di pangkal.",
+      "hymenium_type": "Insang putih murni dan tersusun rapat."
+    },
+    "ecological_habitat": "Tumbuh di bawah pohon ek, beech, dan pinus di kawasan beriklim sedang.",
+    "educational_facts": "Memiliki konsentrasi toksin lebih tinggi dibanding Amanita muscaria. Keracunan memicu halusinasi berat, kejang otot, hingga koma.",
+    "short_description": "Jamur bertudung cokelat bertabur bintik putih dengan cincin dan umbi berkerah."
+  },
+  "Amanita phalloides": {
+    "scientific_name": "Amanita phalloides",
+    "common_name": "Death Cap / Jamur Topi Kematian",
+    "reference_status": "Sangat Beracun / Mematikan (Amatoxin)",
+    "status_category": "deadly",
+    "reference_status_note": "Penyebab lebih dari 90% kematian akibat keracunan jamur di seluruh dunia.",
+    "morphology": {
+      "cap_color": "Hijau zaitun pucat, hijau kekuningan, hingga krem kehijauan.",
+      "cap_shape": "Cembung saat muda, melebar mendatar saat dewasa.",
+      "cap_surface": "Halus mengkilap seperti logam, sedikit licin saat lembap.",
+      "stem_characteristics": "Putih berombak kehijauan samar, bercincin rok, dan berpangkal cangkir volva lebar.",
+      "hymenium_type": "Insang putih bersih, rapat dan tidak menempel pada batang."
+    },
+    "ecological_habitat": "Membentuk mikoriza dengan pohon ek, kastanye, dan beech.",
+    "educational_facts": "Jamur paling mematikan di dunia. Sebagian kecil tudung sudah cukup mematikan orang dewasa karena amatoksin merusak sel hati secara permanen.",
+    "short_description": "Jamur mematikan bertudung hijau zaitun dengan cincin rok dan cangkir volva di dasar."
+  },
+  "Amanita virosa": {
+    "scientific_name": "Amanita virosa",
+    "common_name": "European Destroying Angel",
+    "reference_status": "Sangat Beracun / Mematikan (Amatoxin)",
+    "status_category": "deadly",
+    "reference_status_note": "Status bersumber dari literatur toksikologi: amatoksin fatal yang menghancurkan sel hati.",
+    "morphology": {
+      "cap_color": "Putih salju murni.",
+      "cap_shape": "Lonjong runcing saat muda, cembung tak simetris saat dewasa.",
+      "cap_surface": "Halus bersih, terkadang agak berserat tipis.",
+      "stem_characteristics": "Putih tinggi bersisik wol halus, bercincin rapuh, dan berpangkal volva cangkir.",
+      "hymenium_type": "Insang putih rapat dan bebas dari batang."
+    },
+    "ecological_habitat": "Hutan pegunungan konifer dan hutan gugur tanah asam di Eropa.",
+    "educational_facts": "Varian Destroying Angel di kawasan Eropa. Racunnya tidak dapat dinetralkan dengan memasak, membekukan, atau mengeringkan jamur.",
+    "short_description": "Jamur putih Eropa mematikan bertudung cembung dengan tangkai bersisik wol."
+  },
+  "Auricularia auricula-judae": {
+    "scientific_name": "Auricularia auricula-judae",
+    "common_name": "Jamur Kuping Hitam / Wood Ear",
+    "reference_status": "Tercatat sebagai jamur pangan (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Literatur mikologi dan kuliner mencatatnya sebagai jamur pangan populer.",
+    "morphology": {
+      "cap_color": "Cokelat kemerahan, cokelat zaitun, hingga kehitaman.",
+      "cap_shape": "Menyerupai daun telinga manusia atau cangkir bergelombang.",
+      "cap_surface": "Kenyal elastis gelatinosa, bagian luar berbulu beludru halus.",
+      "stem_characteristics": "Sangat pendek atau menempel langsung pada kayu lapuk.",
+      "hymenium_type": "Halus berkerut di sisi bagian dalam."
+    },
+    "ecological_habitat": "Tumbuh pada batang pohon kayu mati atau lapuk, terutama pohon elder.",
+    "educational_facts": "Bahan populer dalam kuliner Asia dengan tekstur renyah kenyal. Mengandung senyawa polisakarida dan antikoagulan alami yang membantu sirkulasi darah.",
+    "short_description": "Jamur berbentuk daun telinga berwarna cokelat gelatinosa yang tumbuh di kayu lapuk."
+  },
+  "Boletus edulis": {
+    "scientific_name": "Boletus edulis",
+    "common_name": "Porcini / King Bolete",
+    "reference_status": "Tercatat sebagai jamur pangan gourmet (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Literatur mikologi mencatatnya sebagai jamur pangan liar bernilai tinggi.",
+    "morphology": {
+      "cap_color": "Cokelat kemerahan, cokelat kekuningan, hingga oker hazelnut.",
+      "cap_shape": "Cembung tebal seperti roti bundar, melebar saat tua.",
+      "cap_surface": "Halus kering, sedikit berminyak saat basah.",
+      "stem_characteristics": "Tebal menggembung putih kecokelatan dengan jaring retikulasi halus di atas.",
+      "hymenium_type": "Pori-pori spon, putih saat muda lalu berubah menjadi kuning kehijauan."
+    },
+    "ecological_habitat": "Hutan pinus, cemara, dan ek di kawasan pegunungan beriklim sejuk.",
+    "educational_facts": "Jamur liar paling dicari di Eropa karena aroma kacang yang kaya. Dagingnya tetap berwarna putih bersih dan tidak berubah warna saat dipotong.",
+    "short_description": "Jamur bertudung cokelat roti dengan tangkai menggembung dan pori spons bawah."
+  },
+  "Boletus satanas": {
+    "scientific_name": "Boletus satanas",
+    "common_name": "Satan's Bolete (Rubroboletus satanas)",
+    "reference_status": "Beracun (Toksik Saluran Cerna Parah)",
+    "status_category": "poisonous",
+    "reference_status_note": "Mengandung racun glikoprotein bolesatin yang memicu muntah dan diare akut.",
+    "morphology": {
+      "cap_color": "Putih kapur, abu-abu pucat, hingga oker kusam.",
+      "cap_shape": "Cembung sangat besar dan berdaging tebal padat.",
+      "cap_surface": "Kering halus menyerupai kain beludru saat muda.",
+      "stem_characteristics": "Pangkal menggembung bulat berwarna merah darah dengan pola jaring merah.",
+      "hymenium_type": "Pori-pori tabung merah darah atau jingga menyala."
+    },
+    "ecological_habitat": "Hutan ek dan beech di kawasan beriklim hangat dengan tanah kapur.",
+    "educational_facts": "Memiliki kontras unik antara tudung putih kapur dan pori merah darah. Mengandung bolesatin yang menyebabkan dehidrasi berat dalam hitungan jam.",
+    "short_description": "Jamur besar bertudung putih kapur dengan pori dan tangkai merah darah mencolok."
+  },
+  "Cantharellus cibarius": {
+    "scientific_name": "Cantharellus cibarius",
+    "common_name": "Chanterelle / Jamur Terompet Emas",
+    "reference_status": "Tercatat sebagai jamur pangan gourmet (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Literatur mikologi mencatatnya sebagai jamur pangan liar beraroma buah.",
+    "morphology": {
+      "cap_color": "Kuning emas cerah hingga jingga kekuningan.",
+      "cap_shape": "Berbentuk corong terompet dengan tepi bergelombang.",
+      "cap_surface": "Kering, halus hingga sedikit berserat beludru.",
+      "stem_characteristics": "Menyatu mulus dengan tudung, berwarna kuning emas senada.",
+      "hymenium_type": "Lipatan kerut bercabang (false gills) yang menurun di batang."
+    },
+    "ecological_habitat": "Lantai hutan konifer dan hutan gugur di antara serasah daun.",
+    "educational_facts": "Memiliki aroma harum khas seperti buah aprikot matang. Tidak memiliki insang sejati melainkan lipatan punggung berkerut yang menurun ke tangkai.",
+    "short_description": "Jamur berbentuk corong kuning emas dengan lipatan kerut dan aroma buah aprikot."
+  },
+  "Chlorophyllum molybdites": {
+    "scientific_name": "Chlorophyllum molybdites",
+    "common_name": "False Parasol / Jamur Spora Hijau",
+    "reference_status": "Beracun (Pemicu Gangguan Pencernaan Akut)",
+    "status_category": "poisonous",
+    "reference_status_note": "Mengandung toksin saluran cerna; menghasilkan cetakan spora hijau khas.",
+    "morphology": {
+      "cap_color": "Putih bersih dengan sisik-sisik cokelat oker di tengah.",
+      "cap_shape": "Bulat saat muda, melebar menjadi payung cembung besar.",
+      "cap_surface": "Kering bertabur pecahan sisik lempeng cokelat.",
+      "stem_characteristics": "Putih kecokelatan tinggi dengan cincin membran ganda yang dapat digeser.",
+      "hymenium_type": "Insang putih saat muda, berubah hijau zaitun kusam saat spora matang."
+    },
+    "ecological_habitat": "Halaman berumput rumah, taman kota, dan padang golf setelah hujan lebat.",
+    "educational_facts": "Penyebab keracunan jamur paling sering di area pemukiman. Sering disangka jamur payung konsumsi, pembedanya adalah spora yang berwarna hijau zaitun.",
+    "short_description": "Jamur payung pekarangan bertudung putih bersisik cokelat dengan spora hijau zaitun."
+  },
+  "Coprinopsis atramentaria": {
+    "scientific_name": "Coprinopsis atramentaria",
+    "common_name": "Inky Cap / Jamur Tinta",
+    "reference_status": "Beracun jika Bersama Alkohol (Coprine Syndrome)",
+    "status_category": "poisonous",
+    "reference_status_note": "Mengandung koprin yang menghambat pemecahan alkohol dalam tubuh.",
+    "morphology": {
+      "cap_color": "Kelabu keperakan hingga abu-abu kusam.",
+      "cap_shape": "Bulat lonjong seperti lonceng, melebar saat meluruh.",
+      "cap_surface": "Beralur garis vertikal halus, terkadang bersisik tipis di puncak.",
+      "stem_characteristics": "Putih berongga rapuh dengan cincin samar di bagian bawah.",
+      "hymenium_type": "Insang putih rapat yang meleleh mencair menjadi cairan tinta hitam."
+    },
+    "ecological_habitat": "Tanah kaya sisa kayu lapuk, area perkotaan, tepi jalan, dan pekarangan.",
+    "educational_facts": "Mengandung zat koprin. Jika dikonsumsi berdekatan dengan alkohol, memicu reaksi keracunan parah berupa mual, muka memerah, dan dada berdebar keras.",
+    "short_description": "Jamur lonceng abu-abu yang mencair menjadi tinta hitam saat matang."
+  },
+  "Coprinus comatus": {
+    "scientific_name": "Coprinus comatus",
+    "common_name": "Shaggy Mane / Jamur Surai Singa",
+    "reference_status": "Tercatat sebagai jamur pangan saat muda (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Literatur mikologi mencatatnya sebagai jamur pangan lezat sebelum mencair.",
+    "morphology": {
+      "cap_color": "Putih bersih dengan puncak berwarna kecokelatan.",
+      "cap_shape": "Silinder tegak memanjang seperti lonceng tinggi.",
+      "cap_surface": "Dihiasi sisik-sisik serat lembut menyerupai surai wol.",
+      "stem_characteristics": "Putih lurus tinggi berongga dengan cincin tipis yang mudah terlepas.",
+      "hymenium_type": "Insang putih rapat yang mencair menjadi cairan hitam mulai dari tepi bawah."
+    },
+    "ecological_habitat": "Tanah gembur berumput, tepi jalan, taman kota, dan padang rumput.",
+    "educational_facts": "Mengalami autodigesti di mana tudungnya mencair menjadi cairan hitam untuk melepas spora. Hanya dapat dimasak saat masih muda dan berwarna putih bersih.",
+    "short_description": "Jamur silinder putih bersisik surai wol yang mencair menjadi tinta hitam saat matang."
+  },
+  "Cortinarius orellanus": {
+    "scientific_name": "Cortinarius orellanus",
+    "common_name": "Fool's Webcap",
+    "reference_status": "Sangat Beracun / Mematikan (Orellanine)",
+    "status_category": "deadly",
+    "reference_status_note": "Mengandung racun orellanin yang menyebabkan gagal ginjal total.",
+    "morphology": {
+      "cap_color": "Jingga kemerahan hingga cokelat tembaga berkarat.",
+      "cap_shape": "Cembung dengan tonjolan umbo tumpul di tengah.",
+      "cap_surface": "Kering dan berserat halus menyerupai kain wol.",
+      "stem_characteristics": "Kuning keemasan hingga cokelat kemerahan tanpa cincin sejati.",
+      "hymenium_type": "Insang berwarna jingga berkarat kekuningan, tersusun agak jarang."
+    },
+    "ecological_habitat": "Hutan gugur beriklim sedang, khususnya di bawah pohon ek dan kastanye.",
+    "educational_facts": "Racun orellanin memiliki masa inkubasi lambat, yakni 2 hari hingga 2 minggu sebelum gejala gagal ginjal muncul, membuat diagnosis sering terlambat.",
+    "short_description": "Jamur cokelat kemerahan mematikan yang merusak fungsi ginjal dengan gejala tertunda."
+  },
+  "Cortinarius rubellus": {
+    "scientific_name": "Cortinarius rubellus",
+    "common_name": "Deadly Webcap",
+    "reference_status": "Sangat Beracun / Mematikan (Orellanine)",
+    "status_category": "deadly",
+    "reference_status_note": "Mengandung racun nefrotoksik orellanin yang merusak ginjal permanen.",
+    "morphology": {
+      "cap_color": "Cokelat kemerahan berkarat hingga jingga kecokelatan.",
+      "cap_shape": "Kerucut meruncing tajam di bagian tengah tudung.",
+      "cap_surface": "Kering berserat halus, sedikit bersisik tipis.",
+      "stem_characteristics": "Silindris berserat kuning kemerahan dengan pola zig-zag sisa velum.",
+      "hymenium_type": "Insang cokelat kemerahan berkarat, tebal dan berjarak."
+    },
+    "ecological_habitat": "Hutan konifer basah di antara lumut gambut dan heather.",
+    "educational_facts": "Racun orellanin di dalamnya tidak rusak oleh pemanasan memasak dan memicu kerusakan ginjal fatal berhari-hari setelah dikonsumsi.",
+    "short_description": "Jamur kerucut berkarat mematikan dari hutan konifer yang menyebabkan gagal ginjal."
+  },
+  "Craterellus cornucopioides": {
+    "scientific_name": "Craterellus cornucopioides",
+    "common_name": "Horn of Plenty / Black Trumpet",
+    "reference_status": "Tercatat sebagai jamur pangan gourmet (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Literatur mikologi mencatatnya sebagai jamur pangan liar bercita rasa tinggi.",
+    "morphology": {
+      "cap_color": "Hitam arang, kelabu gelap, hingga cokelat kehitaman.",
+      "cap_shape": "Berbentuk terompet corong berongga tembus hingga dasar.",
+      "cap_surface": "Berserat halus kering dengan tepi melengkung bergelombang.",
+      "stem_characteristics": "Berongga dan menyatu langsung membentuk corong tudung.",
+      "hymenium_type": "Halus rata hingga sedikit bergelombang di bagian luar corong."
+    },
+    "ecological_habitat": "Bersimbiosis mikoriza dengan pohon ek dan beech di lantai hutan.",
+    "educational_facts": "Meskipun bertubuh hitam legam seperti terompet mati, jamur ini merupakan santapan liar terlezat dengan aroma harum menyerupai truffle hitam.",
+    "short_description": "Jamur berbentuk terompet hitam legam beraroma wangi rempah yang tumbuh di lantai hutan."
+  },
+  "Entoloma sinuatum": {
+    "scientific_name": "Entoloma sinuatum",
+    "common_name": "Livent Entoloma / Poison Pie",
+    "reference_status": "Beracun (Toksik Saluran Cerna Akut)",
+    "status_category": "poisonous",
+    "reference_status_note": "Mengandung toksin gastrointestinal yang memicu muntah dan diare dehidrasi.",
+    "morphology": {
+      "cap_color": "Putih keabuan kusam, oker pucat, hingga krem kelabu.",
+      "cap_shape": "Cembung lebar dengan tepi melengkung berombak.",
+      "cap_surface": "Halus kering seperti sutra, mengkilap saat basah.",
+      "stem_characteristics": "Putih tebal padat, sering melengkung di pangkal.",
+      "hymenium_type": "Insang kekuningan saat muda, berubah merah muda salmon saat spora matang."
+    },
+    "ecological_habitat": "Hutan daun gugur pada tanah berkapur di bawah pohon ek dan beech.",
+    "educational_facts": "Sering mengecoh pengumpul jamur karena beraroma tepung segar yang menggugah selera, namun memicu muntah parah dan dehidrasi akut jika tertelan.",
+    "short_description": "Jamur besar bertudung putih kelabu dengan insang merah muda salmon beraroma tepung."
+  },
+  "Flammulina velutipes": {
+    "scientific_name": "Flammulina velutipes",
+    "common_name": "Enoki / Jamur Jarum Liar",
+    "reference_status": "Tercatat sebagai jamur pangan populer (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Literatur mikologi dan pangan mencatatnya sebagai jamur konsumsi bergizi.",
+    "morphology": {
+      "cap_color": "Jingga kecokelatan, kuning madu, hingga merah tembaga.",
+      "cap_shape": "Cembung datar licin berlendir saat lembap.",
+      "cap_surface": "Mengkilap dilapisi lendir bening tipis.",
+      "stem_characteristics": "Cokelat tua kehitaman di bagian bawah dengan lapisan beludru halus.",
+      "hymenium_type": "Insang putih kekuningan, tersusun agak renggang."
+    },
+    "ecological_habitat": "Tumbuh berumpun rapat pada batang kayu pohon gugur yang mati di musim dingin.",
+    "educational_facts": "Varian liarnya memiliki tudung jingga kecokelatan berlendir dan tangkai beludru gelap, berbeda dari versi budidaya dalam ruangan yang serba putih.",
+    "short_description": "Jamur musim dingin bertudung jingga licin dengan batang berlapis beludru gelap."
+  },
+  "Galerina marginata": {
+    "scientific_name": "Galerina marginata",
+    "common_name": "Funeral Bell / Galerina Mematikan",
+    "reference_status": "Sangat Beracun / Mematikan (Amatoxin)",
+    "status_category": "deadly",
+    "reference_status_note": "Mengandung racun amatoksin mematikan yang sama dengan Death Cap.",
+    "morphology": {
+      "cap_color": "Cokelat madu, kuning kecokelatan, hingga oker kekuningan.",
+      "cap_shape": "Cembung melebar dengan tepi bergaris tipis tembus pandang.",
+      "cap_surface": "Halus lembap, berubah warna lebih pucat saat mengering.",
+      "stem_characteristics": "Cokelat berserat keputihan dengan cincin tipis yang mudah rusak.",
+      "hymenium_type": "Insang cokelat kekuningan hingga cokelat berkarat."
+    },
+    "ecological_habitat": "Tumbuh pada batang kayu konifer atau kayu keras yang membusuk di hutan.",
+    "educational_facts": "Mengandung racun amatoksin mematikan yang merusak sel hati. Sering tumbuh di substrat kayu lapuk yang sama dengan jamur pangan liar kecil.",
+    "short_description": "Jamur cokelat madu kecil mematikan yang tumbuh di kayu lapuk hutan."
+  },
+  "Grifola frondosa": {
+    "scientific_name": "Grifola frondosa",
+    "common_name": "Maitake / Hen of the Woods",
+    "reference_status": "Tercatat sebagai jamur pangan & herbal (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Literatur mikologi mencatatnya sebagai jamur pangan dan bahan bioaktif penting.",
+    "morphology": {
+      "cap_color": "Kelabu kecokelatan, abu-abu arang, hingga cokelat tanah.",
+      "cap_shape": "Kumpulan kelopak daun bergelombang membentuk rumpun roset besar.",
+      "cap_surface": "Halus kering dengan zona garis konsentris samar.",
+      "stem_characteristics": "Batang utama tebal berwarna putih yang bercabang banyak.",
+      "hymenium_type": "Pori-pori putih sangat kecil di bawah kelopak daun."
+    },
+    "ecological_habitat": "Tumbuh di pangkal pohon ek tua yang masih hidup atau tunggul kayu.",
+    "educational_facts": "Rumpun jamur ini dapat berbobot puluhan kilogram. Kaya senyawa beta-glukan yang banyak diteliti dalam riset modulasi sistem kekebalan tubuh.",
+    "short_description": "Rumpun jamur kelabu berbentuk kelopak roset lebat yang tumbuh di pangkal pohon ek."
+  },
+  "Hericium erinaceus": {
+    "scientific_name": "Hericium erinaceus",
+    "common_name": "Lion's Mane / Jamur Surai Singa",
+    "reference_status": "Tercatat sebagai jamur pangan & nootropik (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Literatur ilmiah mencatatnya sebagai jamur pangan lezat dan sumber hericenone.",
+    "morphology": {
+      "cap_color": "Putih bersih saat muda, krem kekuningan saat tua.",
+      "cap_shape": "Membulat padat tanpa tangkai atau tudung pipih sejati.",
+      "cap_surface": "Dipenuhi duri-duri gantung menyerupai surai singa.",
+      "stem_characteristics": "Menempel langsung pada batang pohon kayu lapuk.",
+      "hymenium_type": "Duri gantung halus sepanjang 1–4 cm yang memproduksi spora."
+    },
+    "ecological_habitat": "Tumbuh pada luka batang pohon kayu keras (ek, beech, maple).",
+    "educational_facts": "Dagingnya bertekstur mirip daging kepiting atau lobster. Mengandung hericenone dan erinacine yang memicu sintesis faktor pertumbuhan saraf (NGF).",
+    "short_description": "Jamur putih unik berduri gantung menyerupai surai singa berkhasiat mendukung saraf."
+  },
+  "Hydnum repandum": {
+    "scientific_name": "Hydnum repandum",
+    "common_name": "Sweet Tooth / Hedgehog Mushroom",
+    "reference_status": "Tercatat sebagai jamur pangan aman (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Literatur mikologi mencatatnya sebagai jamur pangan liar yang aman dan lezat.",
+    "morphology": {
+      "cap_color": "Krem pucat, kuning mentega, hingga jingga keputihan.",
+      "cap_shape": "Cembung tidak beraturan dengan tepi bergelombang melengkung.",
+      "cap_surface": "Kering dan halus seperti beludru tipis.",
+      "stem_characteristics": "Tebal kokoh berwarna putih krem, sering tumbuh tidak simetris.",
+      "hymenium_type": "Duri-duri runcing kecil yang menggantung di bawah tudung, mudah tanggal."
+    },
+    "ecological_habitat": "Lantai hutan konifer dan hutan gugur di antara serasah daun.",
+    "educational_facts": "Bagian bawah tudungnya ditutupi duri runcing lunak, bukan insang atau pori spons. Salah satu jamur liar paling aman dipelajari pemula karena minim kemiripan beracun.",
+    "short_description": "Jamur kuning mentega berdaging padat dengan duri runcing di bagian bawah tudung."
+  },
+  "Hypholoma fasciculare": {
+    "scientific_name": "Hypholoma fasciculare",
+    "common_name": "Sulphur Tuft",
+    "reference_status": "Beracun (Toksin Fasciculol)",
+    "status_category": "poisonous",
+    "reference_status_note": "Mengandung fasciculol yang memicu muntah, kejang, dan diare akut.",
+    "morphology": {
+      "cap_color": "Kuning belerang cerah dengan tengah jingga kecokelatan.",
+      "cap_shape": "Cembung saat muda, kemudian melebar datar.",
+      "cap_surface": "Halus kering tanpa sisik.",
+      "stem_characteristics": "Kuning belerang ramping dan melengkung dalam rumpun padat.",
+      "hymenium_type": "Insang kuning belerang yang berubah hijau zaitun tua kehitaman."
+    },
+    "ecological_habitat": "Tumbuh berumpun lebat pada tunggul dan akar kayu lapuk di hutan.",
+    "educational_facts": "Memiliki rasa sangat pahit yang tajam. Sering tumbuh berkerumun puluhan batang pada tunggul kayu yang sama dan beracun bagi pencernaan manusia.",
+    "short_description": "Jamur kuning belerang berumpun padat pada tunggul kayu dengan insang hijau zaitun."
+  },
+  "Inocybe geophylla": {
+    "scientific_name": "Inocybe geophylla",
+    "common_name": "White Fiber Cap / Earth Fan",
+    "reference_status": "Beracun (Kandungan Muscarin Tinggi)",
+    "status_category": "poisonous",
+    "reference_status_note": "Mengandung alkaloid muskarin yang memicu sindrom kolinergik akut.",
+    "morphology": {
+      "cap_color": "Putih kapur, krem kelabu, hingga ungu muda (varian lilacina).",
+      "cap_shape": "Kerucut lonceng dengan tonjolan umbo runcing di tengah.",
+      "cap_surface": "Kering berserat sutra radial memanjang.",
+      "stem_characteristics": "Putih ramping rapuh dengan serbuk halus di bagian atas.",
+      "hymenium_type": "Insang krem kelabu yang berubah menjadi cokelat tanah saat tua."
+    },
+    "ecological_habitat": "Lantai hutan gugur dan konifer berlumut, tepi jalan setapak hutan.",
+    "educational_facts": "Mengandung konsentrasi muskarin tinggi yang memicu gejala SLUDGE (salivasi berlebih, keringat deras, pandangan kabur, dan penurunan detak jantung drastis).",
+    "short_description": "Jamur kecil putih bertudung kerucut sutra yang mengandung muskarin berbahaya."
+  },
+  "Lactarius deliciosus": {
+    "scientific_name": "Lactarius deliciosus",
+    "common_name": "Saffron Milk Cap",
+    "reference_status": "Tercatat sebagai jamur pangan populer (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Literatur mikologi mencatatnya sebagai jamur pangan lezat di kawasan Mediterania.",
+    "morphology": {
+      "cap_color": "Jingga safron cerah dengan pola cincin konsentris.",
+      "cap_shape": "Cembung melekuk membentuk corong.",
+      "cap_surface": "Halus agak licin saat basah, menodai hijau zaitun saat memar.",
+      "stem_characteristics": "Jingga berongga dengan lekukan lubang-lubang kecil berwarna lebih tua.",
+      "hymenium_type": "Insang jingga cerah menurun di batang, mengeluarkan getah susu jingga."
+    },
+    "ecological_habitat": "Membentuk mikoriza khusus dengan pohon pinus di tanah berpasir.",
+    "educational_facts": "Mengeluarkan cairan getah susu berwarna jingga safron saat terluka. Tubuh buahnya perlahan berubah warna menjadi hijau zaitun jika tertekan atau tergores.",
+    "short_description": "Jamur corong jingga safron bergetah susu jingga yang bernoda hijau saat memar."
+  },
+  "Lentinula edodes": {
+    "scientific_name": "Lentinula edodes",
+    "common_name": "Shiitake",
+    "reference_status": "Tercatat sebagai jamur pangan & kuliner (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Literatur mikologi dan pangan mencatatnya sebagai jamur budidaya bernilai tinggi.",
+    "morphology": {
+      "cap_color": "Cokelat gelap, cokelat kemerahan, hingga cokelat keemasan.",
+      "cap_shape": "Cembung melebar dengan tepi melengkung ke dalam saat muda.",
+      "cap_surface": "Dihiasi retakan dan sisik-sisik serat putih keputihan di tepinya.",
+      "stem_characteristics": "Cokelat berserat keras dan alot, menempel agak miring.",
+      "hymenium_type": "Insang putih krem, rapat dan tidak menempel erat pada batang."
+    },
+    "ecological_habitat": "Tumbuh pada batang kayu pohon berdaun lebar (terutama pohon shii dan ek).",
+    "educational_facts": "Jamur pangan populer dunia dengan kandungan asam glutamat alami tinggi yang menghasilkan cita rasa gurih umami yang khas.",
+    "short_description": "Jamur bertudung cokelat berserat retak putih dengan aroma gurih umami khas."
+  },
+  "Lepiota brunneoincarnata": {
+    "scientific_name": "Lepiota brunneoincarnata",
+    "common_name": "Deadly Dapperling",
+    "reference_status": "Sangat Beracun / Mematikan (Amatoxin)",
+    "status_category": "deadly",
+    "reference_status_note": "Mengandung amatoksin berkonsentrasi mematikan bagi organ vital.",
+    "morphology": {
+      "cap_color": "Putih kemerahan bertabur sisik cokelat kemerahan pekat.",
+      "cap_shape": "Cembung lonceng kemudian mendatar dengan umbo gelap di tengah.",
+      "cap_surface": "Kering bertabur lempeng sisik cokelat kemerahan dari pusat.",
+      "stem_characteristics": "Putih di atas dan cokelat bersisik di bawah dengan zona cincin samar.",
+      "hymenium_type": "Insang putih bersih hingga krem, tersusun rapat dan bebas."
+    },
+    "ecological_habitat": "Taman kota, lapangan berumput, pinggir jalan, dan hutan beriklim hangat.",
+    "educational_facts": "Jamur kecil yang sangat mematikan karena mengandung amatoksin yang sama fatalnya dengan Death Cap. Sering disangka jamur padang rumput yang dapat dimakan.",
+    "short_description": "Jamur kecil bersisik cokelat kemerahan mematikan yang mengandung racun amatoksin."
+  },
+  "Macrolepiota procera": {
+    "scientific_name": "Macrolepiota procera",
+    "common_name": "Parasol Mushroom",
+    "reference_status": "Tercatat sebagai jamur pangan populer (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Literatur mikologi mencatatnya sebagai jamur pangan liar berukuran besar.",
+    "morphology": {
+      "cap_color": "Krem keputihan bertabur sisik lempeng cokelat gelap.",
+      "cap_shape": "Bulat lonjong saat muda, melebar menjadi payung raksasa datar.",
+      "cap_surface": "Dihiasi sisik lempeng cokelat kasar yang mudah terkelupas.",
+      "stem_characteristics": "Sangat tinggi dan ramping dengan corak ular serta cincin ganda tebal.",
+      "hymenium_type": "Insang putih krem bersih, rapat dan bebas dari batang."
+    },
+    "ecological_habitat": "Padang rumput terbuka, padang penggembalaan, dan pinggiran hutan.",
+    "educational_facts": "Dapat mekar hingga diameter 40 cm menyerupai payung terbuka. Tudungnya lezat digoreng seperti steik, sedangkan batangnya terlalu alot untuk dikonsumsi.",
+    "short_description": "Jamur payung raksasa bertudung krem bersisik cokelat dengan cincin cincin yang dapat digeser."
+  },
+  "Morchella esculenta": {
+    "scientific_name": "Morchella esculenta",
+    "common_name": "Yellow Morel / Jamur Morel Kuning",
+    "reference_status": "Tercatat sebagai jamur pangan gourmet (Edible setelah dimasak)",
+    "status_category": "edible",
+    "reference_status_note": "Harus dimasak matang; literatur mencatatnya sebagai komoditas kuliner tinggi.",
+    "morphology": {
+      "cap_color": "Kuning madu, oker keemasan, hingga cokelat kekuningan.",
+      "cap_shape": "Lonjong memanjang menyerupai sarang lebah berongga.",
+      "cap_surface": "Berlubang lekuk-lekuk kantung spons menyerupai sarang lebah.",
+      "stem_characteristics": "Putih kekuningan berongga kosong dari pangkal hingga tudung.",
+      "hymenium_type": "Berada di dalam lekukan-lekukan lubang kantung permukaan tudung."
+    },
+    "ecological_habitat": "Tumbuh di bawah pohon ash, elm, dan kebun apel tua pada musim semi.",
+    "educational_facts": "Memiliki rongga utuh dari ujung tudung hingga pangkal batang. Harus dimasak matang untuk menguraikan senyawa hidrasin yang mudah menguap.",
+    "short_description": "Jamur musim semi berongga menyerupai sarang lebah keemasan bernilai kuliner tinggi."
+  },
+  "Omphalotus olearius": {
+    "scientific_name": "Omphalotus olearius",
+    "common_name": "Jack-O'Lantern Mushroom",
+    "reference_status": "Beracun (Toksin Illudin S)",
+    "status_category": "poisonous",
+    "reference_status_note": "Mengandung illudin S yang menyebabkan mual dan kram pencernaan parah.",
+    "morphology": {
+      "cap_color": "Jingga menyala, jingga labu, hingga kuning tembaga kemerahan.",
+      "cap_shape": "Cembung kemudian melekuk membentuk corong lebar.",
+      "cap_surface": "Halus kering dan sedikit berserat radial.",
+      "stem_characteristics": "Jingga ramping melengkung dan meruncing ke pangkal dasar.",
+      "hymenium_type": "Insang jingga menyala yang menurun tajam di batang."
+    },
+    "ecological_habitat": "Tumbuh berumpun rapat pada pangkal pohon ek, zaitun, dan kayu keras lapuk.",
+    "educational_facts": "Menghasilkan pendaran bioluminesensi kehijauan redup dalam kegelapan total melalui reaksi enzim luciferase. Sering mengecoh karena mirip Chanterelle.",
+    "short_description": "Jamur berumpun jingga labu menyala yang dapat berpendar kehijauan di tempat gelap."
+  },
+  "Pleurotus eryngii": {
+    "scientific_name": "Pleurotus eryngii",
+    "common_name": "King Oyster / Jamur Tiram Raja",
+    "reference_status": "Tercatat sebagai jamur pangan gourmet (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Literatur mikologi dan kuliner mencatatnya sebagai jamur pangan premium.",
+    "morphology": {
+      "cap_color": "Cokelat muda keabuan hingga cokelat hazelnut.",
+      "cap_shape": "Cembung saat muda, lalu mendatar dengan tepi terlipat.",
+      "cap_surface": "Kering dan halus seperti kain beludru tipis.",
+      "stem_characteristics": "Batang putih silindris sangat tebal, padat, dan berdaging montok.",
+      "hymenium_type": "Insang putih keabuan yang menurun di bagian atas batang."
+    },
+    "ecological_habitat": "Tumbuh pada akar tanaman adas liar di kawasan Mediterania.",
+    "educational_facts": "Spesies terbesar dalam genus jamur tiram dengan batang montok padat yang kenyal renyah menyerupai tekstur kerang abalone saat dimasak.",
+    "short_description": "Jamur tiram premium berbatang putih tebal padat dengan tudung cokelat muda."
+  },
+  "Pleurotus ostreatus": {
+    "scientific_name": "Pleurotus ostreatus",
+    "common_name": "Oyster Mushroom / Jamur Tiram Putih",
+    "reference_status": "Tercatat sebagai jamur pangan populer (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Literatur mikologi dan pangan mencatatnya sebagai jamur budidaya bergizi tinggi.",
+    "morphology": {
+      "cap_color": "Putih krem, kelabu keperakan, hingga cokelat keabuan muda.",
+      "cap_shape": "Berbentuk kipas atau cangkang tiram laut berundak.",
+      "cap_surface": "Halus dan licin saat basah dengan tepi melengkung tipis.",
+      "stem_characteristics": "Sangat pendek atau menempel di sisi samping kayu.",
+      "hymenium_type": "Insang putih krem menurun rapat di batang samping."
+    },
+    "ecological_habitat": "Tumbuh berumpun bersusun pada batang kayu pohon gugur yang mati.",
+    "educational_facts": "Merupakan jamur karnivora mikroskopis yang mampu melumpuhkan cacing nematoda menggunakan tetesan racun pada hifa untuk memenuhi kebutuhan nitrogennya.",
+    "short_description": "Jamur berbentuk kipas tiram putih kelabu yang tumbuh bersusun pada kayu lapuk."
+  },
+  "Tricholoma equestre": {
+    "scientific_name": "Tricholoma equestre",
+    "common_name": "Yellow Knight / Man on Horseback",
+    "reference_status": "Beracun (Risiko Rhabdomyolysis Fatal)",
+    "status_category": "poisonous",
+    "reference_status_note": "Konsumsi berulang memicu kerusakan jaringan otot parah (rhabdomyolysis).",
+    "morphology": {
+      "cap_color": "Kuning belerang kehijauan dengan bagian tengah kecokelatan.",
+      "cap_shape": "Cembung melebar mendatar dengan tepi bergelombang.",
+      "cap_surface": "Licin berlendir saat lembap dengan sisik serat halus di tengah.",
+      "stem_characteristics": "Kuning belerang padat kokoh tanpa cincin.",
+      "hymenium_type": "Insang kuning belerang cerah tersusun rapat."
+    },
+    "ecological_habitat": "Membentuk mikoriza dengan pohon pinus di tanah berpasir hutan sejuk.",
+    "educational_facts": "Dahulu sempat dianggap jamur santap bernilai di Eropa, namun riset modern membuktikan konsumsi berturut-turut memicu rhabdomyolysis atau lisis otot fatal.",
+    "short_description": "Jamur bertudung kuning belerang yang memicu kerusakan jaringan otot jika sering dikonsumsi."
+  },
+  "Tricholoma matsutake": {
+    "scientific_name": "Tricholoma matsutake",
+    "common_name": "Matsutake / Jamur Pinus Jepang",
+    "reference_status": "Tercatat sebagai jamur pangan bernilai tinggi (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Literatur mikologi mencatatnya sebagai komoditas kuliner tradisi Jepang bernilai tinggi.",
+    "morphology": {
+      "cap_color": "Cokelat kemerahan bertabur sisik serat keputihan.",
+      "cap_shape": "Cembung bundar dengan tepi melengkung rapat saat muda.",
+      "cap_surface": "Kering bertabur serat sisik kecokelatan yang rapat.",
+      "stem_characteristics": "Putih kecokelatan tebal kokoh dengan cincin wol tipis di atas.",
+      "hymenium_type": "Insang putih bersih yang berubah kecokelatan saat tua."
+    },
+    "ecological_habitat": "Simbiosis mikoriza dengan pohon pinus merah di hutan alami beriklim sejuk.",
+    "educational_facts": "Terkenal dengan aroma rempah kayu pedas dan manis yang sangat kuat. Merupakan jamur liar paling prestisius di Jepang dan dipanen khusus saat musim gugur.",
+    "short_description": "Jamur bertudung cokelat berserat khas dengan aroma harum rempah pinus yang dicari."
+  },
+  "Tricholoma pardinum": {
+    "scientific_name": "Tricholoma pardinum",
+    "common_name": "Tiger Tricholoma",
+    "reference_status": "Beracun (Toksik Saluran Cerna Akut)",
+    "status_category": "poisonous",
+    "reference_status_note": "Mengandung racun saluran cerna yang memicu muntah parah berhari-hari.",
+    "morphology": {
+      "cap_color": "Kelabu keperakan hingga abu-abu kecokelatan berpola loreng.",
+      "cap_shape": "Cembung bundar melebar mendatar saat dewasa.",
+      "cap_surface": "Dihiasi pola sisik lempeng kelabu menyerupai kulit loreng harimau.",
+      "stem_characteristics": "Putih kekuningan tebal padat menggembung di bagian bawah.",
+      "hymenium_type": "Insang putih bersih hingga kekuningan pucat, tebal dan rapat."
+    },
+    "ecological_habitat": "Hutan cemara dan pohon beech di tanah berkapur pegunungan.",
+    "educational_facts": "Dikenal sebagai jamur loreng harimau karena corak sisik tudungnya. Menimbulkan keracunan saluran cerna berat dan dehidrasi akut bahkan dalam takaran sedikit.",
+    "short_description": "Jamur bertudung loreng kelabu seperti harimau yang memicu gangguan cerna parah."
+  },
+  "Volvariella volvacea": {
+    "scientific_name": "Volvariella volvacea",
+    "common_name": "Jamur Merang / Straw Mushroom",
+    "reference_status": "Tercatat sebagai jamur pangan tropis (Edible)",
+    "status_category": "edible",
+    "reference_status_note": "Literatur mikologi dan pertanian mencatatnya sebagai jamur pangan budidaya tropis.",
+    "morphology": {
+      "cap_color": "Kelabu kehitaman saat muda, kelabu kecokelatan saat mekar.",
+      "cap_shape": "Bulat telur terbungkus saat muda, mekar lonceng saat tua.",
+      "cap_surface": "Berserat sutra halus kering keperakan.",
+      "stem_characteristics": "Putih silindris tanpa cincin, berpangkal kantung volva cangkir tebal di dasar.",
+      "hymenium_type": "Insang putih saat muda, merah muda kecokelatan saat spora matang."
+    },
+    "ecological_habitat": "Tumbuh pada tumpukan jerami padi lembap, tandan sawit, dan kompos.",
+    "educational_facts": "Jamur pangan populer di Asia Tenggara yang tumbuh cepat di iklim tropis. Bentuk mudanya terbungkus selubung volva tebal seperti telur.",
+    "short_description": "Jamur pangan tropis berdaging lembut yang dibudidayakan pada media jerami padi."
+  }
+}

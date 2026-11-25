@@ -64,126 +64,34 @@
 
   <main>
     <!-- ================= HERO SECTION ================= -->
-    <section class="hero-section" id="hero">
-      <div class="hero-bg-slideshow" aria-hidden="true">
-        <div
-          class="hero-bg-slide slide-1"
-          style="background-image: url('{{ url_for('static', filename='img/backgrounds/2d76378667b8062bbe5a86d0f8101f71.jpg') }}');"
-        ></div>
-        <div
-          class="hero-bg-slide slide-2"
-          style="background-image: url('{{ url_for('static', filename='img/backgrounds/cda8472143365b27c9e6c309215a45b1.jpg') }}');"
-        ></div>
-        <div
-          class="hero-bg-slide slide-3"
-          style="background-image: url('{{ url_for('static', filename='img/backgrounds/f7c2fd362039823ffa7883c7dbbc9b5f.jpg') }}');"
-        ></div>
-        <div
-          class="hero-bg-slide slide-4"
-          style="background-image: url('{{ url_for('static', filename='img/backgrounds/aeea683acce9c4c99ffde79786b70f4c.jpg') }}');"
-        ></div>
-        <div
-          class="hero-bg-slide slide-5"
-          style="background-image: url('{{ url_for('static', filename='img/backgrounds/25714365cd09baaa379f458d5f9937ee.jpg') }}');"
-        ></div>
-        <div class="hero-bg-overlay"></div>
-      </div>
+    <section class="hero-section hero-thornfield-section" id="hero">
+      <div class="hero-thornfield-backdrop" aria-hidden="true"></div>
+      <canvas id="hero-thornfield-canvas" class="hero-thornfield-canvas" aria-hidden="true"></canvas>
+      <div class="hero-thornfield-bottom-blend" aria-hidden="true"></div>
       <div class="container hero-grid">
 
         <!-- Hero Copy -->
         <div class="hero-copy">
-          <div class="badge badge-forest hero-badge">
-            <span class="badge-pulse-dot" aria-hidden="true"></span>
-            <span>Deep Vision AI · CNN MobileNetV2 · 224×224 px</span>
-          </div>
-
-          <h1 class="hero-title">
-            Inteligensi Mikologi Presisi untuk <span class="highlight">Identifikasi Jamur Liar</span>
+          <h1 class="hero-title" id="hero-title">
+            <span class="hero-title-line line-1">Inteligensi Mikologi Presisi</span>
+            <span class="hero-title-line line-2">untuk Identifikasi Jamur Liar</span>
           </h1>
 
           <p class="hero-lede">
             Shroomy memanfaatkan arsitektur deep learning <strong>CNN MobileNetV2</strong> untuk identifikasi citra jamur liar. Identifikasi jamur secara cepat dan intuitif melalui <strong>Scan Kamera Realtime</strong> maupun <strong>Input Gambar</strong>.
           </p>
-
-          <div class="hero-cta-group">
-            <a href="{{ url_for('workspace') }}" class="btn btn-lime" id="btn-open-stage2-hero">
-              <span>Buka Workspace Identifikasi</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </a>
-            <a href="#how-it-works" class="btn btn-secondary">
-              <span>Pelajari Metodologi</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </a>
-          </div>
-
-          <!-- Hero Stats Strip -->
-          <div class="hero-stats-strip">
-            <div class="hero-stat-item">
-              <span class="hero-stat-value">224×224</span>
-              <span class="hero-stat-label">Resolusi Input Tensor</span>
-            </div>
-            <div class="hero-stat-item">
-              <span class="hero-stat-value">MobileNetV2</span>
-              <span class="hero-stat-label">Arsitektur Deep Learning</span>
-            </div>
-            <div class="hero-stat-item">
-              <span class="hero-stat-value">2 Mode</span>
-              <span class="hero-stat-label">Scan Kamera &amp; Unggah Foto</span>
-            </div>
-            <div class="hero-stat-item">
-              <span class="hero-stat-value">Direct RGB</span>
-              <span class="hero-stat-label">Normalisasi ImageNet</span>
-            </div>
-          </div>
         </div>
 
       </div>
+      
     </section>
 
     <!-- ================= ABOUT SHROOMY ================= -->
     <section class="about-section has-botanical-bg" id="about">
-      <div class="bg-botanical-layer" aria-hidden="true">
-        <!-- Flowing Green Botanical Lines (Sweep across header flanks) -->
-        <svg class="bg-botanical-curve bg-curve-about-top" viewBox="0 0 1440 280" fill="none" preserveAspectRatio="none">
-          <path class="bg-line-draw" pathLength="1" d="M-20 210 C 180 70, 320 40, 490 120 C 660 200, 810 190, 970 100 C 1140 12, 1290 48, 1460 155" stroke="#16A34A" stroke-width="2" stroke-opacity="0.22" stroke-linecap="round"/>
-          <path class="bg-line-draw bg-line-delay-1" pathLength="1" d="M-20 240 C 210 110, 350 75, 520 150 C 695 225, 845 215, 1005 130 C 1165 45, 1310 78, 1460 185" stroke="#087F5B" stroke-width="1.4" stroke-opacity="0.16" stroke-linecap="round"/>
-        </svg>
-
-        <!-- Upper-Left Botanical Leaf Branch -->
-        <div class="bg-decor-item bg-decor-about-leaf-tl">
-          <svg viewBox="0 0 180 180" fill="none">
-            <path d="M22 152 C 56 126, 98 86, 138 30" stroke="#087F5B" stroke-width="2" stroke-opacity="0.3" stroke-linecap="round"/>
-            <path d="M58 118 C 30 98, 22 64, 52 44 C 78 64, 78 96, 58 118 Z" fill="rgba(22, 163, 74, 0.09)" stroke="#16A34A" stroke-width="1.6" stroke-opacity="0.28"/>
-            <path d="M56 112 C 48 88, 49 68, 52 50" stroke="#087F5B" stroke-width="1.2" stroke-opacity="0.24" stroke-linecap="round"/>
-            <path d="M98 76 C 118 54, 152 48, 162 74 C 142 96, 114 96, 98 76 Z" fill="rgba(16, 185, 129, 0.08)" stroke="#087F5B" stroke-width="1.6" stroke-opacity="0.26"/>
-            <path d="M104 75 C 122 72, 138 71, 156 74" stroke="#087F5B" stroke-width="1.2" stroke-opacity="0.22" stroke-linecap="round"/>
-            <path d="M126 42 C 112 20, 122 6, 146 10 C 154 28, 144 42, 126 42 Z" fill="rgba(163, 230, 53, 0.14)" stroke="#16A34A" stroke-width="1.4" stroke-opacity="0.26"/>
-          </svg>
-        </div>
-
-        <!-- Upper-Right Botanical Twin Mushroom Cluster -->
-        <div class="bg-decor-item bg-decor-delay-1 bg-decor-about-mush-tr">
-          <svg viewBox="0 0 210 210" fill="none">
-            <path d="M16 178 C 56 168, 142 168, 192 178" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.22" stroke-linecap="round"/>
-            <!-- Tall mushroom -->
-            <path d="M96 92 C 94 128, 92 152, 90 172 L 106 172 C 104 152, 102 128, 101 92 Z" fill="rgba(255, 255, 255, 0.7)" stroke="#064E3B" stroke-width="1.8" stroke-opacity="0.28"/>
-            <path d="M52 94 C 50 42, 148 42, 146 94 C 128 100, 70 100, 52 94 Z" fill="rgba(22, 163, 74, 0.10)" stroke="#087F5B" stroke-width="2" stroke-opacity="0.32"/>
-            <circle cx="80" cy="68" r="5" fill="rgba(163, 230, 53, 0.25)"/>
-            <circle cx="114" cy="62" r="7" fill="rgba(163, 230, 53, 0.22)"/>
-            <circle cx="126" cy="80" r="4" fill="rgba(163, 230, 53, 0.22)"/>
-            <path d="M64 95 L 68 84 M82 97 L 84 85 M114 97 L 112 85 M132 95 L 128 84" stroke="#064E3B" stroke-width="1.1" stroke-opacity="0.2" stroke-linecap="round"/>
-            <!-- Small mushroom beside -->
-            <path d="M144 128 C 143 146, 142 158, 140 172 L 151 172 C 150 158, 149 146, 148 128 Z" fill="rgba(255, 255, 255, 0.7)" stroke="#064E3B" stroke-width="1.6" stroke-opacity="0.25"/>
-            <path d="M119 130 C 120 102, 174 102, 175 130 C 160 134, 134 134, 119 130 Z" fill="rgba(16, 185, 129, 0.11)" stroke="#16A34A" stroke-width="1.7" stroke-opacity="0.3"/>
-          </svg>
-        </div>
-
-        <!-- Bottom-Left & Bottom-Right Subtle Accents -->
-        <div class="bg-decor-item bg-decor-delay-2 bg-decor-about-leaf-bl">
-          <svg viewBox="0 0 150 150" fill="none">
-            <path d="M24 128 C 46 84, 78 50, 124 26 C 118 76, 84 114, 24 128 Z" fill="rgba(22, 163, 74, 0.08)" stroke="#087F5B" stroke-width="1.6" stroke-opacity="0.24"/>
-            <path d="M26 126 C 62 88, 92 58, 120 30" stroke="#087F5B" stroke-width="1.3" stroke-opacity="0.22" stroke-linecap="round"/>
-          </svg>
+            <!-- Continuous Living Forest: Organic Discovery -->
+      <div class="forest-env-canvas" aria-hidden="true">
+        <div class="forest-env-item decor-about-mush-stone" data-parallax="0.08" data-anchor="bottom-left">
+          <img src="{{ url_for('static', filename='img/decorations/custom_about_grounded_mycena_bl.webp') }}" alt="" class="forest-decor-img">
         </div>
       </div>
 
@@ -277,31 +185,13 @@
 
     <!-- ================= HOW IT WORKS ================= -->
     <section class="how-section has-botanical-bg" id="how-it-works">
-      <div class="bg-botanical-layer" aria-hidden="true">
-        <!-- Mycelial Connecting Green Wave Across Steps -->
-        <svg class="bg-botanical-curve bg-curve-how-flow" viewBox="0 0 1440 360" fill="none" preserveAspectRatio="none">
-          <path class="bg-line-draw" pathLength="1" d="M-30 250 C 200 135, 360 285, 560 190 C 760 95, 920 255, 1130 165 C 1270 105, 1365 130, 1470 195" stroke="#087F5B" stroke-width="2.2" stroke-opacity="0.2" stroke-linecap="round"/>
-          <path class="bg-line-dashed" d="M-30 278 C 225 162, 380 306, 585 215 C 790 120, 945 278, 1150 190 C 1285 132, 1375 156, 1470 220" stroke="#16A34A" stroke-width="1.4" stroke-dasharray="6 8" stroke-opacity="0.18" stroke-linecap="round"/>
-        </svg>
-
-        <!-- Left Botanical Mushroom Outline -->
-        <div class="bg-decor-item bg-decor-how-mush-l">
-          <svg viewBox="0 0 180 200" fill="none">
-            <path d="M84 96 C 82 132, 80 156, 77 180 L 96 180 C 93 156, 91 132, 89 96 Z" fill="rgba(255, 255, 255, 0.75)" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.28"/>
-            <path d="M36 98 C 36 46, 140 46, 140 98 C 118 106, 58 106, 36 98 Z" fill="rgba(16, 185, 129, 0.1)" stroke="#064E3B" stroke-width="2" stroke-opacity="0.28"/>
-            <ellipse cx="88" cy="126" rx="14" ry="4" fill="rgba(22, 163, 74, 0.12)" stroke="#087F5B" stroke-width="1.3" stroke-opacity="0.24"/>
-            <path d="M52 100 L 58 88 M72 103 L 75 89 M104 103 L 101 89 M124 100 L 118 88" stroke="#064E3B" stroke-width="1.2" stroke-opacity="0.2" stroke-linecap="round"/>
-          </svg>
+            <!-- Continuous Living Forest: Mycelium Journey -->
+      <div class="forest-env-canvas" aria-hidden="true">
+        <div class="forest-env-item decor-steps-branch-tr" data-parallax="0.07" data-anchor="top-right">
+          <img src="{{ url_for('static', filename='img/decorations/custom_team_portrait_frame_tr_mirrored.webp') }}" alt="" class="forest-decor-img">
         </div>
-
-        <!-- Right Leaf Sprig -->
-        <div class="bg-decor-item bg-decor-delay-1 bg-decor-how-leaf-r">
-          <svg viewBox="0 0 190 190" fill="none">
-            <path d="M162 158 C 122 126, 86 84, 54 30" stroke="#087F5B" stroke-width="2" stroke-opacity="0.28" stroke-linecap="round"/>
-            <path d="M120 120 C 154 114, 174 84, 152 56 C 124 68, 114 96, 120 120 Z" fill="rgba(22, 163, 74, 0.09)" stroke="#16A34A" stroke-width="1.6" stroke-opacity="0.26"/>
-            <path d="M84 78 C 52 84, 24 60, 40 32 C 68 38, 82 60, 84 78 Z" fill="rgba(163, 230, 53, 0.14)" stroke="#087F5B" stroke-width="1.6" stroke-opacity="0.25"/>
-            <path d="M100 98 C 70 112, 54 142, 80 156 C 102 142, 108 118, 100 98 Z" fill="rgba(16, 185, 129, 0.08)" stroke="#087F5B" stroke-width="1.4" stroke-opacity="0.22"/>
-          </svg>
+        <div class="forest-env-item decor-steps-carpet-bl" data-parallax="0.04" data-anchor="bottom-left">
+          <img src="{{ url_for('static', filename='img/decorations/custom_why_boulder_cluster_bl_smooth.webp') }}" alt="" class="forest-decor-img">
         </div>
       </div>
 
@@ -372,10 +262,14 @@
 
     <!-- ================= KEUNGGULAN SHROOMY (WHY USE SHROOMY) ================= -->
     <section class="ws-why-section has-botanical-bg" id="why-shroomy">
-      <div class="bg-botanical-layer" aria-hidden="true">
-        <svg class="bg-botanical-curve" viewBox="0 0 1440 280" fill="none" preserveAspectRatio="none">
-          <path class="bg-line-draw" pathLength="1" d="M-20 160 C 240 260, 480 80, 720 170 C 960 260, 1200 80, 1460 180" stroke="#16A34A" stroke-width="1.8" stroke-opacity="0.16" stroke-linecap="round"/>
-        </svg>
+            <!-- Continuous Living Forest: Living Nature Depth -->
+      <div class="forest-env-canvas" aria-hidden="true">
+        <div class="forest-env-item decor-why-stone-bl" data-parallax="0.06" data-anchor="bottom-left">
+          <img src="{{ url_for('static', filename='img/decorations/custom_why_boulder_cluster_bl_smooth.webp') }}" alt="" class="forest-decor-img">
+        </div>
+        <div class="forest-env-item decor-why-branch-tr" data-parallax="0.08" data-anchor="top-right">
+          <img src="{{ url_for('static', filename='img/decorations/custom_why_canopy_branch_tr_mirrored.webp') }}" alt="" class="forest-decor-img">
+        </div>
       </div>
 
       <div class="container">
@@ -463,48 +357,13 @@
 
     <!-- ================= PLATFORM CAPABILITIES ================= -->
     <section class="capabilities-section has-botanical-bg" id="capabilities">
-      <div class="bg-botanical-layer" aria-hidden="true">
-        <!-- Upper & Lower Green Botanical Curves -->
-        <svg class="bg-botanical-curve bg-curve-cap-top" viewBox="0 0 1440 300" fill="none" preserveAspectRatio="none">
-          <path class="bg-line-draw" pathLength="1" d="M-20 80 C 180 210, 390 190, 560 110 C 750 22, 920 165, 1120 130 C 1270 105, 1375 45, 1460 65" stroke="#16A34A" stroke-width="1.8" stroke-opacity="0.18" stroke-linecap="round"/>
-        </svg>
-
-        <!-- Upper-Left Botanical Leaf Cluster -->
-        <div class="bg-decor-item bg-decor-cap-leaf-tl">
-          <svg viewBox="0 0 170 170" fill="none">
-            <path d="M22 142 C 58 106, 98 62, 146 28" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.26" stroke-linecap="round"/>
-            <path d="M62 102 C 30 88, 22 52, 54 38 C 76 58, 76 84, 62 102 Z" fill="rgba(16, 185, 129, 0.09)" stroke="#087F5B" stroke-width="1.6" stroke-opacity="0.26"/>
-            <path d="M104 62 C 118 32, 148 24, 160 52 C 138 74, 116 74, 104 62 Z" fill="rgba(22, 163, 74, 0.09)" stroke="#16A34A" stroke-width="1.6" stroke-opacity="0.24"/>
-          </svg>
+            <!-- Continuous Living Forest: Cinematic Organic Framing -->
+      <div class="forest-env-canvas" aria-hidden="true">
+        <div class="forest-env-item decor-cap-log-bl" data-parallax="0.06" data-anchor="bottom-left">
+          <img src="{{ url_for('static', filename='img/decorations/custom_cap_branch_grounded_bl.webp') }}" alt="" class="forest-decor-img">
         </div>
-
-        <!-- Upper-Right Dotted Cap Mushroom + Spore Rings -->
-        <div class="bg-decor-item bg-decor-delay-1 bg-decor-cap-mush-tr">
-          <svg viewBox="0 0 190 190" fill="none">
-            <circle cx="102" cy="94" r="68" stroke="#16A34A" stroke-width="1.2" stroke-dasharray="5 7" stroke-opacity="0.2"/>
-            <path d="M95 96 C 94 128, 92 148, 90 164 L 106 164 C 104 148, 102 128, 101 96 Z" fill="rgba(255,255,255,0.7)" stroke="#064E3B" stroke-width="1.7" stroke-opacity="0.26"/>
-            <path d="M58 98 C 60 52, 140 52, 142 98 C 122 104, 78 104, 58 98 Z" fill="rgba(163, 230, 53, 0.14)" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.3"/>
-            <circle cx="84" cy="74" r="5" fill="rgba(8, 127, 91, 0.16)"/>
-            <circle cx="114" cy="70" r="6" fill="rgba(8, 127, 91, 0.14)"/>
-          </svg>
-        </div>
-
-        <!-- Bottom-Left & Bottom-Right Botanical Accents -->
-        <div class="bg-decor-item bg-decor-delay-1 bg-decor-cap-mush-bl">
-          <svg viewBox="0 0 180 180" fill="none">
-            <path d="M22 152 C 62 144, 118 144, 158 152" stroke="#087F5B" stroke-width="1.5" stroke-opacity="0.2" stroke-linecap="round"/>
-            <path d="M74 88 C 72 118, 70 134, 68 148 L 82 148 C 80 134, 79 118, 78 88 Z" fill="rgba(255,255,255,0.75)" stroke="#064E3B" stroke-width="1.6" stroke-opacity="0.25"/>
-            <path d="M40 90 C 42 50, 112 50, 114 90 C 98 95, 56 95, 40 90 Z" fill="rgba(16, 185, 129, 0.1)" stroke="#087F5B" stroke-width="1.7" stroke-opacity="0.28"/>
-            <path d="M114 114 C 113 130, 112 140, 110 148 L 119 148 C 118 140, 117 130, 116 114 Z" fill="rgba(255,255,255,0.75)" stroke="#087F5B" stroke-width="1.3" stroke-opacity="0.24"/>
-            <path d="M94 116 C 95 94, 136 94, 137 116 C 126 120, 105 120, 94 116 Z" fill="rgba(163, 230, 53, 0.14)" stroke="#16A34A" stroke-width="1.4" stroke-opacity="0.25"/>
-          </svg>
-        </div>
-
-        <div class="bg-decor-item bg-decor-delay-2 bg-decor-cap-leaf-br">
-          <svg viewBox="0 0 160 160" fill="none">
-            <path d="M136 136 C 104 98, 72 62, 26 28 C 32 76, 68 118, 136 136 Z" fill="rgba(22, 163, 74, 0.08)" stroke="#087F5B" stroke-width="1.6" stroke-opacity="0.22"/>
-            <path d="M132 132 C 98 96, 66 64, 30 32" stroke="#087F5B" stroke-width="1.3" stroke-opacity="0.2" stroke-linecap="round"/>
-          </svg>
+        <div class="forest-env-item decor-cap-branch-tr" data-parallax="0.08" data-anchor="top-right">
+          <img src="{{ url_for('static', filename='img/decorations/custom_cap_foliage_arch_tr.webp') }}" alt="" class="forest-decor-img">
         </div>
       </div>
 
@@ -576,22 +435,10 @@
 
     <!-- ================= EKSPLORASI JAMUR (SPLIT REFERENCE LAYOUT) ================= -->
     <section class="exploration-section has-botanical-bg" id="exploration">
-      <div class="bg-botanical-layer" aria-hidden="true">
-        <svg class="bg-botanical-curve bg-curve-cap-top" viewBox="0 0 1440 300" fill="none" preserveAspectRatio="none">
-          <path class="bg-line-draw" pathLength="1" d="M-20 110 C 200 220, 410 70, 650 155 C 880 235, 1110 85, 1460 140" stroke="#16A34A" stroke-width="1.8" stroke-opacity="0.18" stroke-linecap="round"/>
-        </svg>
-        <div class="bg-decor-item bg-decor-cap-leaf-tl">
-          <svg viewBox="0 0 170 170" fill="none">
-            <path d="M22 142 C 58 106, 98 62, 146 28" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.24" stroke-linecap="round"/>
-            <path d="M62 102 C 30 88, 22 52, 54 38 C 76 58, 76 84, 62 102 Z" fill="rgba(16, 185, 129, 0.08)" stroke="#087F5B" stroke-width="1.5" stroke-opacity="0.24"/>
-            <path d="M104 62 C 118 32, 148 24, 160 52 C 138 74, 116 74, 104 62 Z" fill="rgba(22, 163, 74, 0.08)" stroke="#16A34A" stroke-width="1.5" stroke-opacity="0.22"/>
-          </svg>
-        </div>
-        <div class="bg-decor-item bg-decor-delay-1 bg-decor-cap-mush-tr">
-          <svg viewBox="0 0 190 190" fill="none">
-            <path d="M95 96 C 94 128, 92 148, 90 164 L 106 164 C 104 148, 102 128, 101 96 Z" fill="rgba(255,255,255,0.75)" stroke="#064E3B" stroke-width="1.6" stroke-opacity="0.24"/>
-            <path d="M58 98 C 60 52, 140 52, 142 98 C 122 104, 78 104, 58 98 Z" fill="rgba(163, 230, 53, 0.12)" stroke="#087F5B" stroke-width="1.7" stroke-opacity="0.26"/>
-          </svg>
+            <!-- Continuous Living Forest: Miniature Ecosystem -->
+      <div class="forest-env-canvas" aria-hidden="true">
+        <div class="forest-env-item decor-exp-floor-br" data-parallax="0.05" data-anchor="bottom-right">
+          <img src="{{ url_for('static', filename='img/decorations/custom_exp_specimen_habitat_br.webp') }}" alt="" class="forest-decor-img">
         </div>
       </div>
 
@@ -789,56 +636,73 @@
 
               <div class="shape-selector-grid exp-shape-grid" role="group" aria-label="Pilih Bentuk Tudung Jamur">
                 <button type="button" class="shape-btn is-active" data-shape="convex" data-shape-label="Convex (Cembung) — Bentuk bulat memayung klasik">
-                  <svg class="shape-mini-svg" viewBox="0 0 64 52" fill="none">
-                    <path d="M24 32 C24 44, 40 44, 40 32 Z" fill="#F3E5AB" stroke="#064E3B" stroke-width="2"/>
-                    <path d="M8 32 C8 10, 56 10, 56 32 Z" fill="currentColor" stroke="#064E3B" stroke-width="2"/>
-                    <circle cx="22" cy="21" r="4" fill="#FFFFFF" opacity="0.85"/>
-                    <circle cx="40" cy="18" r="5" fill="#FFFFFF" opacity="0.85"/>
+                  <svg class="shape-mini-svg" viewBox="0 0 72 58" fill="none">
+                    <ellipse cx="36" cy="50" rx="22" ry="4.5" fill="rgba(6,78,59,0.12)"/>
+                    <path d="M28 34 C28 46, 44 46, 44 34 Z" fill="#F3E5AB" stroke="#2D4A3E" stroke-width="1.8"/>
+                    <path d="M10 34 C10 10, 62 10, 62 34 C62 38, 54 40, 36 40 C18 40, 10 38, 10 34 Z" fill="currentColor" stroke="#166534" stroke-width="2"/>
+                    <circle cx="26" cy="22" r="4.5" fill="#FFFFFF" opacity="0.9"/>
+                    <circle cx="46" cy="20" r="5.5" fill="#FFFFFF" opacity="0.9"/>
+                    <circle cx="36" cy="14" r="3.5" fill="#FFFFFF" opacity="0.85"/>
+                    <path d="M18 20 Q36 12 52 20" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" stroke-linecap="round"/>
                   </svg>
                   <span>Cembung</span>
                 </button>
                 <button type="button" class="shape-btn" data-shape="bell" data-shape-label="Bell (Lonceng) — Menjulang tinggi menyerupai lonceng">
-                  <svg class="shape-mini-svg" viewBox="0 0 64 52" fill="none">
-                    <path d="M25 33 C25 45, 39 45, 39 33 Z" fill="#F3E5AB" stroke="#064E3B" stroke-width="2"/>
-                    <path d="M10 34 C14 30, 18 8, 32 8 C46 8, 50 30, 54 34 Z" fill="currentColor" stroke="#064E3B" stroke-width="2"/>
-                    <circle cx="32" cy="16" r="4.5" fill="#FFFFFF" opacity="0.85"/>
-                    <circle cx="22" cy="26" r="3.5" fill="#FFFFFF" opacity="0.85"/>
+                  <svg class="shape-mini-svg" viewBox="0 0 72 58" fill="none">
+                    <ellipse cx="36" cy="50" rx="22" ry="4.5" fill="rgba(6,78,59,0.12)"/>
+                    <path d="M29 36 C29 46, 43 46, 43 36 Z" fill="#F3E5AB" stroke="#2D4A3E" stroke-width="1.8"/>
+                    <path d="M14 36 C18 32, 22 8, 36 8 C50 8, 54 32, 58 36 C58 39, 50 41, 36 41 C22 41, 14 39, 14 36 Z" fill="currentColor" stroke="#166534" stroke-width="2"/>
+                    <circle cx="36" cy="18" r="4.5" fill="#FFFFFF" opacity="0.9"/>
+                    <circle cx="27" cy="28" r="3.5" fill="#FFFFFF" opacity="0.9"/>
+                    <circle cx="45" cy="28" r="3.5" fill="#FFFFFF" opacity="0.9"/>
+                    <path d="M26 18 Q36 11 44 18" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
                   </svg>
                   <span>Lonceng</span>
                 </button>
                 <button type="button" class="shape-btn" data-shape="conical" data-shape-label="Conical (Kerucut) — Puncak tudung mengerucut lancip">
-                  <svg class="shape-mini-svg" viewBox="0 0 64 52" fill="none">
-                    <path d="M25 33 C25 45, 39 45, 39 33 Z" fill="#F3E5AB" stroke="#064E3B" stroke-width="2"/>
-                    <path d="M8 34 L32 7 L56 34 Z" stroke-linejoin="round" fill="currentColor" stroke="#064E3B" stroke-width="2"/>
-                    <circle cx="32" cy="19" r="4" fill="#FFFFFF" opacity="0.85"/>
-                    <circle cx="22" cy="28" r="3" fill="#FFFFFF" opacity="0.85"/>
+                  <svg class="shape-mini-svg" viewBox="0 0 72 58" fill="none">
+                    <ellipse cx="36" cy="50" rx="22" ry="4.5" fill="rgba(6,78,59,0.12)"/>
+                    <path d="M29 36 C29 46, 43 46, 43 36 Z" fill="#F3E5AB" stroke="#2D4A3E" stroke-width="1.8"/>
+                    <path d="M12 36 L36 7 L60 36 C60 39, 50 41, 36 41 C22 41, 12 39, 12 36 Z" stroke-linejoin="round" fill="currentColor" stroke="#166534" stroke-width="2"/>
+                    <circle cx="36" cy="20" r="4" fill="#FFFFFF" opacity="0.9"/>
+                    <circle cx="26" cy="29" r="3.5" fill="#FFFFFF" opacity="0.9"/>
+                    <circle cx="46" cy="29" r="3.5" fill="#FFFFFF" opacity="0.9"/>
+                    <path d="M24 24 L36 11 L46 24" stroke="rgba(255,255,255,0.45)" stroke-width="2" stroke-linecap="round"/>
                   </svg>
                   <span>Kerucut</span>
                 </button>
                 <button type="button" class="shape-btn" data-shape="flat" data-shape-label="Flat (Datar) — Permukaan tudung melebar rata">
-                  <svg class="shape-mini-svg" viewBox="0 0 64 52" fill="none">
-                    <path d="M24 28 C24 44, 40 44, 40 28 Z" fill="#F3E5AB" stroke="#064E3B" stroke-width="2"/>
-                    <rect x="6" y="18" width="52" height="12" rx="6" fill="currentColor" stroke="#064E3B" stroke-width="2"/>
-                    <circle cx="20" cy="24" r="3.5" fill="#FFFFFF" opacity="0.85"/>
-                    <circle cx="42" cy="24" r="4" fill="#FFFFFF" opacity="0.85"/>
+                  <svg class="shape-mini-svg" viewBox="0 0 72 58" fill="none">
+                    <ellipse cx="36" cy="50" rx="22" ry="4.5" fill="rgba(6,78,59,0.12)"/>
+                    <path d="M28 32 C28 46, 44 46, 44 32 Z" fill="#F3E5AB" stroke="#2D4A3E" stroke-width="1.8"/>
+                    <rect x="8" y="20" width="56" height="14" rx="7" fill="currentColor" stroke="#166534" stroke-width="2"/>
+                    <circle cx="22" cy="27" r="4" fill="#FFFFFF" opacity="0.9"/>
+                    <circle cx="48" cy="27" r="4.5" fill="#FFFFFF" opacity="0.9"/>
+                    <circle cx="35" cy="25" r="3" fill="#FFFFFF" opacity="0.85"/>
+                    <path d="M16 23 L54 23" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
                   </svg>
                   <span>Datar</span>
                 </button>
                 <button type="button" class="shape-btn" data-shape="knobbed" data-shape-label="Knobbed (Bertombol) — Memiliki tonjolan di bagian tengah atas">
-                  <svg class="shape-mini-svg" viewBox="0 0 64 52" fill="none">
-                    <path d="M24 33 C24 45, 40 45, 40 33 Z" fill="#F3E5AB" stroke="#064E3B" stroke-width="2"/>
-                    <path d="M8 33 C8 22, 20 22, 23 14 C25 8, 39 8, 41 14 C44 22, 56 22, 56 33 Z" fill="currentColor" stroke="#064E3B" stroke-width="2"/>
-                    <circle cx="32" cy="15" r="4" fill="#FFFFFF" opacity="0.85"/>
-                    <circle cx="19" cy="27" r="3.5" fill="#FFFFFF" opacity="0.85"/>
+                  <svg class="shape-mini-svg" viewBox="0 0 72 58" fill="none">
+                    <ellipse cx="36" cy="50" rx="22" ry="4.5" fill="rgba(6,78,59,0.12)"/>
+                    <path d="M28 35 C28 46, 44 46, 44 35 Z" fill="#F3E5AB" stroke="#2D4A3E" stroke-width="1.8"/>
+                    <path d="M10 35 C10 24, 22 24, 25 15 C27 8, 45 8, 47 15 C50 24, 62 24, 62 35 C62 38, 52 40, 36 40 C20 40, 10 38, 10 35 Z" fill="currentColor" stroke="#166534" stroke-width="2"/>
+                    <circle cx="36" cy="14" r="4" fill="#FFFFFF" opacity="0.9"/>
+                    <circle cx="22" cy="28" r="3.5" fill="#FFFFFF" opacity="0.9"/>
+                    <circle cx="50" cy="28" r="3.5" fill="#FFFFFF" opacity="0.9"/>
+                    <path d="M30 11 Q36 8 42 11" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round"/>
                   </svg>
                   <span>Bertombol</span>
                 </button>
                 <button type="button" class="shape-btn" data-shape="sunken" data-shape-label="Sunken (Cekung) — Bagian tengah tudung melengkung ke dalam">
-                  <svg class="shape-mini-svg" viewBox="0 0 64 52" fill="none">
-                    <path d="M24 31 C24 44, 40 44, 40 31 Z" fill="#F3E5AB" stroke="#064E3B" stroke-width="2"/>
-                    <path d="M8 22 C8 14, 22 26, 32 26 C42 26, 56 14, 56 22 C56 32, 46 34, 32 34 C18 34, 8 32, 8 22 Z" fill="currentColor" stroke="#064E3B" stroke-width="2"/>
-                    <circle cx="18" cy="24" r="3" fill="#FFFFFF" opacity="0.85"/>
-                    <circle cx="46" cy="24" r="3" fill="#FFFFFF" opacity="0.85"/>
+                  <svg class="shape-mini-svg" viewBox="0 0 72 58" fill="none">
+                    <ellipse cx="36" cy="50" rx="22" ry="4.5" fill="rgba(6,78,59,0.12)"/>
+                    <path d="M28 34 C28 46, 44 46, 44 34 Z" fill="#F3E5AB" stroke="#2D4A3E" stroke-width="1.8"/>
+                    <path d="M10 24 C10 16, 24 28, 36 28 C48 28, 62 16, 62 24 C62 36, 52 38, 36 38 C20 38, 10 36, 10 24 Z" fill="currentColor" stroke="#166534" stroke-width="2"/>
+                    <circle cx="20" cy="26" r="3.5" fill="#FFFFFF" opacity="0.9"/>
+                    <circle cx="52" cy="26" r="3.5" fill="#FFFFFF" opacity="0.9"/>
+                    <path d="M14 21 Q24 29 36 29 Q48 29 58 21" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
                   </svg>
                   <span>Cekung</span>
                 </button>
@@ -945,19 +809,31 @@
                   </div>
                   <div class="exp-param-list">
                     <div class="morphology-pill">
-                      <span class="pill-name">Bentuk Tudung</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/></svg>
+                        <span class="pill-name">Bentuk Tudung</span>
+                      </div>
                       <span class="pill-code">cap-shape</span>
                     </div>
                     <div class="morphology-pill">
-                      <span class="pill-name">Permukaan Tudung</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+                        <span class="pill-name">Permukaan Tudung</span>
+                      </div>
                       <span class="pill-code">cap-surface</span>
                     </div>
                     <div class="morphology-pill">
-                      <span class="pill-name">Warna Tudung</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+                        <span class="pill-name">Warna Tudung</span>
+                      </div>
                       <span class="pill-code">cap-color</span>
                     </div>
                     <div class="morphology-pill highlighted">
-                      <span class="pill-name">Memar (bruises)</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        <span class="pill-name">Memar (bruises)</span>
+                      </div>
                       <span class="pill-weight">17%</span>
                     </div>
                   </div>
@@ -971,19 +847,31 @@
                   </div>
                   <div class="exp-param-list">
                     <div class="morphology-pill">
-                      <span class="pill-name">Perlekatan Insang</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                        <span class="pill-name">Perlekatan Insang</span>
+                      </div>
                       <span class="pill-code">gill-attachment</span>
                     </div>
                     <div class="morphology-pill">
-                      <span class="pill-name">Kerapatan Insang</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18"/></svg>
+                        <span class="pill-name">Kerapatan Insang</span>
+                      </div>
                       <span class="pill-code">gill-spacing</span>
                     </div>
                     <div class="morphology-pill">
-                      <span class="pill-name">Ukuran Lebar Insang</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+                        <span class="pill-name">Ukuran Lebar Insang</span>
+                      </div>
                       <span class="pill-code">gill-size</span>
                     </div>
                     <div class="morphology-pill">
-                      <span class="pill-name">Warna Insang</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>
+                        <span class="pill-name">Warna Insang</span>
+                      </div>
                       <span class="pill-code">gill-color</span>
                     </div>
                   </div>
@@ -997,23 +885,38 @@
                   </div>
                   <div class="exp-param-list">
                     <div class="morphology-pill">
-                      <span class="pill-name">Bentuk Batang</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        <span class="pill-name">Bentuk Batang</span>
+                      </div>
                       <span class="pill-code">stalk-shape</span>
                     </div>
                     <div class="morphology-pill">
-                      <span class="pill-name">Tekstur Atas Cincin</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+                        <span class="pill-name">Tekstur Atas Cincin</span>
+                      </div>
                       <span class="pill-code">stalk-surface-above</span>
                     </div>
                     <div class="morphology-pill">
-                      <span class="pill-name">Tekstur Bawah Cincin</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+                        <span class="pill-name">Tekstur Bawah Cincin</span>
+                      </div>
                       <span class="pill-code">stalk-surface-below</span>
                     </div>
                     <div class="morphology-pill">
-                      <span class="pill-name">Warna Atas Cincin</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        <span class="pill-name">Warna Atas Cincin</span>
+                      </div>
                       <span class="pill-code">stalk-color-above</span>
                     </div>
                     <div class="morphology-pill">
-                      <span class="pill-name">Warna Bawah Cincin</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        <span class="pill-name">Warna Bawah Cincin</span>
+                      </div>
                       <span class="pill-code">stalk-color-below</span>
                     </div>
                   </div>
@@ -1027,15 +930,24 @@
                   </div>
                   <div class="exp-param-list">
                     <div class="morphology-pill">
-                      <span class="pill-name">Warna Selubung</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/></svg>
+                        <span class="pill-name">Warna Selubung</span>
+                      </div>
                       <span class="pill-code">veil-color</span>
                     </div>
                     <div class="morphology-pill">
-                      <span class="pill-name">Jumlah Cincin</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>
+                        <span class="pill-name">Jumlah Cincin</span>
+                      </div>
                       <span class="pill-code">ring-number</span>
                     </div>
                     <div class="morphology-pill">
-                      <span class="pill-name">Tipe Cincin</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                        <span class="pill-name">Tipe Cincin</span>
+                      </div>
                       <span class="pill-code">ring-type</span>
                     </div>
                   </div>
@@ -1049,19 +961,31 @@
                   </div>
                   <div class="exp-param-list">
                     <div class="morphology-pill highlighted">
-                      <span class="pill-name">Aroma (odor)</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        <span class="pill-name">Aroma (odor)</span>
+                      </div>
                       <span class="pill-weight">62%</span>
                     </div>
                     <div class="morphology-pill highlighted">
-                      <span class="pill-name">Cetakan Spora</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                        <span class="pill-name">Cetakan Spora</span>
+                      </div>
                       <span class="pill-weight">10%</span>
                     </div>
                     <div class="morphology-pill">
-                      <span class="pill-name">Sebaran Populasi</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        <span class="pill-name">Sebaran Populasi</span>
+                      </div>
                       <span class="pill-code">population</span>
                     </div>
                     <div class="morphology-pill">
-                      <span class="pill-name">Habitat Tumbuh</span>
+                      <div class="pill-top">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h20"/><path d="M7 20v-5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v5"/><path d="M12 3v10"/></svg>
+                        <span class="pill-name">Habitat Tumbuh</span>
+                      </div>
                       <span class="pill-code">habitat</span>
                     </div>
                   </div>
@@ -1077,31 +1001,10 @@
 
     <!-- ================= SECURITY & TRANSPARENCY ================= -->
     <section class="security-section has-botanical-bg" id="security">
-      <div class="bg-botanical-layer" aria-hidden="true">
-        <!-- Flanking Green Curves -->
-        <svg class="bg-botanical-curve bg-curve-sec-flow" viewBox="0 0 1440 360" fill="none" preserveAspectRatio="none">
-          <path class="bg-line-draw" pathLength="1" d="M-20 120 C 190 220, 320 60, 520 145 C 710 225, 860 95, 1080 175 C 1250 235, 1360 155, 1460 110" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.18" stroke-linecap="round"/>
-        </svg>
-
-        <!-- Upper-Left Laurel Leaf Cluster -->
-        <div class="bg-decor-item bg-decor-sec-leaf-tl">
-          <svg viewBox="0 0 170 180" fill="none">
-            <path d="M36 154 C 42 104, 68 60, 120 26" stroke="#087F5B" stroke-width="1.9" stroke-opacity="0.26" stroke-linecap="round"/>
-            <path d="M46 112 C 20 100, 14 70, 42 54 C 60 74, 58 96, 46 112 Z" fill="rgba(22, 163, 74, 0.09)" stroke="#16A34A" stroke-width="1.5" stroke-opacity="0.26"/>
-            <path d="M74 72 C 48 58, 46 28, 76 18 C 92 38, 88 58, 74 72 Z" fill="rgba(16, 185, 129, 0.09)" stroke="#087F5B" stroke-width="1.5" stroke-opacity="0.25"/>
-            <path d="M96 48 C 122 44, 142 64, 126 88 C 102 82, 92 64, 96 48 Z" fill="rgba(163, 230, 53, 0.13)" stroke="#16A34A" stroke-width="1.4" stroke-opacity="0.24"/>
-          </svg>
-        </div>
-
-        <!-- Bottom-Right Botanical Mushroom Trio -->
-        <div class="bg-decor-item bg-decor-delay-1 bg-decor-sec-mush-br">
-          <svg viewBox="0 0 210 190" fill="none">
-            <path d="M26 164 C 76 156, 140 156, 186 164" stroke="#087F5B" stroke-width="1.6" stroke-opacity="0.2" stroke-linecap="round"/>
-            <path d="M104 86 C 102 120, 101 142, 99 160 L 113 160 C 111 142, 110 120, 108 86 Z" fill="rgba(255,255,255,0.75)" stroke="#064E3B" stroke-width="1.7" stroke-opacity="0.25"/>
-            <path d="M68 88 C 70 40, 142 40, 144 88 C 126 94, 86 94, 68 88 Z" fill="rgba(16, 185, 129, 0.1)" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.28"/>
-            <path d="M58 118 C 57 136, 56 148, 54 160 L 64 160 C 62 148, 61 136, 60 118 Z" fill="rgba(255,255,255,0.75)" stroke="#087F5B" stroke-width="1.4" stroke-opacity="0.24"/>
-            <path d="M36 120 C 37 94, 82 94, 83 120 C 70 124, 49 124, 36 120 Z" fill="rgba(163, 230, 53, 0.13)" stroke="#16A34A" stroke-width="1.5" stroke-opacity="0.25"/>
-          </svg>
+            <!-- Continuous Living Forest: Grounded Nature -->
+      <div class="forest-env-canvas" aria-hidden="true">
+        <div class="forest-env-item decor-sec-stone-bl" data-parallax="0.04" data-anchor="bottom-left">
+          <img src="{{ url_for('static', filename='img/decorations/custom_sec_sacred_stone_bl.webp') }}" alt="" class="forest-decor-img">
         </div>
       </div>
 
@@ -1174,31 +1077,10 @@
 
     <!-- ================= DEVELOPER PROFILES (FLIP CARDS) ================= -->
     <section class="team-section has-botanical-bg" id="team">
-      <div class="bg-botanical-layer" aria-hidden="true">
-        <!-- Symmetrical Botanical Green Arcs -->
-        <svg class="bg-botanical-curve bg-curve-team-top" viewBox="0 0 1440 320" fill="none" preserveAspectRatio="none">
-          <path class="bg-line-draw" pathLength="1" d="M-20 200 C 165 65, 340 45, 510 130 C 680 215, 760 215, 930 130 C 1100 45, 1275 65, 1460 200" stroke="#16A34A" stroke-width="2" stroke-opacity="0.2" stroke-linecap="round"/>
-          <path class="bg-line-draw bg-line-delay-1" pathLength="1" d="M-20 232 C 190 98, 355 78, 525 162 C 690 244, 750 244, 915 162 C 1085 78, 1250 98, 1460 232" stroke="#087F5B" stroke-width="1.3" stroke-opacity="0.15" stroke-linecap="round"/>
-        </svg>
-
-        <!-- Bottom-Left Wild Mushroom Cluster -->
-        <div class="bg-decor-item bg-decor-team-mush-bl">
-          <svg viewBox="0 0 190 190" fill="none">
-            <path d="M18 164 C 60 156, 130 156, 174 164" stroke="#087F5B" stroke-width="1.6" stroke-opacity="0.2" stroke-linecap="round"/>
-            <path d="M84 86 C 82 122, 80 142, 78 160 L 94 160 C 92 142, 90 122, 89 86 Z" fill="rgba(255,255,255,0.75)" stroke="#064E3B" stroke-width="1.7" stroke-opacity="0.26"/>
-            <path d="M44 88 C 46 40, 128 40, 130 88 C 112 94, 62 94, 44 88 Z" fill="rgba(22, 163, 74, 0.1)" stroke="#087F5B" stroke-width="1.8" stroke-opacity="0.28"/>
-            <path d="M126 118 C 125 138, 124 148, 122 160 L 132 160 C 130 148, 129 138, 128 118 Z" fill="rgba(255,255,255,0.75)" stroke="#087F5B" stroke-width="1.4" stroke-opacity="0.24"/>
-            <path d="M104 120 C 105 94, 150 94, 151 120 C 138 124, 117 124, 104 120 Z" fill="rgba(163, 230, 53, 0.14)" stroke="#16A34A" stroke-width="1.5" stroke-opacity="0.26"/>
-          </svg>
-        </div>
-
-        <!-- Upper-Right Fern Leaf Branch -->
-        <div class="bg-decor-item bg-decor-delay-1 bg-decor-team-leaf-tr">
-          <svg viewBox="0 0 180 180" fill="none">
-            <path d="M154 26 C 122 68, 84 106, 32 148" stroke="#087F5B" stroke-width="1.9" stroke-opacity="0.26" stroke-linecap="round"/>
-            <path d="M126 62 C 154 74, 158 106, 126 118 C 106 98, 108 78, 126 62 Z" fill="rgba(22, 163, 74, 0.09)" stroke="#16A34A" stroke-width="1.5" stroke-opacity="0.25"/>
-            <path d="M88 96 C 60 88, 52 58, 82 44 C 100 62, 98 82, 88 96 Z" fill="rgba(16, 185, 129, 0.09)" stroke="#087F5B" stroke-width="1.5" stroke-opacity="0.25"/>
-          </svg>
+      <!-- Continuous Living Forest: Organic Portrait Framing -->
+      <div class="forest-env-canvas" aria-hidden="true">
+        <div class="forest-env-item decor-team-branch-tr" data-parallax="0.07" data-anchor="top-right">
+          <img src="{{ url_for('static', filename='img/decorations/custom_team_portrait_frame_tr_mirrored.webp') }}" alt="" class="forest-decor-img">
         </div>
       </div>
 
@@ -1213,34 +1095,37 @@
         </div>
 
         <div class="team-grid">
-          <!-- Flip Card 1 -->
+          <!-- Flip Card 1: Mohammad Faza Munsya'ari -->
           <div class="dev-card-wrapper">
-            <div class="dev-flip-card" tabindex="0" role="region" aria-label="Profil Developer 1">
-              <!-- Front Face -->
+            <div class="dev-flip-card" tabindex="0" role="region" aria-label="Profil Mohammad Faza Munsya'ari">
+              <!-- Front Face: Cinematic Portrait + Editorial Info + Capsule CTA -->
               <div class="dev-card-face dev-card-front">
-                <div class="dev-avatar-box">
-                  <img src="{{ url_for('static', filename='img/dev-faza.jpg') }}" alt="Foto Mohammad Faza Munsya'ari" class="dev-avatar-img">
+                <div class="dev-card-photo-wrapper">
+                  <img src="{{ url_for('static', filename='img/dev-faza-portrait.jpg') }}" alt="Foto Mohammad Faza Munsya'ari" class="dev-portrait-img">
+                  <div class="dev-photo-gradient-overlay"></div>
                 </div>
-                <div class="dev-info-primary">
-                  <h3 class="dev-name">Mohammad Faza Munsya'ari</h3>
-                  <span class="dev-nim-tag">NIM J0404241169</span>
-                  <span class="dev-role-badge">Machine Learning Engineer</span>
-                  <div class="dev-specialty-tags">
-                    <span class="dev-specialty-pill">SVM &amp; Random Forest</span>
-                    <span class="dev-specialty-pill">CNN MobileNetV2</span>
-                    <span class="dev-specialty-pill">Model Evaluation</span>
+                <div class="dev-card-content">
+                  <div class="dev-info-primary">
+                    <h3 class="dev-name">Mohammad Faza Munsya'ari</h3>
+                    <span class="dev-nim-tag">NIM J0404241169</span>
+                    <span class="dev-role-badge">Machine Learning Engineer</span>
+                    <div class="dev-specialty-tags">
+                      <span class="dev-specialty-pill">SVM &amp; Random Forest</span>
+                      <span class="dev-specialty-pill">CNN MobileNetV2</span>
+                      <span class="dev-specialty-pill">Evaluation</span>
+                    </div>
                   </div>
+                  <button type="button" class="dev-action-capsule-btn" aria-label="Putar kartu untuk melihat fokus dan tanggung jawab Faza">
+                    <span>Putar untuk Detail</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </button>
                 </div>
-                <span class="dev-flip-hint">
-                  <span>Putar untuk detail</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </span>
               </div>
-              <!-- Back Face -->
+              <!-- Back Face: Deep Forest Glass + Technical Stack -->
               <div class="dev-card-face dev-card-back">
                 <div class="dev-back-header">
-                  <span class="dev-back-title">Fokus & Tanggung Jawab</span>
                   <span class="dev-back-tag">ML-01</span>
+                  <span class="dev-back-title">Fokus &amp; Tanggung Jawab</span>
                 </div>
                 <div class="dev-back-body">
                   <p class="dev-back-bio">
@@ -1249,15 +1134,15 @@
                   <ul class="dev-back-responsibilities">
                     <li>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                      Training CNN MobileNetV2 (.pt) &amp; SVM/RF
+                      <span>Training CNN MobileNetV2 (.pt) &amp; SVM/RF</span>
                     </li>
                     <li>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                      Serialisasi artefak model pipeline (.joblib &amp; .pt)
+                      <span>Serialisasi artefak model pipeline (.joblib &amp; .pt)</span>
                     </li>
                     <li>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                      Evaluasi akurasi, presisi, recall &amp; F1-Score
+                      <span>Evaluasi akurasi, presisi, recall &amp; F1-Score</span>
                     </li>
                   </ul>
                 </div>
@@ -1270,40 +1155,46 @@
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                     </a>
                   </div>
-                  <span class="dev-flip-hint" style="color: var(--lime);">Kembali</span>
+                  <button type="button" class="dev-back-flip-btn" aria-label="Kembali ke profil depan Faza">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    <span>Kembali</span>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Flip Card 2 -->
+          <!-- Flip Card 2: Nailah Syarifah Sagala -->
           <div class="dev-card-wrapper">
-            <div class="dev-flip-card" tabindex="0" role="region" aria-label="Profil Developer 2">
-              <!-- Front Face -->
+            <div class="dev-flip-card" tabindex="0" role="region" aria-label="Profil Nailah Syarifah Sagala">
+              <!-- Front Face: Cinematic Portrait + Editorial Info + Capsule CTA -->
               <div class="dev-card-face dev-card-front">
-                <div class="dev-avatar-box">
-                  <img src="{{ url_for('static', filename='img/dev-nailah.jpg') }}" alt="Foto Nailah Syarifah Sagala" class="dev-avatar-img">
+                <div class="dev-card-photo-wrapper">
+                  <img src="{{ url_for('static', filename='img/dev-nailah-portrait.jpg') }}" alt="Foto Nailah Syarifah Sagala" class="dev-portrait-img">
+                  <div class="dev-photo-gradient-overlay"></div>
                 </div>
-                <div class="dev-info-primary">
-                  <h3 class="dev-name">Nailah Syarifah Sagala</h3>
-                  <span class="dev-nim-tag">NIM J0404241082</span>
-                  <span class="dev-role-badge">Data Engineer & Preprocessing</span>
-                  <div class="dev-specialty-tags">
-                    <span class="dev-specialty-pill">One-Hot Encoding</span>
-                    <span class="dev-specialty-pill">UCI Dataset</span>
-                    <span class="dev-specialty-pill">Pandas Pipeline</span>
+                <div class="dev-card-content">
+                  <div class="dev-info-primary">
+                    <h3 class="dev-name">Nailah Syarifah Sagala</h3>
+                    <span class="dev-nim-tag">NIM J0404241082</span>
+                    <span class="dev-role-badge">Data Engineer &amp; Preprocessing</span>
+                    <div class="dev-specialty-tags">
+                      <span class="dev-specialty-pill">One-Hot Encoding</span>
+                      <span class="dev-specialty-pill">UCI Dataset</span>
+                      <span class="dev-specialty-pill">Pandas Pipeline</span>
+                    </div>
                   </div>
+                  <button type="button" class="dev-action-capsule-btn" aria-label="Putar kartu untuk melihat fokus dan tanggung jawab Nailah">
+                    <span>Putar untuk Detail</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </button>
                 </div>
-                <span class="dev-flip-hint">
-                  <span>Putar untuk detail</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </span>
               </div>
-              <!-- Back Face -->
+              <!-- Back Face: Deep Forest Glass + Technical Stack -->
               <div class="dev-card-face dev-card-back">
                 <div class="dev-back-header">
-                  <span class="dev-back-title">Fokus & Tanggung Jawab</span>
                   <span class="dev-back-tag">DE-02</span>
+                  <span class="dev-back-title">Fokus &amp; Tanggung Jawab</span>
                 </div>
                 <div class="dev-back-body">
                   <p class="dev-back-bio">
@@ -1312,15 +1203,15 @@
                   <ul class="dev-back-responsibilities">
                     <li>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                      Pembersihan 8.124 baris data UCI
+                      <span>Pembersihan 8.124 baris data UCI</span>
                     </li>
                     <li>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                      Penyusunan kamus feature_categories.joblib
+                      <span>Penyusunan kamus feature_categories.joblib</span>
                     </li>
                     <li>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                      Validasi distribusi kelas (edible vs poisonous)
+                      <span>Validasi distribusi kelas (edible vs poisonous)</span>
                     </li>
                   </ul>
                 </div>
@@ -1333,40 +1224,46 @@
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                     </a>
                   </div>
-                  <span class="dev-flip-hint" style="color: var(--lime);">Kembali</span>
+                  <button type="button" class="dev-back-flip-btn" aria-label="Kembali ke profil depan Nailah">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    <span>Kembali</span>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Flip Card 3 -->
+          <!-- Flip Card 3: Fachryreza Andaris Albar -->
           <div class="dev-card-wrapper">
-            <div class="dev-flip-card" tabindex="0" role="region" aria-label="Profil Developer 3">
-              <!-- Front Face -->
+            <div class="dev-flip-card" tabindex="0" role="region" aria-label="Profil Fachryreza Andaris Albar">
+              <!-- Front Face: Cinematic Portrait + Editorial Info + Capsule CTA -->
               <div class="dev-card-face dev-card-front">
-                <div class="dev-avatar-box">
-                  <img src="{{ url_for('static', filename='img/dev-fachry.jpg') }}" alt="Foto Fachryreza Andaris Albar" class="dev-avatar-img">
+                <div class="dev-card-photo-wrapper">
+                  <img src="{{ url_for('static', filename='img/dev-fachry-portrait.jpg') }}" alt="Foto Fachryreza Andaris Albar" class="dev-portrait-img">
+                  <div class="dev-photo-gradient-overlay"></div>
                 </div>
-                <div class="dev-info-primary">
-                  <h3 class="dev-name">Fachryreza Andaris Albar</h3>
-                  <span class="dev-nim-tag">NIM J0404241004</span>
-                  <span class="dev-role-badge">Full-Stack Web Architect</span>
-                  <div class="dev-specialty-tags">
-                    <span class="dev-specialty-pill">Flask REST API</span>
-                    <span class="dev-specialty-pill">Design System</span>
-                    <span class="dev-specialty-pill">Image Processing</span>
+                <div class="dev-card-content">
+                  <div class="dev-info-primary">
+                    <h3 class="dev-name">Fachryreza Andaris Albar</h3>
+                    <span class="dev-nim-tag">NIM J0404241004</span>
+                    <span class="dev-role-badge">Full-Stack Web Architect</span>
+                    <div class="dev-specialty-tags">
+                      <span class="dev-specialty-pill">Flask REST API</span>
+                      <span class="dev-specialty-pill">Design System</span>
+                      <span class="dev-specialty-pill">Image Processing</span>
+                    </div>
                   </div>
+                  <button type="button" class="dev-action-capsule-btn" aria-label="Putar kartu untuk melihat fokus dan tanggung jawab Fachry">
+                    <span>Putar untuk Detail</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </button>
                 </div>
-                <span class="dev-flip-hint">
-                  <span>Putar untuk detail</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                </span>
               </div>
-              <!-- Back Face -->
+              <!-- Back Face: Deep Forest Glass + Technical Stack -->
               <div class="dev-card-face dev-card-back">
                 <div class="dev-back-header">
-                  <span class="dev-back-title">Fokus & Tanggung Jawab</span>
                   <span class="dev-back-tag">FS-03</span>
+                  <span class="dev-back-title">Fokus &amp; Tanggung Jawab</span>
                 </div>
                 <div class="dev-back-body">
                   <p class="dev-back-bio">
@@ -1375,15 +1272,15 @@
                   <ul class="dev-back-responsibilities">
                     <li>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                      Desain sistem visual & arsitektur CSS/JS
+                      <span>Desain sistem visual &amp; arsitektur CSS/JS</span>
                     </li>
                     <li>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                      Integrasi endpoint ekstraksi warna Pillow
+                      <span>Integrasi endpoint ekstraksi warna Pillow</span>
                     </li>
                     <li>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                      Konfigurasi deployment Vercel & testing
+                      <span>Konfigurasi deployment Vercel &amp; testing</span>
                     </li>
                   </ul>
                 </div>
@@ -1396,11 +1293,17 @@
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                     </a>
                   </div>
-                  <span class="dev-flip-hint" style="color: var(--lime);">Kembali</span>
+                  <button type="button" class="dev-back-flip-btn" aria-label="Kembali ke profil depan Fachry">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    <span>Kembali</span>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
         </div>
         </div>
       </div>
@@ -1409,6 +1312,12 @@
 
   <!-- ================= SITE FOOTER ================= -->
   <footer class="site-footer">
+    <!-- Continuous Living Forest: Forest Closing Floor -->
+    <div class="forest-env-canvas footer-forest-env" aria-hidden="true">
+      <div class="forest-env-item decor-footer-floor" data-parallax="0.04" data-anchor="bottom-center">
+        <img src="{{ url_for('static', filename='img/decorations/custom_footer_living_floor_panorama.webp') }}" alt="" class="forest-decor-img">
+      </div>
+    </div>
     <div class="container">
       <div class="footer-top">
         <!-- Col 1 -->
@@ -1489,12 +1398,12 @@
             Kenalkan, aku <strong>Roomie</strong>. Setelah ini aku akan berada di pojok kanan bawah untuk membantumu kapan saja seputar jamur, model Machine Learning, dan panduan website ini.
           </p>
           <div class="roomie-welcome-actions">
-            <button type="button" class="btn btn-primary roomie-welcome-cta" id="roomie-welcome-open-chat">
+            <button type="button" class="roomie-btn-primary" id="roomie-welcome-open-chat">
               <span>Tanya Roomie</span>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </button>
-            <button type="button" class="roomie-welcome-btn-ghost" id="roomie-welcome-minimize">
-              Simpan di Pojok
+            <button type="button" class="roomie-btn-secondary" id="roomie-welcome-minimize">
+              <span>Simpan di Pojok</span>
             </button>
           </div>
         </div>
@@ -1571,7 +1480,8 @@
     </button>
   </div>
 
-  <!-- Main JavaScript File -->
+  <!-- Hero Thornfield Botanical Engine & Main JavaScript File -->
+  <script src="{{ url_for('static', filename='js/hero-thornfield.js') }}"></script>
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

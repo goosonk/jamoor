@@ -29,21 +29,24 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateWsScrollSpy() {
         if (wsSections.length === 0) return;
 
-        // If user reached the bottom of the page, highlight the last section
-        const atBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 40);
+        const atBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 60);
         if (atBottom) {
             setActiveWsNav('#' + wsSections[wsSections.length - 1].id);
             return;
         }
 
-        const scrollPos = window.scrollY + 150;
-        let currentId = '#' + wsSections[0].id;
-        wsSections.forEach(sec => {
-            if (scrollPos >= sec.offsetTop) {
-                currentId = '#' + sec.id;
+        const focalLine = window.innerHeight * 0.35;
+        let matchedId = '#' + wsSections[0].id;
+
+        for (const sec of wsSections) {
+            const rect = sec.getBoundingClientRect();
+            if (rect.top <= focalLine && rect.bottom > focalLine) {
+                matchedId = '#' + sec.id;
+                break;
             }
-        });
-        setActiveWsNav(currentId);
+        }
+
+        setActiveWsNav(matchedId);
     }
 
     if (wsMenuToggle && wsSiteNav) {
@@ -97,11 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /* ---------- 1. Entrance Animation & 4-Step Roomie Welcome Popup ---------- */
+    /* ---------- 1. Entrance Animation & 3-Stage Interactive Roomie Onboarding (Apple Liquid Glass) ---------- */
     const bodyEl = document.getElementById('workspace-body');
     const curtainEl = document.getElementById('ws-entrance-curtain');
     const welcomeModal = document.getElementById('roomie-welcome-modal');
     const clickableCard = document.getElementById('roomie-clickable-card');
+    const characterTrigger = document.getElementById('roomie-character-trigger');
     const modalAvatar = document.getElementById('roomie-modal-avatar');
     const stepBadge = document.getElementById('roomie-step-badge');
     const modalKicker = document.getElementById('roomie-modal-kicker');
@@ -110,6 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const stageModeChip = document.getElementById('roomie-stage-mode-chip');
     const btnNextStep = document.getElementById('btn-roomie-next-step');
     const btnNextText = document.getElementById('btn-roomie-next-text');
+    const welcomeDismissBtn = document.getElementById('roomie-welcome-dismiss');
+    const welcomeDismissAlt = document.getElementById('roomie-welcome-dismiss-btn');
     const stepDots = document.querySelectorAll('.r-dot');
 
     const ROOMIE_ONBOARDING_STEPS = [
@@ -173,11 +179,32 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentOnboardingStep < ROOMIE_ONBOARDING_STEPS.length) {
             renderOnboardingStep(currentOnboardingStep);
         } else {
-            if (welcomeModal) welcomeModal.classList.remove('is-open');
+            closeWorkspaceWelcome();
         }
     }
 
-    // Play entrance curtain reveal then open the 4-click Roomie popup
+    function closeWorkspaceWelcome() {
+        if (!welcomeModal) return;
+        welcomeModal.classList.remove('is-open');
+        welcomeModal.classList.add('is-shrinking');
+        welcomeModal.setAttribute('aria-hidden', 'true');
+        setTimeout(() => {
+            welcomeModal.classList.remove('is-shrinking');
+            welcomeModal.style.display = 'none';
+        }, 460);
+    }
+
+    if (characterTrigger) characterTrigger.addEventListener('click', advanceRoomieStep);
+    if (btnNextStep) btnNextStep.addEventListener('click', advanceRoomieStep);
+    if (welcomeDismissBtn) welcomeDismissBtn.addEventListener('click', closeWorkspaceWelcome);
+    if (welcomeDismissAlt) welcomeDismissAlt.addEventListener('click', closeWorkspaceWelcome);
+    if (welcomeModal) {
+        welcomeModal.addEventListener('click', (e) => {
+            if (e.target === welcomeModal) closeWorkspaceWelcome();
+        });
+    }
+
+    // Play entrance curtain reveal then open Roomie popup
     setTimeout(() => {
         if (curtainEl) curtainEl.classList.add('is-hidden');
         if (bodyEl) {
@@ -186,24 +213,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 450);
 
+    /* ---------- 1B. Reveal Workspace Hero Banner (BridgeAI Editorial Effect) ---------- */
+    const wsBannerTitle = document.getElementById('ws-banner-title');
+    const wsBannerCopy = document.getElementById('ws-banner-copy');
+
+    function revealWorkspaceHero() {
+        if (wsBannerTitle) wsBannerTitle.classList.add('is-revealed');
+        if (wsBannerCopy) wsBannerCopy.classList.add('is-revealed');
+    }
+
+    // Trigger reveal as soon as curtain clears
+    setTimeout(revealWorkspaceHero, 550);
+
     setTimeout(() => {
-        currentOnboardingStep = 0;
-        renderOnboardingStep(0);
-        if (welcomeModal) welcomeModal.classList.add('is-open');
+        if (welcomeModal) {
+            renderOnboardingStep(0);
+            welcomeModal.style.display = 'flex';
+            void welcomeModal.offsetWidth;
+            welcomeModal.classList.add('is-open');
+            welcomeModal.setAttribute('aria-hidden', 'false');
+        }
     }, 680);
-
-    if (clickableCard) {
-        clickableCard.addEventListener('click', () => {
-            advanceRoomieStep();
-        });
-    }
-
-    if (btnNextStep) {
-        btnNextStep.addEventListener('click', (e) => {
-            e.stopPropagation();
-            advanceRoomieStep();
-        });
-    }
 
     /* ---------- 2. Mode Tab Switching & URL Query Sync ---------- */
     const tabBtns = document.querySelectorAll('.ws-tab-btn');
@@ -679,8 +709,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnStartCam = document.getElementById('btn-start-camera');
     const btnCaptureCam = document.getElementById('btn-capture-camera');
     const btnStopCam = document.getElementById('btn-stop-camera');
+    const btnCameraControl = document.getElementById('btn-camera-control');
     const btnSimCamSafe = document.getElementById('btn-sim-cam-safe');
     const btnSimCamToxic = document.getElementById('btn-sim-cam-toxic');
+
+    if (btnCameraControl && cameraFacingSelect) {
+        btnCameraControl.addEventListener('click', () => {
+            cameraFacingSelect.value = cameraFacingSelect.value === 'environment' ? 'user' : 'environment';
+            if (currentStream) {
+                startCameraStream();
+            } else {
+                cameraFacingSelect.focus();
+            }
+        });
+    }
 
     async function startCameraStream() {
         try {
@@ -698,7 +740,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (canvasEl) canvasEl.classList.remove('is-sim-visible');
             if (cameraPlaceholder) cameraPlaceholder.classList.add('is-hidden');
-            if (btnCaptureCam) btnCaptureCam.disabled = false;
+            if (btnCaptureCam) {
+                btnCaptureCam.style.display = 'inline-flex';
+                btnCaptureCam.disabled = false;
+            }
             if (btnStartCam) btnStartCam.style.display = 'none';
             if (btnStopCam) btnStopCam.style.display = 'inline-flex';
         } catch (_) {
@@ -717,7 +762,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (canvasEl) canvasEl.classList.remove('is-sim-visible');
         if (cameraPlaceholder) cameraPlaceholder.classList.remove('is-hidden');
-        if (btnCaptureCam) btnCaptureCam.disabled = true;
+        if (btnCaptureCam) {
+            btnCaptureCam.style.display = 'none';
+            btnCaptureCam.disabled = true;
+        }
         if (btnStartCam) btnStartCam.style.display = 'inline-flex';
         if (btnStopCam) btnStopCam.style.display = 'none';
     }
@@ -940,11 +988,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (uploadEmptyState) uploadEmptyState.classList.add('is-hidden');
         if (btnAnalyzeUpload) btnAnalyzeUpload.disabled = false;
 
-        uploadRoiCanvas.toBlob((blob) => {
-            if (!blob) return;
-            selectedImageBlob = blob;
-            runUploadAnalysis();
-        }, 'image/jpeg', 0.94);
+        fetch(dataUrl)
+            .then(res => res.blob())
+            .then(blob => {
+                selectedImageBlob = blob;
+                runUploadAnalysis();
+            })
+            .catch(() => {
+                uploadRoiCanvas.toBlob((blob) => {
+                    if (!blob) return;
+                    selectedImageBlob = blob;
+                    runUploadAnalysis();
+                }, 'image/jpeg', 0.94);
+            });
     }
 
     if (uploadInput) {
